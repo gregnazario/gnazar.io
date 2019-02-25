@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom'
-import App from './App';
+import Home from './Home';
 import Contact from './Contact';
 import Research from './Research';
 import Projects from './Projects';
@@ -9,11 +9,11 @@ function MainRouter() {
   return (
     <main>
       <Switch>
-        <Route exact path='/' component={App}/>
+        <Route exact path='/' component={Home}/>
         <Route exact path='/contact' component={Contact}/>
         <Route exact path='/projects' component={Projects}/>
         <Route exact path='/research' component={Research}/>
-        <Route path='*' exact={true} component={NotFound} />
+        <Route path='*' component={NotFound} />
       </Switch>
     </main>
   );

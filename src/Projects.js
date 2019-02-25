@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {Container} from 'react-bootstrap'
+import { Jumbotron, Container, Row, Col } from 'react-bootstrap'
 
 class Projects extends Component {
   render() {
     return (
+      <Jumbotron>
       <Container>
-      <div className="Projects">
-        <h1>Projects</h1>
-        <p>
-          TODO
-        </p>
-      </div>
+        <Row>
+          <Col>
+            <h1>Projects</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            TODO
+          </Col>
+        </Row>
       </Container>
+      </Jumbotron>
     );
   }
 }

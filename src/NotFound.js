@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
+import { Jumbotron, Container, Row, Col, Media } from 'react-bootstrap'
 import logo from './logo.svg';
-import './App.css';
+import './App.css'
 
 class NotFound extends Component {
   render() {
     return (
-      <div className="Contact">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Page Not Found.
-          </p>
-        </header>
-      </div>
+      <header className="App-header">
+        <Jumbotron>
+        <Container>
+          <Row>
+            <Col>
+              <h1>Page Not Found</h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Media>
+                <img src={logo} className="App-logo" alt="logo" />
+              </Media>
+            </Col>
+          </Row>
+        </Container>
+        </Jumbotron>
+      </header>
     );
   }
 }

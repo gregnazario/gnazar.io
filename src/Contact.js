@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Jumbotron, Container, Row, Col } from 'react-bootstrap'
 
 class Contact extends Component {
   render() {
     return (
-      <div className="Contact">
-        <header className="App-header">
-          <p>
-            Contact
-          </p>
-        </header>
-      </div>
+      <Jumbotron>
+      <Container>
+        <Row>
+          <Col>
+            <h1>Contact</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            TODO
+          </Col>
+        </Row>
+      </Container>
+      </Jumbotron>
     );
   }
 }
