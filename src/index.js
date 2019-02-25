@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import './index.css';
-import './bootstrap.min.css';
-import './new_theme.css';
-//import './flatly.css';
-import Header from './Header';
-import MainRouter from './MainRouter';
-import * as serviceWorker from './serviceWorker';
+import './css/bootstrap.min.css';
+//import './css/new_theme.css';
+import './css/flatly.css';
+import Header from './router/Header';
+import MainRouter from './router/MainRouter';
+import * as serviceWorker from './worker/serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
