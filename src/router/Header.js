@@ -1,24 +1,45 @@
 import React from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
+import { Row, Col, Container, Nav, Navbar, NavItem, Image} from 'react-bootstrap';
 import indexIcon from '../img/index.svg';
 import { Link } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
 
 function Header() {
   return (
-    <Navbar bg="light" expand="lg">
-      <Link to="/">
-        <Navbar.Brand href="/">
-          <img src={indexIcon} alt="Index Icon" width="50px" />
-          &nbsp;
-          Greg Nazario
-        </Navbar.Brand>
-      </Link>
+    <Navbar expand="lg">
+      <Navbar.Brand>
+        <Image src={indexIcon} alt="Index Icon" width="50px" />
+        &nbsp;
+        gnazar.io
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Link to="/"><Nav.Link eventKey="1" href="/">Home</Nav.Link></Link>
-          <Link to="/research"><Nav.Link eventKey="2" href="/research">Research</Nav.Link></Link>
-          <Link to="/projects"><Nav.Link eventKey="3" href="/projects">Projects</Nav.Link></Link>
+          <Col>
+            <LinkContainer to="/">
+              <NavItem>
+                Home
+              </NavItem>
+            </LinkContainer>
+          </Col>
+        </Nav>
+        <Nav className="mr-auto">
+          <Col>
+            <LinkContainer to="/research">
+              <NavItem>
+                Research
+              </NavItem>
+            </LinkContainer>
+          </Col>
+        </Nav>
+        <Nav className="mr-auto">
+          <Col>
+            <LinkContainer to="/projects">
+              <NavItem>
+                Projects
+              </NavItem>
+            </LinkContainer>
+          </Col>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

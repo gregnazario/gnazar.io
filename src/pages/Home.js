@@ -21,64 +21,10 @@ class Home extends Component {
             <Container>
               <Row>
                 <Col>
-                  <h1>Greg Nazario</h1>
-                  <hr/>
-                  <ListGroup>
-                    <ListGroup.Item variant="info">Software Dev Engineer at Amazon Web Services</ListGroup.Item>
-                    <ListGroup.Item variant="dark">
-                      <Container>
-                        <Row>
-                          Carnegie Mellon University
-                        </Row>
-                        <Row>
-                          B.S. & M.S. Electrical and Computer Engineering
-                        </Row>
-                      </Container>
-                    </ListGroup.Item>
-                    <ListGroup.Item variant="light">
-                    <Container>
-                    <Row>
-                      <Col>
-                        <PictureLink
-                          href="mailto:gnazario@ieee.org"
-                          text="Email"
-                          img={emailIcon}
-                          alt="Email"
-                          />
-                      </Col>
-                      <Col>
-                        <PictureLink
-                          href="https://linkedin.com/in/gnazario"
-                          text="LinkedIn"
-                          img={linkedInIcon}
-                          alt="LinkedIn Logo"
-                          />
-                      </Col>
-                      <Col>
-                        <PictureLink
-                          href="https://github.com/gregnazario"
-                          text="Github"
-                          img={gitHubIcon}
-                          alt="GitHub Logo"
-                          />
-                      </Col>
-                      <Col>
-                        <PictureLink
-                          href="https://twitter.com/gregnazario1"
-                          text="Twitter"
-                          img={twitterIcon}
-                          alt="Twitter Logo"
-                          />
-                      </Col>
-                    </Row>
-                    </Container>
-                    </ListGroup.Item>
-                  </ListGroup>
+                  <Contact />
                 </Col>
                 <Col>
-                  <Media>
-                    <Image src={headshot} width="500px"/>
-                  </Media>
+                  <Image src={headshot} width="500px" />
                 </Col>
               </Row>
             </Container>
@@ -87,42 +33,136 @@ class Home extends Component {
           <Container>
             <Row>
               <Col>
-                <Card>
-                  <Card.Body>
-                    <Card.Title>
-                      <Image src={researchIcon} alt="Research Beaker" width="20px"/>
-                      &nbsp;
-                      Research
-                    </Card.Title>
-                    <Card.Text>
-                      <Link to="/research">
-                        <Button size="small">More Info &raquo;</Button>
-                      </Link>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+                <ProjectCard />
               </Col>
+            &nbsp;
+            </Row>
+            &nbsp;
+            <Row>
               <Col>
-                <Card>
-                  <Card.Body>
-                  <Card.Title>
-                    <Image src={ideaIcon} alt="Idea bulb" width="20px"/>
-                    &nbsp;
-                    Projects
-                  </Card.Title>
-                  <Card.Text>
-                    <Link to="/projects">
-                      <Button size="small">More Info &raquo;</Button>
-                    </Link>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+                <ResearchCard />
+              </Col>
+            </Row>
+          </Container>
+        </div>
     );
   }
 }
 
 export default Home;
+
+class Contact extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Greg Nazario</h1>
+        <hr/>
+        <ListGroup>
+          <ListGroup.Item variant="info">
+            Software Dev Engineer at Amazon Web Services
+          </ListGroup.Item>
+          <ListGroup.Item variant="dark">
+            <Container>
+              <Row>
+                Carnegie Mellon University
+              </Row>
+              <Row>
+                B.S. & M.S. Electrical and Computer Engineering
+              </Row>
+            </Container>
+          </ListGroup.Item>
+          <ListGroup.Item variant="light">
+            <Container>
+              <Row>
+                <Col>
+                  <PictureLink
+                    href="mailto:greg@gnazar.io"
+                    text=""
+                    img={emailIcon}
+                    alt="Email"
+                    />
+                </Col>
+                <Col>
+                  <PictureLink
+                    href="https://linkedin.com/in/gnazario"
+                    text=""
+                    img={linkedInIcon}
+                    alt="LinkedIn"
+                    />
+                </Col>
+                <Col>
+                  <PictureLink
+                    href="https://github.com/gregnazario"
+                    text=""
+                    img={gitHubIcon}
+                    alt="GitHub"
+                    />
+                </Col>
+                <Col>
+                  <PictureLink
+                    href="https://twitter.com/greg_nazario"
+                    text=""
+                    img={twitterIcon}
+                    alt="Twitter"
+                    />
+                </Col>
+              </Row>
+            </Container>
+          </ListGroup.Item>
+        </ListGroup>
+      </div>
+    )
+  }
+}
+
+class ResearchCard extends Component {
+  render() {
+    return (<Card>
+      <Card.Body>
+        <Card.Title>
+          <Image src={researchIcon} alt="Research Beaker" width="20px"/>
+          &nbsp;
+          <Link to="/research">
+            Research
+          </Link>
+        </Card.Title>
+        <Card.Text>
+          <hr/>
+          <Container>
+            <Row>
+              <Col>
+                Network on Chip (NoC) research at Carnegie Mellon University
+              </Col>
+            </Row>
+          </Container>
+        </Card.Text>
+      </Card.Body>
+    </Card>)
+  }
+}
+
+class ProjectCard extends Component {
+  render() {
+    return (<Card>
+      <Card.Body>
+      <Card.Title>
+        <Image src={ideaIcon} alt="Idea bulb" width="20px"/>
+        &nbsp;
+        <Link to="/projects">
+          Projects
+        </Link>
+      </Card.Title>
+      <Card.Text>
+        <hr/>
+        <Container>
+          <Row>
+            <Col>
+              A collection of side projects I've worked on
+            </Col>
+          </Row>
+        </Container>
+      </Card.Text>
+    </Card.Body>
+  </Card>)
+  }
+}

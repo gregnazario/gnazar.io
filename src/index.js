@@ -4,15 +4,28 @@ import './css/bootstrap.min.css';
 //import './css/new_theme.css';
 import './css/flatly.css';
 import Header from './router/Header';
+import Footer from './pages/Footer';
 import MainRouter from './router/MainRouter';
 import * as serviceWorker from './worker/serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
+import { Container, Row } from 'react-bootstrap';
 
 ReactDOM.render(
   <BrowserRouter>
     <div>
-      <Header />
-      <MainRouter />
+      <Container>
+        <Row>
+        <Header />
+        </Row>
+        &nbsp;
+        <Row>
+        <MainRouter />
+        </Row>
+        &nbsp;
+        <Row>
+        <Footer />
+        </Row>
+      </Container>
     </div>
   </BrowserRouter>,
   document.getElementById('root')

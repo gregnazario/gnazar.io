@@ -18,10 +18,14 @@ class Research extends Component {
             </h1>
           </Col>
         </Row>
+        <hr/>
         <Row>
           <Col>
             <p>
-              In 2011, I spent a summer working as a research intern at Carnegie Mellon University. I worked on networks on chips. From my work there, a couple pages were published in the space which are on the links on this page.
+              In 2011, I spent a summer working as a research intern at Carnegie
+               Mellon University. I worked on networks on chips. From my work
+               there, a couple pages were published in the space which are on
+               the links on this page.
             </p>
           </Col>
         </Row>

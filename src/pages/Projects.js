@@ -19,10 +19,12 @@ class Projects extends Component {
                 </h1>
               </Col>
             </Row>
+            <hr/>
             <Row>
               <Col>
                 <p>
-                  This is a list of projects that i'm working on the side.
+                  This is a collection of projects I've been working on the side.
+                  Most should be available via GitHub.
                 </p>
               </Col>
             </Row>
@@ -32,12 +34,6 @@ class Projects extends Component {
           <Row>
             <Col>
               <ReactWebsiteProject/>
-            </Col>
-          </Row>
-          <br/>
-          <Row>
-            <Col>
-              <RubyToolsProject/>
             </Col>
           </Row>
         </Container>

@@ -12,8 +12,8 @@ class ReactWebsiteProject extends Component {
           <Container>
             <Row>
               <p>
-                For 2019, I decided to rewrite this entire website from raw HTML
-                in order to learn React.
+                For 2019, I decided to rewrite this entire website from raw HTML that I wrote in college
+                in order to learn React and be better acquainted with JavaScript.
               </p>
             </Row>
             <Row>
