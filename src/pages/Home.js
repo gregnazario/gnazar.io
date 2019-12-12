@@ -75,28 +75,34 @@ class Contact extends Component {
             <Container>
               <Row>
                 <Col>
-                  <PictureLink
-                    href="https://linkedin.com/in/gnazario"
-                    text=""
-                    img={linkedInIcon}
-                    alt="LinkedIn"
-                    />
+                  <center>
+                    <PictureLink
+                      href="https://linkedin.com/in/gnazario"
+                      text=""
+                      img={linkedInIcon}
+                      alt="LinkedIn"
+                      />
+                  </center>
                 </Col>
                 <Col>
-                  <PictureLink
-                    href="https://github.com/gregnazario"
-                    text=""
-                    img={gitHubIcon}
-                    alt="GitHub"
-                    />
+                  <center>
+                    <PictureLink
+                      href="https://github.com/gregnazario"
+                      text=""
+                      img={gitHubIcon}
+                      alt="GitHub"
+                      />
+                  </center>
                 </Col>
                 <Col>
-                  <PictureLink
-                    href="https://twitter.com/greg_nazario"
-                    text=""
-                    img={twitterIcon}
-                    alt="Twitter"
-                    />
+                  <center>
+                    <PictureLink
+                      href="https://twitter.com/greg_nazario"
+                      text=""
+                      img={twitterIcon}
+                      alt="Twitter"
+                      />
+                  </center>
                 </Col>
               </Row>
             </Container>
