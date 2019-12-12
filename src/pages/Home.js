@@ -2,16 +2,11 @@ import React, { Component } from 'react';
 import gitHubIcon from '../img/github.png';
 import twitterIcon from '../img/twitterLogo.svg';
 import linkedInIcon from '../img/linkedInLogo.png';
-import emailIcon from '../img/email.svg';
 import headshot from '../img/headshot.jpg';
 
-import ideaIcon from '../img/idea-bulb.svg';
-import researchIcon from '../img/research.svg';
 import PictureLink from '../links/PictureLink'
 
-//import './App.css';
-import { Card, Jumbotron, Button, Container, Row, Col, Media, Image, ListGroup } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Jumbotron, Container, Row, Col, Image, ListGroup } from 'react-bootstrap'
 
 class Home extends Component {
   render() {
@@ -29,21 +24,6 @@ class Home extends Component {
               </Row>
             </Container>
           </Jumbotron>
-
-          <Container>
-            <Row>
-              <Col>
-                <ProjectCard />
-              </Col>
-            &nbsp;
-            </Row>
-            &nbsp;
-            <Row>
-              <Col>
-                <ResearchCard />
-              </Col>
-            </Row>
-          </Container>
         </div>
     );
   }
@@ -110,57 +90,5 @@ class Contact extends Component {
         </ListGroup>
       </div>
     )
-  }
-}
-
-class ResearchCard extends Component {
-  render() {
-    return (<Card>
-      <Card.Body>
-        <Card.Title>
-          <Image src={researchIcon} alt="Research Beaker" width="20px"/>
-          &nbsp;
-          <Link to="/research">
-            Research
-          </Link>
-        </Card.Title>
-        <Card.Text>
-          <hr/>
-          <Container>
-            <Row>
-              <Col>
-                Network on Chip (NoC) research at Carnegie Mellon University
-              </Col>
-            </Row>
-          </Container>
-        </Card.Text>
-      </Card.Body>
-    </Card>)
-  }
-}
-
-class ProjectCard extends Component {
-  render() {
-    return (<Card>
-      <Card.Body>
-      <Card.Title>
-        <Image src={ideaIcon} alt="Idea bulb" width="20px"/>
-        &nbsp;
-        <Link to="/projects">
-          Projects
-        </Link>
-      </Card.Title>
-      <Card.Text>
-        <hr/>
-        <Container>
-          <Row>
-            <Col>
-              A collection of side projects I've worked on
-            </Col>
-          </Row>
-        </Container>
-      </Card.Text>
-    </Card.Body>
-  </Card>)
   }
 }
