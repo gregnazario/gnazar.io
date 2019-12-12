@@ -8,22 +8,26 @@ import Footer from './pages/Footer';
 import MainRouter from './router/MainRouter';
 import * as serviceWorker from './worker/serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 ReactDOM.render(
   <BrowserRouter>
     <div>
       <Container>
         <Row>
-        <Header />
+          <Header />
         </Row>
         &nbsp;
         <Row>
-        <MainRouter />
+          <Col>
+            <MainRouter />
+          </Col>
         </Row>
         &nbsp;
         <Row>
-        <Footer />
+          <Col>
+            <Footer />
+          </Col>
         </Row>
       </Container>
     </div>
