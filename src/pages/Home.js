@@ -76,7 +76,7 @@ class Contact extends Component {
               <Row>
                 <Col>
                   <PictureLink
-                    href="mailto:greg@gnazar.io"
+                    href=""
                     text=""
                     img={emailIcon}
                     alt="Email"
