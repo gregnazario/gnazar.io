@@ -15,7 +15,9 @@ ReactDOM.render(
     <div>
       <Container>
         <Row>
-          <Header />
+          <Col>
+            <Header />
+          </Col>
         </Row>
         &nbsp;
         <Row>

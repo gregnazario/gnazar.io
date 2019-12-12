@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Nav, Navbar, NavItem, Image} from 'react-bootstrap';
+import { Row, Col, Nav, Navbar, NavItem, Image} from 'react-bootstrap';
 import indexIcon from '../img/index.svg';
 import { LinkContainer } from 'react-router-bootstrap'
 
@@ -13,6 +13,7 @@ function Header() {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
+        <Row>
         <Nav className="mr-auto">
           <Col>
             <LinkContainer to="/">
@@ -49,6 +50,7 @@ function Header() {
             </LinkContainer>
           </Col>
         </Nav>
+        </Row>
       </Navbar.Collapse>
     </Navbar>
   );
