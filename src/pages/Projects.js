@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Image, Jumbotron, Container, Row, Col } from 'react-bootstrap'
 import ReactWebsiteProject from './projects/ReactWebsiteProject'
-import RubyToolsProject from './projects/RubyToolsProject'
 import ideaIcon from '../img/idea-bulb.svg';
 
 class Projects extends Component {

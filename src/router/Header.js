@@ -1,7 +1,6 @@
 import React from 'react';
-import { Row, Col, Container, Nav, Navbar, NavItem, Image} from 'react-bootstrap';
+import { Col, Nav, Navbar, NavItem, Image} from 'react-bootstrap';
 import indexIcon from '../img/index.svg';
-import { Link } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 
 function Header() {
