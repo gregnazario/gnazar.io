@@ -12,6 +12,9 @@ function MainRouter() {
         <Route exact path='/' component={Home}/>
         <Route exact path='/projects' component={Projects}/>
         <Route exact path='/research' component={Research}/>
+        <Route exact path='/blog' component={() => { 
+          window.location.href = 'https://blog.gnazar.io'
+        }}/>
         <Route path='*' component={NotFound} />
       </Switch>
     </main>

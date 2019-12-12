@@ -25,9 +25,9 @@ function Header() {
         </Nav>
         <Nav className="mr-auto">
           <Col>
-            <LinkContainer to="/research">
+            <LinkContainer to="/blog">
               <NavItem>
-                Research
+                Blog
               </NavItem>
             </LinkContainer>
           </Col>
@@ -37,6 +37,15 @@ function Header() {
             <LinkContainer to="/projects">
               <NavItem>
                 Projects
+              </NavItem>
+            </LinkContainer>
+          </Col>
+        </Nav>
+        <Nav className="mr-auto">
+          <Col>
+            <LinkContainer to="/research">
+              <NavItem>
+                Research
               </NavItem>
             </LinkContainer>
           </Col>
