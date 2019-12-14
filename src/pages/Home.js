@@ -16,11 +16,14 @@ class Home extends Component {
             <Container>
               <Row>
                 <Col>
+                  <center>
+                    <h1>Greg Nazario</h1>
+                  </center>
                   <Contact />
                 </Col>
                 <Col>
                   <center>
-                    <Image src={headshot} />
+                    <Headshot />
                   </center>
                 </Col>
               </Row>
@@ -33,13 +36,42 @@ class Home extends Component {
 
 export default Home;
 
+class Headshot extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      width:  800
+    }
+  }
+
+  resize() {
+    if(window.innerWidth < 300) {
+      this.setState({ width: 200 });
+    } else if(window.innerWidth > 500 && window.innerWidth < 768) {
+      this.setState({ width: 400 });
+    } else if(window.innerWidth >= 768) {
+      this.setState({ width: 500 });
+    } else {
+      let update_width  = window.innerWidth - 100;
+      this.setState({ width: update_width});
+    }
+  }
+
+  componentDidMount() {
+    this.resize();
+    window.addEventListener("resize", this.resize.bind(this));
+  }
+
+  render() {
+    return <Image src={headshot} width={this.state.width} />
+  }
+}
+
 class Contact extends Component {
   render() {
     return (
       <div>
-        <center>
-          <h1>Greg Nazario</h1>
-        </center>
         <hr/>
         <ListGroup>
           <ListGroup.Item variant="info">
