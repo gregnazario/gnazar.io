@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import gitHubIcon from '../img/github.png';
 import twitterIcon from '../img/twitterLogo.svg';
 import linkedInIcon from '../img/linkedInLogo.png';
-import headshot from '../img/headshot.jpg';
+import headshot from '../img/smaller_headshot.jpg';
 
 import PictureLink from '../links/PictureLink'
 
@@ -19,7 +19,9 @@ class Home extends Component {
                   <Contact />
                 </Col>
                 <Col>
-                  <Image src={headshot} width="500px" />
+                  <center>
+                    <Image src={headshot} />
+                  </center>
                 </Col>
               </Row>
             </Container>
@@ -35,7 +37,9 @@ class Contact extends Component {
   render() {
     return (
       <div>
-        <h1>Greg Nazario</h1>
+        <center>
+          <h1>Greg Nazario</h1>
+        </center>
         <hr/>
         <ListGroup>
           <ListGroup.Item variant="info">
