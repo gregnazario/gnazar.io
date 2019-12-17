@@ -7,11 +7,9 @@
 [[redirects]]
   from = "/blog"
   to = "https://blog.gnazar.io
-  status = 200
+  status = 301
   force = true
 
 [[redirects]]
   from = "/*"
   to = "/:splat"
-  status = 200
-  force = false
