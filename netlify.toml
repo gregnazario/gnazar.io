@@ -1,0 +1,17 @@
+[[redirects]]
+  from = "https://gnazario.netlify.com"
+  to = "https://gnazar.io"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog"
+  to = "https://blog.gnazar.io
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/:splat"
+  status = 200
+  force = false
