@@ -79,7 +79,7 @@ class Contact extends Component {
         <hr/>
         <ListGroup>
           <ListGroup.Item variant="info">
-            Software Engineer
+            Software Engineer at Facebook
           </ListGroup.Item>
           <ListGroup.Item variant="dark">
             <Container>
