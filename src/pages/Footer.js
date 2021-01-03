@@ -7,7 +7,7 @@ function Footer() {
       <Row>
         <Col>
           <center>
-            Copyright ©2019-2020, Greg Nazario
+            Copyright ©2019-2021, Greg Nazario
           </center>
         </Col>
       </Row>
