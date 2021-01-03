@@ -20,7 +20,7 @@ class Publications extends Component {
               <ListGroup>
                 <ListGroup.Item variant="light">
                   <PictureLink
-                    href="http://www.pdl.cmu.edu/PDL-FTP/associated/nocs2012_minbd.pdf"
+                    href="https://www.pdl.cmu.edu/PDL-FTP/associated/nocs2012_minbd.pdf"
                     text="MinBD: Minimally-Buffered Deflection Routing for Energy-Efficient Interconnect"
                     img={contentIcon}
                     alt="Content Icon"
