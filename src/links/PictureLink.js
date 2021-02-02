@@ -7,8 +7,6 @@ class PictureLink extends Component {
     return (
       <a href={this.props.href}>
         <Image src={this.props.img} width="20px" alt={this.props.alt}/>
-        &nbsp;
-        {this.props.text}
       </a>
     );
   }
