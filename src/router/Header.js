@@ -9,7 +9,13 @@ function Header() {
       <Navbar.Brand>
         <Image src={indexIcon} alt="Index Icon" width="50px" />
         &nbsp;
-        gnazar.io
+        gnazar.io - HTTPS
+        &nbsp;
+        -
+        &nbsp;
+        <a href="https://ipfs.gnazar.io">
+        IPFS
+        </a>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
