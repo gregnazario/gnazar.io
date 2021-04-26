@@ -1,5 +1,7 @@
 ## gnazar.io website
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1c90c9c9-3db9-47ac-9c24-a9ee73daa365/deploy-status)](https://app.netlify.com/sites/gnazario/deploys)
+
 ### Why make this project?
 This was a project to build my previous personal website entirely over in React to learn React.  It's the technology
 well liked in Frontend, so why not learn it!
