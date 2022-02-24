@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import gitHubIcon from '../img/github.png';
 import twitterIcon from '../img/twitterLogo.svg';
 import linkedInIcon from '../img/linkedInLogo.png';
-import headshot from '../img/small_square_headshot.jpg';
+import headshot from '../img/2022_headshot.jpg';
 
 import PictureLink from '../links/PictureLink'
 
