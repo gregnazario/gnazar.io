@@ -38,24 +38,6 @@ function Header() {
             </LinkContainer>
           </Col>
         </Nav>
-        <Nav className="mr-auto">
-          <Col>
-            <LinkContainer to="/projects">
-              <NavItem>
-                Projects
-              </NavItem>
-            </LinkContainer>
-          </Col>
-        </Nav>
-        <Nav className="mr-auto">
-          <Col>
-            <LinkContainer to="/research">
-              <NavItem>
-                Research
-              </NavItem>
-            </LinkContainer>
-          </Col>
-        </Nav>
         </Row>
       </Navbar.Collapse>
     </Navbar>
