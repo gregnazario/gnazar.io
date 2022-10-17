@@ -13,7 +13,7 @@ function MainRouter() {
         <Route exact path='/projects' component={Projects}/>
         <Route exact path='/research' component={Research}/>
         <Route exact path='/blog' component={() => { 
-          window.location.href = 'https://blog.gnazar.io'
+          window.location.href = 'https://medium.gnazar.io'
         }}/>
         <Route path='*' component={NotFound} />
       </Switch>
