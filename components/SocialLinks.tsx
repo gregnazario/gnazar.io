@@ -22,7 +22,7 @@ const socials = [
 
 export default function SocialLinks() {
   return (
-    <div className="social-links" aria-label="Social links">
+    <nav className="social-links" aria-label="Social links">
       {socials.map((item) => (
         <a
           key={item.href}
@@ -34,6 +34,6 @@ export default function SocialLinks() {
           <Image src={item.icon} alt="" width={18} height={18} />
         </a>
       ))}
-    </div>
+    </nav>
   );
 }

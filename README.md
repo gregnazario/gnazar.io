@@ -22,6 +22,9 @@ Other useful commands:
 
 ```bash
 bun run lint
+bun run lint:fix
+bun run format
+bun run format:check
 bun run build
 bun run start
 ```
