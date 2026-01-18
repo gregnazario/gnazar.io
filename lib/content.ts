@@ -1,5 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
 import matter from "gray-matter";
 
 const contentRoot = path.join(process.cwd(), "content");
@@ -97,7 +97,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       published,
       content,
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -137,7 +137,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
       links,
       content,
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }

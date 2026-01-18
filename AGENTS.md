@@ -8,7 +8,14 @@
   - `bun run dev`
   - `bun run build`
   - `bun run lint`
+  - `bun run lint:fix`
+  - `bun run format`
+  - `bun run format:check`
   - `bun run start`
+
+## Linting and formatting
+
+- Use Biome for linting and formatting (`bun run lint`, `bun run format`).
 
 ## Content and structure
 
