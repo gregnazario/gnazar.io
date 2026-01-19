@@ -10,6 +10,13 @@
 
 # production
 /build
+/dist
+/dist-ssr
+.tanstack
+.vinxi
+.output
+.nitro
+.wrangler
 
 # misc
 .DS_Store

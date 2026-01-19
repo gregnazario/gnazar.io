@@ -1,11 +1,11 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
-import { getAllBlogPosts } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { fetchBlogPosts } from "@/server/content";
 
-export const Route = createFileRoute("/blog")({
-	loader: async () => getAllBlogPosts(),
+export const Route = createFileRoute("/blog/")({
+	loader: async () => fetchBlogPosts(),
 	component: BlogPage,
 	head: () => ({
 		meta: [

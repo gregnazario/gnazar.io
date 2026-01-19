@@ -2,15 +2,15 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
 import SocialLinks from "@/components/SocialLinks";
-import { getAllBlogPosts, getAllProjects } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { siteConfig } from "@/lib/site";
+import { fetchBlogPosts, fetchProjects } from "@/server/content";
 
 export const Route = createFileRoute("/")({
 	loader: async () => {
 		const [posts, projects] = await Promise.all([
-			getAllBlogPosts(),
-			getAllProjects(),
+			fetchBlogPosts(),
+			fetchProjects(),
 		]);
 
 		return {

@@ -1,25 +1,15 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
-import { getBlogPostBySlug } from "@/lib/content";
 import { formatDate } from "@/lib/format";
-import { renderMarkdown } from "@/lib/markdown";
 import { siteConfig } from "@/lib/site";
+import { fetchBlogPost } from "@/server/content";
 
-type BlogLoaderData = {
-	post: NonNullable<Awaited<ReturnType<typeof getBlogPostBySlug>>>;
-	html: string;
-} | null;
+type BlogLoaderData = Awaited<ReturnType<typeof fetchBlogPost>>;
 
 export const Route = createFileRoute("/blog/$slug")({
-	loader: async ({ params }): Promise<BlogLoaderData> => {
-		const post = await getBlogPostBySlug(params.slug);
-		if (!post) {
-			return null;
-		}
-		const html = await renderMarkdown(post.content);
-		return { post, html };
-	},
+	loader: async ({ params }): Promise<BlogLoaderData> =>
+		fetchBlogPost({ data: params.slug }),
 	component: BlogPostPage,
 	head: ({ loaderData }) => {
 		if (!loaderData) {

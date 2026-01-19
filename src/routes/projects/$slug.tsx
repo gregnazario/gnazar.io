@@ -1,24 +1,14 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
-import { getProjectBySlug } from "@/lib/content";
-import { renderMarkdown } from "@/lib/markdown";
 import { siteConfig } from "@/lib/site";
+import { fetchProject } from "@/server/content";
 
-type ProjectLoaderData = {
-	project: NonNullable<Awaited<ReturnType<typeof getProjectBySlug>>>;
-	html: string;
-} | null;
+type ProjectLoaderData = Awaited<ReturnType<typeof fetchProject>>;
 
 export const Route = createFileRoute("/projects/$slug")({
-	loader: async ({ params }): Promise<ProjectLoaderData> => {
-		const project = await getProjectBySlug(params.slug);
-		if (!project) {
-			return null;
-		}
-		const html = await renderMarkdown(project.content);
-		return { project, html };
-	},
+	loader: async ({ params }): Promise<ProjectLoaderData> =>
+		fetchProject({ data: params.slug }),
 	component: ProjectPage,
 	head: ({ loaderData }) => {
 		if (!loaderData) {

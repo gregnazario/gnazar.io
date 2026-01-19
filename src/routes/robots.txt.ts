@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { siteConfig } from "@/lib/site";
 
-export const Route = createFileRoute("/robots.txt")({
+export const Route = createFileRoute("/robots/txt")({
 	server: {
 		handlers: {
 			GET: () => {
