@@ -11,7 +11,7 @@
   - `bun run lint:fix`
   - `bun run format`
   - `bun run format:check`
-  - `bun run start`
+  - `bun run preview`
 
 ## Linting and formatting
 
@@ -20,4 +20,4 @@
 ## Content and structure
 
 - Blog posts live in `content/blog` and projects live in `content/projects`.
-- Routes are in `app/` (Next.js App Router).
+- Routes are in `src/routes` (TanStack Start file-based routes).
