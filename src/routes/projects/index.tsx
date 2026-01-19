@@ -1,10 +1,10 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
-import { getAllProjects } from "@/lib/content";
+import { fetchProjects } from "@/server/content";
 
-export const Route = createFileRoute("/projects")({
-	loader: async () => getAllProjects(),
+export const Route = createFileRoute("/projects/")({
+	loader: async () => fetchProjects(),
 	component: ProjectsPage,
 	head: () => ({
 		meta: [

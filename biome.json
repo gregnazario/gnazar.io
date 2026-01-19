@@ -3,6 +3,7 @@
 	"files": {
 		"includes": [
 			"src/**/*",
+			"!**/src/routeTree.gen.ts",
 			"content/**/*",
 			"*.ts",
 			"*.tsx",

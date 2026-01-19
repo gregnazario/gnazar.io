@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { getAllBlogPosts, getAllProjects } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
-export const Route = createFileRoute("/sitemap.xml")({
+export const Route = createFileRoute("/sitemap/xml")({
 	server: {
 		handlers: {
 			GET: async () => {
