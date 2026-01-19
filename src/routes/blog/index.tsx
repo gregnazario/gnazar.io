@@ -1,7 +1,7 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-import Badge from "@/components/Badge";
-import { formatDate } from "@/lib/format";
+import PostCard from "@/components/PostCard";
+import SectionHeading from "@/components/SectionHeading";
 import { fetchBlogPosts } from "@/server/content";
 
 export const Route = createFileRoute("/blog/")({
@@ -24,26 +24,13 @@ function BlogPage() {
 	return (
 		<section className="section">
 			<div className="container">
-				<div className="section-heading">
-					<h2>Blog</h2>
-					<p>Notes on systems, engineering, and building products.</p>
-				</div>
+				<SectionHeading
+					title="Blog"
+					subtitle="Notes on systems, engineering, and building products."
+				/>
 				<div className="stack">
 					{posts.map((post) => (
-						<article key={post.slug} className="card">
-							<div className="card-meta">
-								<span>{formatDate(post.date)}</span>
-								{post.tags.map((tag) => (
-									<Badge key={tag}>{tag}</Badge>
-								))}
-							</div>
-							<h3>
-								<Link to="/blog/$slug" params={{ slug: post.slug }}>
-									{post.title}
-								</Link>
-							</h3>
-							<p>{post.summary}</p>
-						</article>
+						<PostCard key={post.slug} post={post} />
 					))}
 					{posts.length === 0 ? (
 						<div className="card">
