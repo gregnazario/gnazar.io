@@ -7,6 +7,8 @@ describe("siteConfig", () => {
 		expect(siteConfig.description).toBeDefined();
 		expect(siteConfig.url).toBeDefined();
 		expect(siteConfig.social).toBeDefined();
+		expect(siteConfig.locale).toBeDefined();
+		expect(siteConfig.twitterHandle).toBeDefined();
 	});
 
 	it("has valid social links", () => {
@@ -17,5 +19,9 @@ describe("siteConfig", () => {
 
 	it("has a valid URL", () => {
 		expect(() => new URL(siteConfig.url)).not.toThrow();
+	});
+
+	it("has a valid Twitter handle format", () => {
+		expect(siteConfig.twitterHandle).toMatch(/^@[\w]+$/);
 	});
 });
