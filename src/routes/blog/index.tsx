@@ -2,10 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import PostCard from "@/components/PostCard";
 import SectionHeading from "@/components/SectionHeading";
+import { defaultLocale } from "@/lib/i18n";
 import { fetchBlogPosts } from "@/server/content";
 
 export const Route = createFileRoute("/blog/")({
-	loader: async () => fetchBlogPosts(),
+	loader: async () => fetchBlogPosts({ data: { locale: defaultLocale } }),
 	component: BlogPage,
 	head: () => ({
 		meta: [

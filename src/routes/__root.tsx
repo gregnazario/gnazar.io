@@ -1,14 +1,24 @@
 import {
 	createRootRoute,
 	HeadContent,
-	Link,
 	Scripts,
+	useRouterState,
 } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 import ErrorBoundary from "@/components/ErrorBoundary";
+import NotFound from "@/components/NotFound";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
+import {
+	addLocaleToPath,
+	defaultLocale,
+	getLocaleFromPath,
+	locales,
+	localeToHreflang,
+	t,
+} from "@/lib/i18n";
+import { LocaleProvider } from "@/lib/locale-context";
 import { registerServiceWorker } from "@/lib/pwa";
 import { siteConfig } from "@/lib/site";
 
@@ -46,6 +56,27 @@ const jsonLd = {
 	],
 };
 
+// Generate hreflang links for all locales
+function getHreflangLinks(currentPath: string) {
+	const links = locales.map((locale) => ({
+		rel: "alternate",
+		hrefLang: localeToHreflang[locale],
+		href:
+			locale === defaultLocale
+				? `${siteConfig.url}${currentPath === "/" ? "" : currentPath}`
+				: `${siteConfig.url}${addLocaleToPath(currentPath, locale)}`,
+	}));
+
+	// Add x-default pointing to English version
+	links.push({
+		rel: "alternate",
+		hrefLang: "x-default",
+		href: `${siteConfig.url}${currentPath === "/" ? "" : currentPath}`,
+	});
+
+	return links;
+}
+
 export const Route = createRootRoute({
 	head: () => ({
 		meta: [
@@ -53,8 +84,6 @@ export const Route = createRootRoute({
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
 			{ title: siteConfig.title },
 			{ name: "description", content: siteConfig.description },
-			// i18n
-			{ httpEquiv: "Content-Language", content: "en" },
 			// Open Graph
 			{ property: "og:title", content: siteConfig.title },
 			{ property: "og:description", content: siteConfig.description },
@@ -97,9 +126,8 @@ export const Route = createRootRoute({
 			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 			{ rel: "icon", href: "/favicon.ico" },
 			{ rel: "alternate", type: "application/rss+xml", href: "/rss.xml" },
-			// i18n - declare this is the English version (and only version)
-			{ rel: "alternate", hreflang: "en", href: siteConfig.url },
-			{ rel: "alternate", hreflang: "x-default", href: siteConfig.url },
+			// i18n - hreflang for all locales
+			...getHreflangLinks("/"),
 			// PWA manifest
 			{ rel: "manifest", href: "/manifest.json" },
 			{ rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png" },
@@ -116,42 +144,31 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+	const routerState = useRouterState();
+	const locale = getLocaleFromPath(routerState.location.pathname);
+
 	useEffect(() => {
 		registerServiceWorker();
 	}, []);
 
 	return (
-		<html lang="en">
+		<html lang={locale}>
 			<head>
 				<HeadContent />
 			</head>
 			<body className="site-body">
-				<a className="skip-link" href="#main-content">
-					Skip to content
-				</a>
-				<SiteHeader />
-				<ErrorBoundary>
-					<main id="main-content">{children}</main>
-				</ErrorBoundary>
-				<SiteFooter />
+				<LocaleProvider locale={locale}>
+					<a className="skip-link" href="#main-content">
+						{t(locale, "skipToContent")}
+					</a>
+					<SiteHeader />
+					<ErrorBoundary>
+						<main id="main-content">{children}</main>
+					</ErrorBoundary>
+					<SiteFooter />
+				</LocaleProvider>
 				<Scripts />
 			</body>
 		</html>
-	);
-}
-
-function NotFound() {
-	return (
-		<section className="section">
-			<div className="container">
-				<div className="card">
-					<h2>Page not found</h2>
-					<p>That page does not exist. Head back to the homepage.</p>
-					<Link className="button ghost" to="/">
-						Go home
-					</Link>
-				</div>
-			</div>
-		</section>
 	);
 }

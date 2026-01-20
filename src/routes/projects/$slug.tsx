@@ -1,6 +1,7 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
+import { defaultLocale } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
 import { fetchProject } from "@/server/content";
 
@@ -8,7 +9,7 @@ type ProjectLoaderData = Awaited<ReturnType<typeof fetchProject>>;
 
 export const Route = createFileRoute("/projects/$slug")({
 	loader: async ({ params }): Promise<ProjectLoaderData> =>
-		fetchProject({ data: params.slug }),
+		fetchProject({ data: { slug: params.slug, locale: defaultLocale } }),
 	component: ProjectPage,
 	head: ({ loaderData }) => {
 		if (!loaderData) {

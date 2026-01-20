@@ -12,11 +12,17 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as SitemapXmlRouteImport } from './routes/sitemap.xml'
 import { Route as RssXmlRouteImport } from './routes/rss.xml'
 import { Route as RobotsTxtRouteImport } from './routes/robots.txt'
 import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
+import { Route as LlmsTxtRouteImport } from './routes/llms.txt'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
+import { Route as LocaleProjectsIndexRouteImport } from './routes/$locale/projects/index'
+import { Route as LocaleBlogIndexRouteImport } from './routes/$locale/blog/index'
+import { Route as LocaleProjectsSlugRouteImport } from './routes/$locale/projects/$slug'
+import { Route as LocaleBlogSlugRouteImport } from './routes/$locale/blog/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -31,6 +37,11 @@ const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleIndexRoute = LocaleIndexRouteImport.update({
+  id: '/$locale/',
+  path: '/$locale/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapXmlRoute = SitemapXmlRouteImport.update({
@@ -53,85 +64,152 @@ const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
   path: '/projects/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LlmsTxtRoute = LlmsTxtRouteImport.update({
+  id: '/llms/txt',
+  path: '/llms/txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
   path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleProjectsIndexRoute = LocaleProjectsIndexRouteImport.update({
+  id: '/$locale/projects/',
+  path: '/$locale/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleBlogIndexRoute = LocaleBlogIndexRouteImport.update({
+  id: '/$locale/blog/',
+  path: '/$locale/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleProjectsSlugRoute = LocaleProjectsSlugRouteImport.update({
+  id: '/$locale/projects/$slug',
+  path: '/$locale/projects/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleBlogSlugRoute = LocaleBlogSlugRouteImport.update({
+  id: '/$locale/blog/$slug',
+  path: '/$locale/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/llms/txt': typeof LlmsTxtRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/robots/txt': typeof RobotsTxtRoute
   '/rss/xml': typeof RssXmlRoute
   '/sitemap/xml': typeof SitemapXmlRoute
+  '/$locale/': typeof LocaleIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
+  '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/$locale/blog/': typeof LocaleBlogIndexRoute
+  '/$locale/projects/': typeof LocaleProjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/llms/txt': typeof LlmsTxtRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/robots/txt': typeof RobotsTxtRoute
   '/rss/xml': typeof RssXmlRoute
   '/sitemap/xml': typeof SitemapXmlRoute
+  '/$locale': typeof LocaleIndexRoute
   '/blog': typeof BlogIndexRoute
   '/projects': typeof ProjectsIndexRoute
+  '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
+  '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/$locale/blog': typeof LocaleBlogIndexRoute
+  '/$locale/projects': typeof LocaleProjectsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/llms/txt': typeof LlmsTxtRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/robots/txt': typeof RobotsTxtRoute
   '/rss/xml': typeof RssXmlRoute
   '/sitemap/xml': typeof SitemapXmlRoute
+  '/$locale/': typeof LocaleIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
+  '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/$locale/blog/': typeof LocaleBlogIndexRoute
+  '/$locale/projects/': typeof LocaleProjectsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/blog/$slug'
+    | '/llms/txt'
     | '/projects/$slug'
     | '/robots/txt'
     | '/rss/xml'
     | '/sitemap/xml'
+    | '/$locale/'
     | '/blog/'
     | '/projects/'
+    | '/$locale/blog/$slug'
+    | '/$locale/projects/$slug'
+    | '/$locale/blog/'
+    | '/$locale/projects/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/blog/$slug'
+    | '/llms/txt'
     | '/projects/$slug'
     | '/robots/txt'
     | '/rss/xml'
     | '/sitemap/xml'
+    | '/$locale'
     | '/blog'
     | '/projects'
+    | '/$locale/blog/$slug'
+    | '/$locale/projects/$slug'
+    | '/$locale/blog'
+    | '/$locale/projects'
   id:
     | '__root__'
     | '/'
     | '/blog/$slug'
+    | '/llms/txt'
     | '/projects/$slug'
     | '/robots/txt'
     | '/rss/xml'
     | '/sitemap/xml'
+    | '/$locale/'
     | '/blog/'
     | '/projects/'
+    | '/$locale/blog/$slug'
+    | '/$locale/projects/$slug'
+    | '/$locale/blog/'
+    | '/$locale/projects/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  LlmsTxtRoute: typeof LlmsTxtRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   RobotsTxtRoute: typeof RobotsTxtRoute
   RssXmlRoute: typeof RssXmlRoute
   SitemapXmlRoute: typeof SitemapXmlRoute
+  LocaleIndexRoute: typeof LocaleIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
+  LocaleBlogSlugRoute: typeof LocaleBlogSlugRoute
+  LocaleProjectsSlugRoute: typeof LocaleProjectsSlugRoute
+  LocaleBlogIndexRoute: typeof LocaleBlogIndexRoute
+  LocaleProjectsIndexRoute: typeof LocaleProjectsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -155,6 +233,13 @@ declare module '@tanstack/react-router' {
       path: '/blog'
       fullPath: '/blog/'
       preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/': {
+      id: '/$locale/'
+      path: '/$locale'
+      fullPath: '/$locale/'
+      preLoaderRoute: typeof LocaleIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap/xml': {
@@ -185,11 +270,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/llms/txt': {
+      id: '/llms/txt'
+      path: '/llms/txt'
+      fullPath: '/llms/txt'
+      preLoaderRoute: typeof LlmsTxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/$slug': {
       id: '/blog/$slug'
       path: '/blog/$slug'
       fullPath: '/blog/$slug'
       preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/projects/': {
+      id: '/$locale/projects/'
+      path: '/$locale/projects'
+      fullPath: '/$locale/projects/'
+      preLoaderRoute: typeof LocaleProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/blog/': {
+      id: '/$locale/blog/'
+      path: '/$locale/blog'
+      fullPath: '/$locale/blog/'
+      preLoaderRoute: typeof LocaleBlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/projects/$slug': {
+      id: '/$locale/projects/$slug'
+      path: '/$locale/projects/$slug'
+      fullPath: '/$locale/projects/$slug'
+      preLoaderRoute: typeof LocaleProjectsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/blog/$slug': {
+      id: '/$locale/blog/$slug'
+      path: '/$locale/blog/$slug'
+      fullPath: '/$locale/blog/$slug'
+      preLoaderRoute: typeof LocaleBlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -198,12 +318,18 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlogSlugRoute: BlogSlugRoute,
+  LlmsTxtRoute: LlmsTxtRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   RobotsTxtRoute: RobotsTxtRoute,
   RssXmlRoute: RssXmlRoute,
   SitemapXmlRoute: SitemapXmlRoute,
+  LocaleIndexRoute: LocaleIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
+  LocaleBlogSlugRoute: LocaleBlogSlugRoute,
+  LocaleProjectsSlugRoute: LocaleProjectsSlugRoute,
+  LocaleBlogIndexRoute: LocaleBlogIndexRoute,
+  LocaleProjectsIndexRoute: LocaleProjectsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

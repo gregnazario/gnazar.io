@@ -1,18 +1,19 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 import PostCard from "@/components/PostCard";
 import ProjectCard from "@/components/ProjectCard";
 import SectionHeading from "@/components/SectionHeading";
 import SocialLinks from "@/components/SocialLinks";
 import Typewriter from "@/components/Typewriter";
+import { defaultLocale } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
 import { fetchBlogPosts, fetchProjects } from "@/server/content";
 
 export const Route = createFileRoute("/")({
 	loader: async () => {
 		const [posts, projects] = await Promise.all([
-			fetchBlogPosts(),
-			fetchProjects(),
+			fetchBlogPosts({ data: { locale: defaultLocale } }),
+			fetchProjects({ data: { locale: defaultLocale } }),
 		]);
 
 		return {

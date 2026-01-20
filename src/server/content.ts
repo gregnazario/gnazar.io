@@ -5,25 +5,45 @@ import {
 	getAllProjects,
 	getBlogPostBySlug,
 	getProjectBySlug,
-} from "@/lib/content";
+} from "@/lib/content-i18n";
+import { defaultLocale, isValidLocale, type Locale } from "@/lib/i18n";
 import { renderMarkdown } from "@/lib/markdown";
 
-export const fetchBlogPosts = createServerFn({ method: "GET" }).handler(
-	async () => {
-		return getAllBlogPosts();
-	},
-);
+type LocaleInput = {
+	locale?: string;
+};
 
-export const fetchProjects = createServerFn({ method: "GET" }).handler(
-	async () => {
-		return getAllProjects();
-	},
-);
+type SlugInput = {
+	slug: string;
+	locale?: string;
+};
+
+function parseLocale(input: string | undefined): Locale {
+	if (input && isValidLocale(input)) {
+		return input;
+	}
+	return defaultLocale;
+}
+
+export const fetchBlogPosts = createServerFn({ method: "GET" })
+	.inputValidator((input: LocaleInput) => input)
+	.handler(async ({ data }) => {
+		const locale = parseLocale(data?.locale);
+		return getAllBlogPosts(locale);
+	});
+
+export const fetchProjects = createServerFn({ method: "GET" })
+	.inputValidator((input: LocaleInput) => input)
+	.handler(async ({ data }) => {
+		const locale = parseLocale(data?.locale);
+		return getAllProjects(locale);
+	});
 
 export const fetchBlogPost = createServerFn({ method: "GET" })
-	.inputValidator((slug: string) => slug)
+	.inputValidator((input: SlugInput) => input)
 	.handler(async ({ data }) => {
-		const post = await getBlogPostBySlug(data);
+		const locale = parseLocale(data.locale);
+		const post = await getBlogPostBySlug(data.slug, locale);
 		if (!post) {
 			return null;
 		}
@@ -32,9 +52,10 @@ export const fetchBlogPost = createServerFn({ method: "GET" })
 	});
 
 export const fetchProject = createServerFn({ method: "GET" })
-	.inputValidator((slug: string) => slug)
+	.inputValidator((input: SlugInput) => input)
 	.handler(async ({ data }) => {
-		const project = await getProjectBySlug(data);
+		const locale = parseLocale(data.locale);
+		const project = await getProjectBySlug(data.slug, locale);
 		if (!project) {
 			return null;
 		}

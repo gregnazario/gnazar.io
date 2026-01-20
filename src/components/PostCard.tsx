@@ -1,16 +1,26 @@
 import { Link } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
+import type { BlogPost } from "@/lib/content-i18n";
 import { formatDate } from "@/lib/format";
-import type { BlogPost } from "@/lib/content";
+import { defaultLocale, type Locale } from "@/lib/i18n";
 
 type PostCardProps = {
 	post: BlogPost;
 	maxTags?: number;
+	locale?: Locale;
 };
 
-export default function PostCard({ post, maxTags }: PostCardProps) {
+export default function PostCard({
+	post,
+	maxTags,
+	locale = defaultLocale,
+}: PostCardProps) {
 	const tags = maxTags ? post.tags.slice(0, maxTags) : post.tags;
+	const linkTo =
+		locale === defaultLocale
+			? `/blog/${post.slug}`
+			: `/${locale}/blog/${post.slug}`;
 
 	return (
 		<article className="card">
@@ -21,9 +31,7 @@ export default function PostCard({ post, maxTags }: PostCardProps) {
 				))}
 			</div>
 			<h3>
-				<Link to="/blog/$slug" params={{ slug: post.slug }}>
-					{post.title}
-				</Link>
+				<Link to={linkTo}>{post.title}</Link>
 			</h3>
 			<p>{post.summary}</p>
 		</article>

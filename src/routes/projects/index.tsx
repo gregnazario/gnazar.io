@@ -2,10 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import ProjectCard from "@/components/ProjectCard";
 import SectionHeading from "@/components/SectionHeading";
+import { defaultLocale } from "@/lib/i18n";
 import { fetchProjects } from "@/server/content";
 
 export const Route = createFileRoute("/projects/")({
-	loader: async () => fetchProjects(),
+	loader: async () => fetchProjects({ data: { locale: defaultLocale } }),
 	component: ProjectsPage,
 	head: () => ({
 		meta: [

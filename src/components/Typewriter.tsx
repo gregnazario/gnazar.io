@@ -1,8 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 
+type AllowedTags =
+	| "p"
+	| "span"
+	| "div"
+	| "h1"
+	| "h2"
+	| "h3"
+	| "h4"
+	| "h5"
+	| "h6";
+
 type TypewriterProps = {
 	text: string;
-	as?: keyof JSX.IntrinsicElements;
+	as?: AllowedTags;
 	className?: string;
 	speed?: number;
 	delay?: number;
@@ -20,7 +31,7 @@ export default function Typewriter({
 	startOnView = true,
 }: TypewriterProps) {
 	const Tag = as;
-	const ref = useRef<HTMLElement | null>(null);
+	const ref = useRef<HTMLElement>(null);
 	const [shouldType, setShouldType] = useState(!startOnView);
 	const [displayText, setDisplayText] = useState(text);
 	const [isTyping, setIsTyping] = useState(false);
@@ -36,13 +47,8 @@ export default function Typewriter({
 		const update = () => setReduceMotion(media.matches);
 		update();
 
-		if ("addEventListener" in media) {
-			media.addEventListener("change", update);
-			return () => media.removeEventListener("change", update);
-		}
-
-		media.addListener(update);
-		return () => media.removeListener(update);
+		media.addEventListener("change", update);
+		return () => media.removeEventListener("change", update);
 	}, []);
 
 	useEffect(() => {
@@ -112,7 +118,7 @@ export default function Typewriter({
 
 	return (
 		<Tag
-			ref={ref as React.RefObject<HTMLElement>}
+			ref={ref as React.RefObject<never>}
 			className={["typewriter", className].filter(Boolean).join(" ")}
 			data-typing={isTyping ? "true" : "false"}
 			data-done={done ? "true" : "false"}
