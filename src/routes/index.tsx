@@ -51,15 +51,19 @@ function HomePage() {
 						<SocialLinks />
 					</div>
 					<div className="hero-card">
-						<img
-							src="/images/headshot.png"
-							alt="Greg Nazario"
-							className="hero-image"
-							width={420}
-							height={520}
-							fetchPriority="high"
-							decoding="async"
-						/>
+						<picture>
+							<source srcSet="/images/headshot.avif" type="image/avif" />
+							<source srcSet="/images/headshot.webp" type="image/webp" />
+							<img
+								src="/images/headshot-optimized.png"
+								alt="Greg Nazario"
+								className="hero-image"
+								width={420}
+								height={520}
+								fetchPriority="high"
+								decoding="async"
+							/>
+						</picture>
 						<div className="stack">
 							<span className="eyebrow">Currently</span>
 							<div>Founding Engineer, Aptos Labs</div>

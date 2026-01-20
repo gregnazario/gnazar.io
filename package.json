@@ -22,6 +22,7 @@
 		"generate:icons": "node scripts/generate-icons.mjs",
 		"generate:og": "node scripts/generate-og-image.mjs",
 		"generate:assets": "node scripts/generate-icons.mjs && node scripts/generate-og-image.mjs",
+		"optimize:images": "node scripts/optimize-images.mjs",
 		"translate": "node scripts/translate.mjs",
 		"translate:force": "node scripts/translate.mjs --force",
 		"new": "node scripts/new-content.mjs",

@@ -22,7 +22,7 @@ const rootDir = join(__dirname, "..");
 const siteConfig = {
 	title: "Greg Nazario",
 	description:
-		"Founding Senior Software Engineer at Aptos. 12+ years scaling infrastructure, developer tooling, and teams.",
+		"Founding Senior Software Engineer at Aptos. 11+ years scaling infrastructure, developer tooling, and teams.",
 };
 
 async function generateOgImage() {
@@ -82,7 +82,7 @@ async function generateOgImage() {
 				
 				<!-- Description -->
 				<text x="80" y="420" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="${subtextColor}">
-					<tspan x="80" dy="0">12+ years scaling infrastructure, developer tooling,</tspan>
+					<tspan x="80" dy="0">11+ years scaling infrastructure, developer tooling,</tspan>
 					<tspan x="80" dy="36">and teams at the frontier of technology.</tspan>
 				</text>
 				
