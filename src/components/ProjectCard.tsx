@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { memo } from "react";
 
 import Badge from "@/components/Badge";
 import type { Project } from "@/lib/content-i18n";
@@ -11,7 +12,7 @@ type ProjectCardProps = {
 	locale?: Locale;
 };
 
-export default function ProjectCard({
+export default memo(function ProjectCard({
 	project,
 	showRole = false,
 	showAction = false,
@@ -42,4 +43,4 @@ export default function ProjectCard({
 			) : null}
 		</article>
 	);
-}
+});

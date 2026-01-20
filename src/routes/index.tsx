@@ -57,6 +57,8 @@ function HomePage() {
 							className="hero-image"
 							width={420}
 							height={520}
+							fetchPriority="high"
+							decoding="async"
 						/>
 						<div className="stack">
 							<span className="eyebrow">Currently</span>

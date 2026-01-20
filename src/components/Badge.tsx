@@ -1,9 +1,9 @@
-import type { ReactNode } from "react";
+import { memo, type ReactNode } from "react";
 
 type BadgeProps = {
 	children: ReactNode;
 };
 
-export default function Badge({ children }: BadgeProps) {
+export default memo(function Badge({ children }: BadgeProps) {
 	return <span className="badge">{children}</span>;
-}
+});

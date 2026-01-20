@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import { siteConfig } from "@/lib/site";
 
 const socials = [
@@ -39,7 +41,7 @@ const iconMap: Record<string, React.ReactNode> = {
 	),
 };
 
-export default function SocialLinks() {
+export default memo(function SocialLinks() {
 	return (
 		<nav className="social-links" aria-label="Social links">
 			{socials.map((item) => (
@@ -55,4 +57,4 @@ export default function SocialLinks() {
 			))}
 		</nav>
 	);
-}
+});

@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { memo } from "react";
 
 import Badge from "@/components/Badge";
 import type { BlogPost } from "@/lib/content-i18n";
@@ -11,7 +12,7 @@ type PostCardProps = {
 	locale?: Locale;
 };
 
-export default function PostCard({
+export default memo(function PostCard({
 	post,
 	maxTags,
 	locale = defaultLocale,
@@ -36,4 +37,4 @@ export default function PostCard({
 			<p>{post.summary}</p>
 		</article>
 	);
-}
+});
