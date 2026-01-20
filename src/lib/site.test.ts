@@ -4,6 +4,7 @@ import { siteConfig } from "./site";
 describe("siteConfig", () => {
 	it("has required properties", () => {
 		expect(siteConfig.title).toBeDefined();
+		expect(siteConfig.author).toBeDefined();
 		expect(siteConfig.description).toBeDefined();
 		expect(siteConfig.url).toBeDefined();
 		expect(siteConfig.social).toBeDefined();
