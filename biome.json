@@ -4,6 +4,7 @@
 		"includes": [
 			"src/**/*",
 			"!**/src/routeTree.gen.ts",
+			"e2e/**/*",
 			"content/**/*",
 			"*.ts",
 			"*.tsx",
