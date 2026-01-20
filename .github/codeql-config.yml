@@ -1,0 +1,8 @@
+name: "CodeQL config"
+
+# Exclude generated/bundled output and dependencies
+paths-ignore:
+  - dist
+  - node_modules
+  - "**/*.min.js"
+  - .netlify

@@ -1,4 +1,4 @@
-import { useRouterState } from "@tanstack/react-router";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 import {
 	addLocaleToPath,
 	defaultLocale,
@@ -15,6 +15,7 @@ type LanguageSwitcherProps = {
 export default function LanguageSwitcher({
 	currentLocale,
 }: LanguageSwitcherProps) {
+	const navigate = useNavigate();
 	const routerState = useRouterState();
 	const currentPath = routerState.location.pathname;
 	const basePath = removeLocaleFromPath(currentPath);
@@ -29,7 +30,7 @@ export default function LanguageSwitcher({
 						newLocale === defaultLocale
 							? basePath || "/"
 							: addLocaleToPath(basePath || "/", newLocale);
-					window.location.href = newPath;
+					navigate({ to: newPath as string });
 				}}
 				aria-label="Select language"
 				className="language-select"

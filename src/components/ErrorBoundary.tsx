@@ -7,7 +7,6 @@ type ErrorBoundaryProps = {
 
 type ErrorBoundaryState = {
 	hasError: boolean;
-	error: Error | null;
 };
 
 export default class ErrorBoundary extends Component<
@@ -16,19 +15,21 @@ export default class ErrorBoundary extends Component<
 > {
 	constructor(props: ErrorBoundaryProps) {
 		super(props);
-		this.state = { hasError: false, error: null };
+		this.state = { hasError: false };
 	}
 
-	static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-		return { hasError: true, error };
+	static getDerivedStateFromError(): ErrorBoundaryState {
+		// Don't store the error object to avoid exposing sensitive data
+		return { hasError: true };
 	}
 
 	componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-		// Log error to console in development
-		console.error("Error caught by boundary:", error, errorInfo);
-
-		// In production, you could send this to an error tracking service
-		// e.g., Sentry, LogRocket, etc.
+		// Only log in development to avoid exposing stack traces in production
+		if (process.env.NODE_ENV === "development") {
+			console.error("Error caught by boundary:", error.message, errorInfo);
+		}
+		// In production, send sanitized error info to an error tracking service
+		// e.g., Sentry, LogRocket, etc. - but only the message, not the stack
 	}
 
 	render(): ReactNode {
