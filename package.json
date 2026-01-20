@@ -18,7 +18,11 @@
 		"test:e2e": "playwright test",
 		"test:e2e:ui": "playwright test --ui",
 		"test:e2e:headed": "playwright test --headed",
-		"test:e2e:debug": "playwright test --debug"
+		"test:e2e:debug": "playwright test --debug",
+		"generate:icons": "node scripts/generate-icons.mjs",
+		"generate:og": "node scripts/generate-og-image.mjs",
+		"generate:assets": "node scripts/generate-icons.mjs && node scripts/generate-og-image.mjs",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@tanstack/react-router": "^1.151.3",
@@ -49,12 +53,20 @@
 		"@types/react-dom": "^18.2.22",
 		"@vitejs/plugin-react": "^5.1.2",
 		"@vitest/coverage-v8": "^4.0.17",
+		"husky": "^9.1.7",
 		"jsdom": "^27.4.0",
+		"lint-staged": "^16.2.7",
+		"sharp": "^0.34.5",
 		"typescript": "^5.4.5",
 		"vite": "^7.3.1",
 		"vitest": "^4.0.17"
 	},
 	"engines": {
 		"node": ">=18.18.0"
+	},
+	"lint-staged": {
+		"*.{js,ts,tsx,json,css,md}": [
+			"biome check --write --no-errors-on-unmatched"
+		]
 	}
 }

@@ -8,7 +8,12 @@ export const Route = createFileRoute("/robots/txt")({
 			GET: () => {
 				const body = `User-agent: *
 Allow: /
+
 Sitemap: ${siteConfig.url}/sitemap.xml
+
+# LLM/AI Assistant information
+# See https://llmstxt.org for the llms.txt specification
+LLMs-Txt: ${siteConfig.url}/llms.txt
 `;
 
 				return new Response(body, {

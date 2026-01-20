@@ -1,0 +1,15 @@
+# Security Policy for gnazar.io
+# See https://securitytxt.org/ for more information
+
+Contact: https://github.com/gregnazario
+Contact: https://linkedin.com/in/gnazario
+
+Expires: 2027-01-20T00:00:00.000Z
+
+Preferred-Languages: en
+
+Canonical: https://gnazar.io/.well-known/security.txt
+
+# Policy
+# If you discover a security vulnerability, please report it responsibly.
+# I appreciate your help in keeping this site secure.

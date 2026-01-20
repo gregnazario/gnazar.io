@@ -1,0 +1,23 @@
+/* TEAM */
+Developer: Greg Nazario
+Site: https://gnazar.io
+GitHub: https://github.com/gregnazario
+LinkedIn: https://linkedin.com/in/gnazario
+Twitter: @greg_nazario
+Location: United States
+
+/* SITE */
+Last update: 2026-01-20
+Language: English
+Standards: HTML5, CSS3, ES2022
+Framework: TanStack Start (React)
+Hosting: Netlify
+Build tool: Vite
+Package manager: Bun
+
+/* THANKS */
+TanStack: https://tanstack.com
+React: https://react.dev
+Biome: https://biomejs.dev
+Vitest: https://vitest.dev
+Playwright: https://playwright.dev
