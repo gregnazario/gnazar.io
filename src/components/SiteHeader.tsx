@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
+import ThemeToggle from "@/components/ThemeToggle";
 import { siteConfig } from "@/lib/site";
 
 const navItems = [
@@ -24,6 +25,7 @@ export default function SiteHeader() {
 					<a className="button ghost" href={siteConfig.social.github}>
 						GitHub
 					</a>
+					<ThemeToggle />
 				</nav>
 			</div>
 		</header>
