@@ -6,7 +6,6 @@ import SectionHeading from "@/components/SectionHeading";
 import SocialLinks from "@/components/SocialLinks";
 import Typewriter from "@/components/Typewriter";
 import { defaultLocale } from "@/lib/i18n";
-import { siteConfig } from "@/lib/site";
 import { fetchBlogPosts, fetchProjects } from "@/server/content";
 
 export const Route = createFileRoute("/")({
@@ -33,7 +32,7 @@ function HomePage() {
 				<div className="container hero-grid">
 					<div className="stack">
 						<div>
-							<h1>{siteConfig.title}</h1>
+							<h1>Greg Nazario</h1>
 							<Typewriter
 								as="p"
 								text="Founding Engineer at Aptos Labs. I build and scale infrastructure, create developer tooling, and lead teams shipping frontier technology."

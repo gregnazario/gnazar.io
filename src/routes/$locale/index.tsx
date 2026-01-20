@@ -56,7 +56,7 @@ function HomePage() {
 				<div className="container hero-grid">
 					<div className="stack">
 						<div>
-							<h1>{siteConfig.title}</h1>
+							<h1>{siteConfig.author}</h1>
 							<Typewriter
 								as="p"
 								text="Founding Engineer at Aptos Labs. I build and scale infrastructure, create developer tooling, and lead teams shipping frontier technology."

@@ -1,5 +1,6 @@
 export const siteConfig = {
-	title: "Greg Nazario",
+	title: "gnazar.io",
+	author: "Greg Nazario",
 	description:
 		"Founding Senior Software Engineer at Aptos. 12+ years scaling infrastructure, developer tooling, and teams at the frontier of technology.",
 	url: "https://gnazar.io",
