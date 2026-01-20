@@ -61,13 +61,21 @@ async function generateIcons() {
 
 		console.log("Generated apple-touch-icon.png");
 
-		// Generate favicon.ico (32x32 PNG, saved as ico)
+		// Generate favicon-32.png
 		await sharp(svgBuffer)
 			.resize(32, 32)
 			.png()
 			.toFile(join(rootDir, "public/favicon-32.png"));
 
 		console.log("Generated favicon-32.png");
+
+		// Generate favicon.ico (32x32 PNG - most browsers accept PNG in .ico)
+		await sharp(svgBuffer)
+			.resize(32, 32)
+			.png()
+			.toFile(join(rootDir, "public/favicon.ico"));
+
+		console.log("Generated favicon.ico");
 
 		console.log("\nAll icons generated successfully!");
 	} catch (error) {

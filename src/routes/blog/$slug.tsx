@@ -1,7 +1,8 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
 import { formatDate } from "@/lib/format";
+import { defaultLocale } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
 import { fetchBlogPost } from "@/server/content";
 
@@ -9,7 +10,7 @@ type BlogLoaderData = Awaited<ReturnType<typeof fetchBlogPost>>;
 
 export const Route = createFileRoute("/blog/$slug")({
 	loader: async ({ params }): Promise<BlogLoaderData> =>
-		fetchBlogPost({ data: params.slug }),
+		fetchBlogPost({ data: { slug: params.slug, locale: defaultLocale } }),
 	component: BlogPostPage,
 	head: ({ loaderData }) => {
 		if (!loaderData) {

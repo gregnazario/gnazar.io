@@ -1,14 +1,16 @@
-import { unified } from "unified";
-import remarkGfm from "remark-gfm";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
+import remarkGfm from "remark-gfm";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import { unified } from "unified";
 
 export async function renderMarkdown(source: string): Promise<string> {
-	const file = await unified()
+	// biome-ignore lint/suspicious/noExplicitAny: unified plugin chain has complex types incompatible with TS 5.9
+	const processor = unified() as any;
+	const file = await processor
 		.use(remarkParse)
 		.use(remarkGfm)
 		.use(remarkRehype, { allowDangerousHtml: true })
