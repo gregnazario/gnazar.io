@@ -74,7 +74,7 @@ function HomePage() {
 						subtitle={
 							<Typewriter
 								as="p"
-								text="I have spent more than a decade building platforms where scale, reliability, and velocity matter. Today I focus on frontier technology while bringing production rigor to every system."
+								text="I have spent more than a decade building platforms where scale, reliability, and velocity matter. I spent 8 years at AWS and Meta, working on infrastructure and developer tooling. After that, I helped found Aptos Labs, bringing Meta level infrastructure to the public blockchain space."
 								speed={14}
 								delay={120}
 							/>
@@ -121,12 +121,10 @@ function HomePage() {
 									<div className="stat-label">Years experience</div>
 								</div>
 								<div className="stat">
-									<div className="stat-value">Frontier</div>
+									<div className="stat-value">
+										Networking, Cloud, Blockchain
+									</div>
 									<div className="stat-label">Technology focus</div>
-								</div>
-								<div className="stat">
-									<div className="stat-value">Leadership</div>
-									<div className="stat-label">Mentorship & teams</div>
 								</div>
 							</div>
 						</div>
