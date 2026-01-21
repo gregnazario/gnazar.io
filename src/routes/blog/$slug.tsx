@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
+import Webmentions from "@/components/Webmentions";
 import { formatDate } from "@/lib/format";
 import { defaultLocale } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
@@ -72,6 +73,7 @@ function BlogPostPage() {
 						{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
 						<div dangerouslySetInnerHTML={{ __html: data.html }} />
 					</article>
+					<Webmentions slug={data.post.slug} type="blog" />
 				</div>
 			</div>
 		</section>

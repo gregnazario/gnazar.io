@@ -7,6 +7,7 @@ import {
 
 import Badge from "@/components/Badge";
 import NotFound from "@/components/NotFound";
+import Webmentions from "@/components/Webmentions";
 import { formatDate } from "@/lib/format";
 import { isValidLocale, type Locale, t } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
@@ -117,6 +118,7 @@ function BlogPostPage() {
 						{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
 						<div dangerouslySetInnerHTML={{ __html: html }} />
 					</article>
+					<Webmentions slug={post.slug} type="blog" />
 				</div>
 			</div>
 		</section>
