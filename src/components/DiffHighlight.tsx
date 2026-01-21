@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { stripHtmlTags } from "@/lib/html-utils";
+
 /**
  * Component that adds diff-style highlighting to code blocks
  *
@@ -36,7 +38,7 @@ export default function DiffHighlight() {
 			// Process each line
 			const processedLines = lines.map((line) => {
 				// Check the actual text content (strip HTML tags for checking)
-				const textContent = line.replace(/<[^>]*>/g, "");
+				const textContent = stripHtmlTags(line);
 
 				if (textContent.startsWith("+") && !textContent.startsWith("+++")) {
 					return `<span class="diff-line diff-add">${line}</span>`;

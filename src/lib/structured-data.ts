@@ -1,4 +1,5 @@
 import type { BlogPost } from "@/lib/content-i18n";
+import { stripHtmlTags } from "@/lib/html-utils";
 import { siteConfig } from "@/lib/site";
 
 /**
@@ -55,10 +56,7 @@ export function generateBlogPostingSchema(post: BlogPost, url: string) {
  * Estimate word count from content (strip HTML)
  */
 function estimateWordCount(content: string): number {
-	const text = content
-		.replace(/<[^>]*>/g, "")
-		.replace(/\s+/g, " ")
-		.trim();
+	const text = stripHtmlTags(content).replace(/\s+/g, " ").trim();
 	return text.split(/\s+/).filter(Boolean).length;
 }
 
