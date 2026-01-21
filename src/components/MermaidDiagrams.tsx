@@ -15,15 +15,15 @@ let mermaidInitialized = false;
  */
 export default function MermaidDiagrams() {
 	useEffect(() => {
-		// Dynamically import mermaid only on client side
 		const renderDiagrams = async () => {
+			// Find all mermaid code blocks that haven't been processed
 			const mermaidBlocks = document.querySelectorAll(
 				"pre > code.language-mermaid",
 			);
 
 			if (mermaidBlocks.length === 0) return;
 
-			// Dynamically import mermaid
+			// Dynamically import mermaid only on client side
 			const mermaid = await import("mermaid");
 
 			// Only initialize once per page load
@@ -35,52 +35,37 @@ export default function MermaidDiagrams() {
 							? "dark"
 							: "default",
 					// Use strict mode for security - disables click events and sanitizes content
-					// This is appropriate for static blog content we control
 					securityLevel: "strict",
 				});
 				mermaidInitialized = true;
 			}
 
+			// Process each mermaid block
 			for (const block of mermaidBlocks) {
 				const pre = block.parentElement;
-				if (!pre) continue;
+				if (!pre || !pre.parentElement) continue;
 
-				// Skip if already rendered or errored
-				if (pre.dataset.mermaidRendered) continue;
-
-				const code = block.textContent || "";
+				// Skip if already processed
+				if (pre.dataset.mermaidProcessed) continue;
+				pre.dataset.mermaidProcessed = "true";
 
 				try {
-					// Create a container for the diagram
+					// Create a container with the mermaid class for mermaid.run()
 					const container = document.createElement("div");
-					container.className = "mermaid-diagram";
+					container.className = "mermaid mermaid-diagram";
+					// Copy the text content - mermaid.run() will handle it safely
+					container.textContent = block.textContent;
 
-					// Generate unique ID using crypto for security
-					const id = `mermaid-${crypto.randomUUID().slice(0, 8)}`;
+					// Replace the pre with our container
+					pre.parentElement.replaceChild(container, pre);
 
-					// Render the diagram
-					const { svg } = await mermaid.default.render(id, code);
-
-					// Safely parse and insert the SVG using DOMParser
-					// This is safer than innerHTML as it properly parses the SVG
-					const parser = new DOMParser();
-					const svgDoc = parser.parseFromString(svg, "image/svg+xml");
-					const svgElement = svgDoc.documentElement;
-
-					// Check for parsing errors
-					const parserError = svgDoc.querySelector("parsererror");
-					if (parserError || svgElement.tagName !== "svg") {
-						throw new Error("Invalid SVG output from mermaid");
-					}
-
-					container.appendChild(document.importNode(svgElement, true));
-
-					// Replace the pre element with the rendered diagram
-					pre.parentElement?.replaceChild(container, pre);
+					// Let mermaid render this specific element
+					// mermaid.run() handles the SVG generation and insertion safely
+					await mermaid.default.run({
+						nodes: [container],
+					});
 				} catch (error) {
 					console.error("Failed to render mermaid diagram:", error);
-					// Mark as errored to avoid retry loops
-					pre.dataset.mermaidRendered = "error";
 				}
 			}
 		};
