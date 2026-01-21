@@ -15,7 +15,7 @@ describe("SocialLinks", () => {
 		expect(link).toBeInTheDocument();
 		expect(link).toHaveAttribute("href", expect.stringContaining("linkedin"));
 		expect(link).toHaveAttribute("target", "_blank");
-		expect(link).toHaveAttribute("rel", "noreferrer noopener");
+		expect(link).toHaveAttribute("rel", "me noreferrer noopener");
 	});
 
 	it("renders GitHub link", () => {
@@ -32,12 +32,13 @@ describe("SocialLinks", () => {
 		expect(link).toHaveAttribute("href", expect.stringContaining("twitter"));
 	});
 
-	it("has correct security attributes on all links", () => {
+	it("has correct security and IndieWeb attributes on all links", () => {
 		render(<SocialLinks />);
 		const links = screen.getAllByRole("link");
 		for (const link of links) {
 			expect(link).toHaveAttribute("target", "_blank");
-			expect(link).toHaveAttribute("rel", "noreferrer noopener");
+			// rel="me" for IndieWeb identity verification
+			expect(link).toHaveAttribute("rel", "me noreferrer noopener");
 		}
 	});
 });

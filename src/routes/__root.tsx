@@ -136,7 +136,16 @@ export const Route = createRootRoute({
 			{ rel: "canonical", href: siteConfig.url },
 			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 			{ rel: "icon", href: "/favicon.ico" },
-			{ rel: "alternate", type: "application/rss+xml", href: "/rss.xml" },
+			// RSS feed autodiscovery
+			{
+				rel: "alternate",
+				type: "application/rss+xml",
+				title: `${siteConfig.title} RSS Feed`,
+				href: "/rss.xml",
+			},
+			// Webmention endpoints for IndieWeb support (webmention.io)
+			{ rel: "webmention", href: "https://webmention.io/gnazar.io/webmention" },
+			{ rel: "pingback", href: "https://webmention.io/gnazar.io/xmlrpc" },
 			// i18n - hreflang for all locales
 			...getHreflangLinks("/"),
 			// PWA manifest

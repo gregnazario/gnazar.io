@@ -50,7 +50,7 @@ export default memo(function SocialLinks() {
 					href={item.href}
 					aria-label={item.label}
 					target="_blank"
-					rel="noreferrer noopener"
+					rel="me noreferrer noopener"
 				>
 					<span className="social-icon">{iconMap[item.icon]}</span>
 				</a>

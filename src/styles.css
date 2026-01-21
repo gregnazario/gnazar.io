@@ -965,3 +965,114 @@ main {
 		opacity: 0;
 	}
 }
+
+/* Print styles */
+@media print {
+	/* Reset colors for printing */
+	:root {
+		--bg: #fff;
+		--bg-muted: #fff;
+		--surface: #fff;
+		--surface-elevated: #fff;
+		--text: #000;
+		--text-muted: #333;
+		--border: #ccc;
+		--accent: #000;
+		--shadow: none;
+	}
+
+	/* Hide non-essential elements */
+	.site-header,
+	.site-footer,
+	.skip-link,
+	.hero-actions,
+	.social-links,
+	.language-switcher,
+	.theme-toggle,
+	.menu-toggle,
+	.typewriter-cursor,
+	.terminal-actions,
+	.button {
+		display: none !important;
+	}
+
+	/* Remove backgrounds and shadows */
+	body,
+	.site-body,
+	.card,
+	.hero-card {
+		background: #fff !important;
+		box-shadow: none !important;
+	}
+
+	/* Remove decorative pseudo-elements */
+	.site-body::before,
+	.site-body::after,
+	.card::before,
+	.hero-card::after {
+		display: none !important;
+	}
+
+	/* Ensure text is visible */
+	.typewriter-base {
+		color: #000 !important;
+	}
+
+	.typewriter-overlay {
+		display: none !important;
+	}
+
+	/* Improve readability */
+	body {
+		font-size: 12pt;
+		line-height: 1.5;
+	}
+
+	.prose {
+		max-width: 100%;
+	}
+
+	/* Show URLs for links */
+	.prose a[href]::after {
+		content: " (" attr(href) ")";
+		font-size: 0.8em;
+		color: #666;
+	}
+
+	/* Don't show URL for internal links */
+	.prose a[href^="/"]::after,
+	.prose a[href^="#"]::after {
+		content: none;
+	}
+
+	/* Page breaks */
+	h1,
+	h2,
+	h3 {
+		page-break-after: avoid;
+	}
+
+	img,
+	.card {
+		page-break-inside: avoid;
+	}
+
+	/* Hero section adjustments */
+	.hero {
+		padding: 1rem 0;
+		background: none !important;
+	}
+
+	.hero-grid {
+		display: block;
+	}
+
+	.hero-card {
+		display: none;
+	}
+
+	/* Section spacing */
+	.section {
+		padding: 1.5rem 0;
+	}
+}
