@@ -121,12 +121,18 @@ export const Route = createRootRoute({
 				href: "https://fonts.gstatic.com",
 				crossOrigin: "anonymous",
 			},
+			// DNS prefetch for external resources
+			{ rel: "dns-prefetch", href: "https://fonts.googleapis.com" },
+			{ rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
 			{ rel: "stylesheet", href: appCss },
 			// Fonts loaded after critical CSS - display: swap ensures no FOIT
 			{
 				rel: "stylesheet",
 				href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
 			},
+			// Prefetch critical routes for faster navigation
+			{ rel: "prefetch", href: "/blog" },
+			{ rel: "prefetch", href: "/projects" },
 			{ rel: "canonical", href: siteConfig.url },
 			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 			{ rel: "icon", href: "/favicon.ico" },
