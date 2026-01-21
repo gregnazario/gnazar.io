@@ -15,13 +15,23 @@ export default memo(function ImageLightbox({
 		setCurrentSrc(src);
 		setCurrentAlt(alt);
 		setIsOpen(true);
-		document.body.style.overflow = "hidden";
 	}, []);
 
 	const closeLightbox = useCallback(() => {
 		setIsOpen(false);
-		document.body.style.overflow = "";
 	}, []);
+
+	// Handle body overflow when lightbox is open
+	useEffect(() => {
+		if (!isOpen) return;
+
+		const previousOverflow = document.body.style.overflow;
+		document.body.style.overflow = "hidden";
+
+		return () => {
+			document.body.style.overflow = previousOverflow;
+		};
+	}, [isOpen]);
 
 	useEffect(() => {
 		const container = document.querySelector(containerSelector);
@@ -74,12 +84,12 @@ export default memo(function ImageLightbox({
 			>
 				×
 			</button>
+			{/* biome-ignore lint/a11y/useKeyWithClickEvents: Image is non-interactive, click stops propagation */}
 			<img
 				src={currentSrc}
 				alt={currentAlt}
 				className="lightbox-image"
 				onClick={(e) => e.stopPropagation()}
-				onKeyDown={(e) => e.stopPropagation()}
 			/>
 		</div>
 	);

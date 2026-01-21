@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const STORAGE_KEY = "reading-history";
 const MAX_HISTORY = 50;
@@ -55,7 +55,12 @@ export function useReadingHistory() {
 }
 
 export function useMarkAsRead(slug: string) {
+	const hasMarkedRef = useRef<string | null>(null);
+
 	useEffect(() => {
+		// Skip if we've already marked this slug as read
+		if (hasMarkedRef.current === slug) return;
+
 		const history = getHistory();
 		const filtered = history.filter((h) => h.slug !== slug);
 		const newHistory = [
@@ -63,5 +68,6 @@ export function useMarkAsRead(slug: string) {
 			...filtered,
 		].slice(0, MAX_HISTORY);
 		saveHistory(newHistory);
+		hasMarkedRef.current = slug;
 	}, [slug]);
 }

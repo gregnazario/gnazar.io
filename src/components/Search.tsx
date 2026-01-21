@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import Fuse from "fuse.js";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 
@@ -21,6 +22,7 @@ export default memo(function Search({ items, isOpen, onClose }: SearchProps) {
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const resultsRef = useRef<HTMLDivElement>(null);
+	const navigate = useNavigate();
 
 	const fuse = useRef(
 		new Fuse(items, {
@@ -82,6 +84,16 @@ export default memo(function Search({ items, isOpen, onClose }: SearchProps) {
 		}
 	}, [selectedIndex, results.length]);
 
+	const navigateToItem = useCallback(
+		(item: SearchItem) => {
+			const path =
+				item.type === "blog" ? `/blog/${item.slug}` : `/projects/${item.slug}`;
+			onClose();
+			navigate({ to: path as string });
+		},
+		[navigate, onClose],
+	);
+
 	const handleKeyDown = useCallback(
 		(e: React.KeyboardEvent) => {
 			switch (e.key) {
@@ -96,12 +108,7 @@ export default memo(function Search({ items, isOpen, onClose }: SearchProps) {
 				case "Enter":
 					e.preventDefault();
 					if (results[selectedIndex]) {
-						const item = results[selectedIndex];
-						const path =
-							item.type === "blog"
-								? `/blog/${item.slug}`
-								: `/projects/${item.slug}`;
-						window.location.href = path;
+						navigateToItem(results[selectedIndex]);
 					}
 					break;
 				case "Escape":
@@ -110,7 +117,15 @@ export default memo(function Search({ items, isOpen, onClose }: SearchProps) {
 					break;
 			}
 		},
-		[results, selectedIndex, onClose],
+		[results, selectedIndex, onClose, navigateToItem],
+	);
+
+	const handleResultClick = useCallback(
+		(e: React.MouseEvent, item: SearchItem) => {
+			e.preventDefault();
+			navigateToItem(item);
+		},
+		[navigateToItem],
 	);
 
 	if (!isOpen) return null;
@@ -157,6 +172,7 @@ export default memo(function Search({ items, isOpen, onClose }: SearchProps) {
 								}
 								className={`search-result ${index === selectedIndex ? "search-result-selected" : ""}`}
 								onMouseEnter={() => setSelectedIndex(index)}
+								onClick={(e) => handleResultClick(e, item)}
 							>
 								<span className="search-result-type">
 									{item.type === "blog" ? "📝" : "🚀"}

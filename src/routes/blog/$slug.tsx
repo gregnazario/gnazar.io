@@ -208,10 +208,10 @@ function BlogPostPage() {
 						<Webmentions slug={post.slug} type="blog" />
 
 						<GiscusComments
-							repo="gregnazario/gnazar.io"
-							repoId="MDEwOlJlcG9zaXRvcnkxNzI0MDcxNjQ="
-							category="General"
-							categoryId="DIC_kwDOCka5fM4C1PUp"
+							repo={siteConfig.giscus.repo}
+							repoId={siteConfig.giscus.repoId}
+							category={siteConfig.giscus.category}
+							categoryId={siteConfig.giscus.categoryId}
 						/>
 					</div>
 				</div>

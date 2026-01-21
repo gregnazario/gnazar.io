@@ -1,5 +1,6 @@
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeKatex from "rehype-katex";
+import rehypeMermaid from "rehype-mermaid";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
@@ -19,6 +20,7 @@ export async function renderMarkdown(source: string): Promise<string> {
 		.use(remarkRehype, { allowDangerousHtml: true })
 		.use(rehypeRaw)
 		.use(rehypeKatex)
+		.use(rehypeMermaid, { strategy: "inline-svg" })
 		.use(rehypeSlug)
 		.use(rehypeAutolinkHeadings, { behavior: "wrap" })
 		.use(rehypeStringify)

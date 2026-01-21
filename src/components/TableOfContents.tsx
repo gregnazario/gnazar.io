@@ -1,4 +1,6 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
+
+import { stripHtmlTags } from "@/lib/html-utils";
 
 type Heading = {
 	id: string;
@@ -10,21 +12,6 @@ type TableOfContentsProps = {
 	html: string;
 	minHeadings?: number;
 };
-
-/**
- * Safely strip all HTML tags from a string by repeatedly removing tags
- * until none remain. This prevents bypasses like "<<script>script>".
- */
-function stripHtmlTags(input: string): string {
-	const tagPattern = /<[^>]*>/g;
-	let result = input;
-	let previous: string;
-	do {
-		previous = result;
-		result = result.replace(tagPattern, "");
-	} while (result !== previous);
-	return result;
-}
 
 function extractHeadings(html: string): Heading[] {
 	// Match h2 and h3 headings with id attributes
@@ -54,7 +41,9 @@ export default memo(function TableOfContents({
 	minHeadings = 3,
 }: TableOfContentsProps) {
 	const [activeId, setActiveId] = useState<string>("");
-	const headings = extractHeadings(html);
+
+	// Memoize headings to avoid recreating IntersectionObserver on every render
+	const headings = useMemo(() => extractHeadings(html), [html]);
 
 	useEffect(() => {
 		if (headings.length < minHeadings) return;

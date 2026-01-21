@@ -1,13 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 /**
  * Component that adds copy buttons to all code blocks on the page
  * Should be included once in the layout or blog post component
  */
 export default function CopyCodeButton() {
+	const wrappersRef = useRef<HTMLDivElement[]>([]);
+	const buttonsRef = useRef<HTMLButtonElement[]>([]);
+
 	useEffect(() => {
 		// Find all pre elements (code blocks)
 		const codeBlocks = document.querySelectorAll("pre");
+		const addedWrappers: HTMLDivElement[] = [];
+		const addedButtons: HTMLButtonElement[] = [];
 
 		for (const pre of codeBlocks) {
 			// Skip if already has a copy button
@@ -19,6 +24,7 @@ export default function CopyCodeButton() {
 				wrapper.className = "code-block-wrapper";
 				pre.parentElement?.insertBefore(wrapper, pre);
 				wrapper.appendChild(pre);
+				addedWrappers.push(wrapper);
 			}
 
 			// Create copy button
@@ -71,9 +77,27 @@ export default function CopyCodeButton() {
 			});
 
 			pre.parentElement?.appendChild(button);
+			addedButtons.push(button);
 		}
 
-		// Cleanup function not needed as buttons persist
+		// Store refs for cleanup
+		wrappersRef.current = addedWrappers;
+		buttonsRef.current = addedButtons;
+
+		// Cleanup function to remove added DOM elements
+		return () => {
+			for (const button of buttonsRef.current) {
+				button.remove();
+			}
+			for (const wrapper of wrappersRef.current) {
+				// Move pre back out of wrapper before removing wrapper
+				const pre = wrapper.querySelector("pre");
+				if (pre && wrapper.parentElement) {
+					wrapper.parentElement.insertBefore(pre, wrapper);
+					wrapper.remove();
+				}
+			}
+		};
 	}, []);
 
 	return null;

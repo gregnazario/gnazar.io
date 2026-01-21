@@ -11,4 +11,10 @@ export const siteConfig = {
 		linkedin: "https://linkedin.com/in/gnazario",
 		twitter: "https://twitter.com/greg_nazario",
 	},
+	giscus: {
+		repo: "gregnazario/gnazar.io" as const,
+		repoId: "MDEwOlJlcG9zaXRvcnkxNzI0MDcxNjQ=",
+		category: "General",
+		categoryId: "DIC_kwDOCka5fM4C1PUp",
+	},
 } as const;

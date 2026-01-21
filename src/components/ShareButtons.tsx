@@ -25,14 +25,29 @@ export default memo(function ShareButtons({
 			setTimeout(() => setCopied(false), 2000);
 		} catch {
 			// Fallback for older browsers
-			const textArea = document.createElement("textarea");
-			textArea.value = url;
-			document.body.appendChild(textArea);
-			textArea.select();
-			document.execCommand("copy");
-			document.body.removeChild(textArea);
-			setCopied(true);
-			setTimeout(() => setCopied(false), 2000);
+			let textArea: HTMLTextAreaElement | null = null;
+			try {
+				textArea = document.createElement("textarea");
+				textArea.value = url;
+				textArea.style.position = "fixed";
+				textArea.style.opacity = "0";
+				document.body.appendChild(textArea);
+				textArea.select();
+				document.execCommand("copy");
+				setCopied(true);
+				setTimeout(() => setCopied(false), 2000);
+			} catch {
+				// If both methods fail, show an alert
+				if (typeof window !== "undefined") {
+					window.alert(
+						"Unable to copy the link. Please copy it manually from the address bar.",
+					);
+				}
+			} finally {
+				if (textArea && document.body.contains(textArea)) {
+					document.body.removeChild(textArea);
+				}
+			}
 		}
 	};
 

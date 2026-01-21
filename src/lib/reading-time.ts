@@ -3,22 +3,9 @@
  * Based on average reading speed of 200-250 words per minute
  */
 
-const WORDS_PER_MINUTE = 225;
+import { stripHtmlTags } from "./html-utils";
 
-/**
- * Safely strip all HTML tags from a string by repeatedly removing tags
- * until none remain. This prevents bypasses like "<<script>script>".
- */
-function stripHtmlTags(input: string): string {
-	const tagPattern = /<[^>]*>/g;
-	let result = input;
-	let previous: string;
-	do {
-		previous = result;
-		result = result.replace(tagPattern, "");
-	} while (result !== previous);
-	return result;
-}
+const WORDS_PER_MINUTE = 225;
 
 export function calculateReadingTime(content: string): number {
 	// Remove HTML tags and extra whitespace
