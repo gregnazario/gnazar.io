@@ -99,10 +99,8 @@ function checkInternalLinks(filePath, content) {
 	const linkRegex = /\[([^\]]*)\]\(([^)]+)\)/g;
 	let match;
 
-	while (true) {
-		match = linkRegex.exec(content);
-		if (match === null) break;
-
+	// biome-ignore lint/suspicious/noAssignInExpressions: idiomatic regex exec pattern
+	while ((match = linkRegex.exec(content)) !== null) {
 		const linkHref = match[2];
 
 		// Skip external links
@@ -142,10 +140,8 @@ function checkImages(filePath, content) {
 	const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
 	let match;
 
-	while (true) {
-		match = imageRegex.exec(content);
-		if (match === null) break;
-
+	// biome-ignore lint/suspicious/noAssignInExpressions: idiomatic regex exec pattern
+	while ((match = imageRegex.exec(content)) !== null) {
 		const altText = match[1];
 		const imagePath = match[2];
 

@@ -37,12 +37,10 @@ export default memo(function ShareButtons({
 				setCopied(true);
 				setTimeout(() => setCopied(false), 2000);
 			} catch {
-				// If both methods fail, show an alert
-				if (typeof window !== "undefined") {
-					window.alert(
-						"Unable to copy the link. Please copy it manually from the address bar.",
-					);
-				}
+				// If both methods fail, log error (user sees no visual feedback which indicates failure)
+				console.error(
+					"Unable to copy link to clipboard. User should copy manually.",
+				);
 			} finally {
 				if (textArea && document.body.contains(textArea)) {
 					document.body.removeChild(textArea);

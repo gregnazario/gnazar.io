@@ -185,7 +185,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	// Load search index on first open
 	useEffect(() => {
 		if (searchOpen && searchItems.length === 0) {
-			fetchSearchIndex().then(setSearchItems).catch(console.error);
+			fetchSearchIndex()
+				.then(setSearchItems)
+				.catch((error) => {
+					console.error("Failed to load search index:", error);
+					// Search will still open but with empty results
+					// User can retry by closing and reopening search
+				});
 		}
 	}, [searchOpen, searchItems.length]);
 

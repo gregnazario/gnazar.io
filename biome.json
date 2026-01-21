@@ -3,7 +3,6 @@
 	"files": {
 		"includes": [
 			"src/**/*",
-			"!**/src/routeTree.gen.ts",
 			"e2e/**/*",
 			"content/**/*",
 			"*.ts",
@@ -12,7 +11,8 @@
 			"*.json",
 			"*.md",
 			"*.toml",
-			"scripts/**/*.mjs"
+			"scripts/**/*.mjs",
+			"!src/routeTree.gen.ts"
 		],
 		"ignoreUnknown": true
 	},
