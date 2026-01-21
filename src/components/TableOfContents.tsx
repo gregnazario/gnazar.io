@@ -11,6 +11,21 @@ type TableOfContentsProps = {
 	minHeadings?: number;
 };
 
+/**
+ * Safely strip all HTML tags from a string by repeatedly removing tags
+ * until none remain. This prevents bypasses like "<<script>script>".
+ */
+function stripHtmlTags(input: string): string {
+	const tagPattern = /<[^>]*>/g;
+	let result = input;
+	let previous: string;
+	do {
+		previous = result;
+		result = result.replace(tagPattern, "");
+	} while (result !== previous);
+	return result;
+}
+
 function extractHeadings(html: string): Heading[] {
 	// Match h2 and h3 headings with id attributes
 	const regex =
@@ -24,7 +39,7 @@ function extractHeadings(html: string): Heading[] {
 		const level = Number.parseInt(match[1], 10);
 		const id = match[2];
 		// Strip any remaining HTML tags from the text
-		const text = match[3].replace(/<[^>]*>/g, "").trim();
+		const text = stripHtmlTags(match[3]).trim();
 
 		if (id && text) {
 			headings.push({ id, text, level });
