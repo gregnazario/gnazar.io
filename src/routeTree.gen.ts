@@ -9,10 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ArchiveRouteImport } from './routes/archive'
+import { Route as R500RouteImport } from './routes/500'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TagsIndexRouteImport } from './routes/tags/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
+import { Route as TagsTagRouteImport } from './routes/tags/$tag'
 import { Route as SitemapXmlRouteImport } from './routes/sitemap.xml'
 import { Route as RssXmlRouteImport } from './routes/rss.xml'
 import { Route as RobotsTxtRouteImport } from './routes/robots.txt'
@@ -24,9 +28,24 @@ import { Route as LocaleBlogIndexRouteImport } from './routes/$locale/blog/index
 import { Route as LocaleProjectsSlugRouteImport } from './routes/$locale/projects/$slug'
 import { Route as LocaleBlogSlugRouteImport } from './routes/$locale/blog/$slug'
 
+const ArchiveRoute = ArchiveRouteImport.update({
+  id: '/archive',
+  path: '/archive',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R500Route = R500RouteImport.update({
+  id: '/500',
+  path: '/500',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TagsIndexRoute = TagsIndexRouteImport.update({
+  id: '/tags/',
+  path: '/tags/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
@@ -42,6 +61,11 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
   id: '/$locale/',
   path: '/$locale/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TagsTagRoute = TagsTagRouteImport.update({
+  id: '/tags/$tag',
+  path: '/tags/$tag',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapXmlRoute = SitemapXmlRouteImport.update({
@@ -97,15 +121,19 @@ const LocaleBlogSlugRoute = LocaleBlogSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/500': typeof R500Route
+  '/archive': typeof ArchiveRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/llms/txt': typeof LlmsTxtRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/robots/txt': typeof RobotsTxtRoute
   '/rss/xml': typeof RssXmlRoute
   '/sitemap/xml': typeof SitemapXmlRoute
+  '/tags/$tag': typeof TagsTagRoute
   '/$locale/': typeof LocaleIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/tags/': typeof TagsIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
@@ -113,15 +141,19 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/500': typeof R500Route
+  '/archive': typeof ArchiveRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/llms/txt': typeof LlmsTxtRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/robots/txt': typeof RobotsTxtRoute
   '/rss/xml': typeof RssXmlRoute
   '/sitemap/xml': typeof SitemapXmlRoute
+  '/tags/$tag': typeof TagsTagRoute
   '/$locale': typeof LocaleIndexRoute
   '/blog': typeof BlogIndexRoute
   '/projects': typeof ProjectsIndexRoute
+  '/tags': typeof TagsIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/$locale/blog': typeof LocaleBlogIndexRoute
@@ -130,15 +162,19 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/500': typeof R500Route
+  '/archive': typeof ArchiveRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/llms/txt': typeof LlmsTxtRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/robots/txt': typeof RobotsTxtRoute
   '/rss/xml': typeof RssXmlRoute
   '/sitemap/xml': typeof SitemapXmlRoute
+  '/tags/$tag': typeof TagsTagRoute
   '/$locale/': typeof LocaleIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/tags/': typeof TagsIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
@@ -148,15 +184,19 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/500'
+    | '/archive'
     | '/blog/$slug'
     | '/llms/txt'
     | '/projects/$slug'
     | '/robots/txt'
     | '/rss/xml'
     | '/sitemap/xml'
+    | '/tags/$tag'
     | '/$locale/'
     | '/blog/'
     | '/projects/'
+    | '/tags/'
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
     | '/$locale/blog/'
@@ -164,15 +204,19 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/500'
+    | '/archive'
     | '/blog/$slug'
     | '/llms/txt'
     | '/projects/$slug'
     | '/robots/txt'
     | '/rss/xml'
     | '/sitemap/xml'
+    | '/tags/$tag'
     | '/$locale'
     | '/blog'
     | '/projects'
+    | '/tags'
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
     | '/$locale/blog'
@@ -180,15 +224,19 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/500'
+    | '/archive'
     | '/blog/$slug'
     | '/llms/txt'
     | '/projects/$slug'
     | '/robots/txt'
     | '/rss/xml'
     | '/sitemap/xml'
+    | '/tags/$tag'
     | '/$locale/'
     | '/blog/'
     | '/projects/'
+    | '/tags/'
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
     | '/$locale/blog/'
@@ -197,15 +245,19 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  R500Route: typeof R500Route
+  ArchiveRoute: typeof ArchiveRoute
   BlogSlugRoute: typeof BlogSlugRoute
   LlmsTxtRoute: typeof LlmsTxtRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   RobotsTxtRoute: typeof RobotsTxtRoute
   RssXmlRoute: typeof RssXmlRoute
   SitemapXmlRoute: typeof SitemapXmlRoute
+  TagsTagRoute: typeof TagsTagRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
+  TagsIndexRoute: typeof TagsIndexRoute
   LocaleBlogSlugRoute: typeof LocaleBlogSlugRoute
   LocaleProjectsSlugRoute: typeof LocaleProjectsSlugRoute
   LocaleBlogIndexRoute: typeof LocaleBlogIndexRoute
@@ -214,11 +266,32 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/archive': {
+      id: '/archive'
+      path: '/archive'
+      fullPath: '/archive'
+      preLoaderRoute: typeof ArchiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/500': {
+      id: '/500'
+      path: '/500'
+      fullPath: '/500'
+      preLoaderRoute: typeof R500RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tags/': {
+      id: '/tags/'
+      path: '/tags'
+      fullPath: '/tags/'
+      preLoaderRoute: typeof TagsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects/': {
@@ -240,6 +313,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale'
       fullPath: '/$locale/'
       preLoaderRoute: typeof LocaleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tags/$tag': {
+      id: '/tags/$tag'
+      path: '/tags/$tag'
+      fullPath: '/tags/$tag'
+      preLoaderRoute: typeof TagsTagRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap/xml': {
@@ -317,15 +397,19 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  R500Route: R500Route,
+  ArchiveRoute: ArchiveRoute,
   BlogSlugRoute: BlogSlugRoute,
   LlmsTxtRoute: LlmsTxtRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   RobotsTxtRoute: RobotsTxtRoute,
   RssXmlRoute: RssXmlRoute,
   SitemapXmlRoute: SitemapXmlRoute,
+  TagsTagRoute: TagsTagRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
+  TagsIndexRoute: TagsIndexRoute,
   LocaleBlogSlugRoute: LocaleBlogSlugRoute,
   LocaleProjectsSlugRoute: LocaleProjectsSlugRoute,
   LocaleBlogIndexRoute: LocaleBlogIndexRoute,

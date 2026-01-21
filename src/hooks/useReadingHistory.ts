@@ -23,20 +23,23 @@ function saveHistory(history: ReadingHistoryEntry[]) {
 
 export function useReadingHistory() {
 	const [visitedSlugs, setVisitedSlugs] = useState<Set<string>>(new Set());
+	const [history, setHistory] = useState<ReadingHistoryEntry[]>([]);
 
 	useEffect(() => {
-		const history = getHistory();
-		setVisitedSlugs(new Set(history.map((h) => h.slug)));
+		const stored = getHistory();
+		setHistory(stored);
+		setVisitedSlugs(new Set(stored.map((h) => h.slug)));
 	}, []);
 
 	const markAsRead = (slug: string) => {
-		const history = getHistory();
-		const filtered = history.filter((h) => h.slug !== slug);
+		const currentHistory = getHistory();
+		const filtered = currentHistory.filter((h) => h.slug !== slug);
 		const newHistory = [
 			{ slug, visitedAt: new Date().toISOString() },
 			...filtered,
 		].slice(0, MAX_HISTORY);
 		saveHistory(newHistory);
+		setHistory(newHistory);
 		setVisitedSlugs(new Set(newHistory.map((h) => h.slug)));
 	};
 
@@ -45,9 +48,10 @@ export function useReadingHistory() {
 	const clearHistory = () => {
 		localStorage.removeItem(STORAGE_KEY);
 		setVisitedSlugs(new Set());
+		setHistory([]);
 	};
 
-	return { markAsRead, isRead, clearHistory, visitedSlugs };
+	return { markAsRead, isRead, clearHistory, visitedSlugs, history };
 }
 
 export function useMarkAsRead(slug: string) {

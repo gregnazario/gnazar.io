@@ -6,32 +6,47 @@ import {
 } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
+import Breadcrumbs, {
+	generateBreadcrumbSchema,
+} from "@/components/Breadcrumbs";
+import CodeBlockLabels from "@/components/CodeBlockLabels";
+import CodeHighlightLines from "@/components/CodeHighlightLines";
+import CodeLineNumbers from "@/components/CodeLineNumbers";
 import CopyCodeButton from "@/components/CopyCodeButton";
+import DiffHighlight from "@/components/DiffHighlight";
+import ExternalLinkIcons from "@/components/ExternalLinkIcons";
 import FontSizeControls from "@/components/FontSizeControls";
 import GiscusComments from "@/components/GiscusComments";
+import HeadingAnchors from "@/components/HeadingAnchors";
 import ImageLightbox from "@/components/ImageLightbox";
+import LinkPreview from "@/components/LinkPreview";
 import NotFound from "@/components/NotFound";
 import PostBacklinks from "@/components/PostBacklinks";
+import PostNavigation from "@/components/PostNavigation";
 import PostReactions from "@/components/PostReactions";
 import PostSeries from "@/components/PostSeries";
 import ReadingProgress from "@/components/ReadingProgress";
 import RelatedPosts from "@/components/RelatedPosts";
+import ScrollToTop from "@/components/ScrollToTop";
 import ShareButtons from "@/components/ShareButtons";
 import TableOfContents from "@/components/TableOfContents";
 import Webmentions from "@/components/Webmentions";
 import { useMarkAsRead } from "@/hooks/useReadingHistory";
-import type { BlogPost } from "@/lib/content-i18n";
+import type { BlogPost as BlogPostType } from "@/lib/content-i18n";
 import { formatDate } from "@/lib/format";
 import { isValidLocale, type Locale, t } from "@/lib/i18n";
 import { calculateReadingTime, formatReadingTime } from "@/lib/reading-time";
 import { siteConfig } from "@/lib/site";
+import { generateBlogPostingSchema } from "@/lib/structured-data";
 import { fetchBlogPost } from "@/server/content";
 
 type BlogLoaderData = {
 	post: NonNullable<Awaited<ReturnType<typeof fetchBlogPost>>>["post"];
 	html: string;
-	allPosts: BlogPost[];
-	seriesPosts: BlogPost[];
+	allPosts: BlogPostType[];
+	seriesPosts: BlogPostType[];
+	previousPost: BlogPostType | null;
+	nextPost: BlogPostType | null;
 	locale: Locale;
 } | null;
 
@@ -69,10 +84,23 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
 			return {
 				meta: [{ title: "Post not found | Greg Nazario" }],
 				links: [],
+				scripts: [],
 			};
 		}
 
 		const ogImage = `${siteConfig.url}/og/${loaderData.post.slug}.png`;
+		const postUrl = `${siteConfig.url}/${loaderData.locale}/blog/${loaderData.post.slug}`;
+
+		// Generate structured data
+		const articleSchema = generateBlogPostingSchema(loaderData.post, postUrl);
+		const breadcrumbSchema = generateBreadcrumbSchema(
+			[
+				{ label: "Home", href: "/" },
+				{ label: t(loaderData.locale, "blog"), href: "/blog" },
+				{ label: loaderData.post.title },
+			],
+			loaderData.locale,
+		);
 
 		return {
 			meta: [
@@ -80,13 +108,21 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
 				{ name: "description", content: loaderData.post.summary },
 				{ property: "og:title", content: loaderData.post.title },
 				{ property: "og:description", content: loaderData.post.summary },
-				{
-					property: "og:url",
-					content: `${siteConfig.url}/${loaderData.locale}/blog/${loaderData.post.slug}`,
-				},
+				{ property: "og:url", content: postUrl },
 				{ property: "og:image", content: ogImage },
 				{ property: "og:image:width", content: "1200" },
 				{ property: "og:image:height", content: "630" },
+				{ property: "og:type", content: "article" },
+				{ property: "article:published_time", content: loaderData.post.date },
+				{
+					property: "article:modified_time",
+					content: loaderData.post.lastUpdated || loaderData.post.date,
+				},
+				{ property: "article:author", content: siteConfig.title },
+				...loaderData.post.tags.map((tag) => ({
+					property: "article:tag",
+					content: tag,
+				})),
 				{ name: "twitter:card", content: "summary_large_image" },
 				{ name: "twitter:image", content: ogImage },
 			],
@@ -94,6 +130,16 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
 				{
 					rel: "stylesheet",
 					href: "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",
+				},
+			],
+			scripts: [
+				{
+					type: "application/ld+json",
+					children: JSON.stringify(articleSchema),
+				},
+				{
+					type: "application/ld+json",
+					children: JSON.stringify(breadcrumbSchema),
 				},
 			],
 		};
@@ -122,8 +168,15 @@ function BlogPostPage() {
 		);
 	}
 
-	const { post, html, allPosts, seriesPosts, locale } = data;
+	const { post, html, allPosts, seriesPosts, previousPost, nextPost, locale } =
+		data;
 	const readingTime = calculateReadingTime(html);
+
+	const breadcrumbItems = [
+		{ label: t(locale, "home"), href: "/" },
+		{ label: t(locale, "blog"), href: "/blog" },
+		{ label: post.title },
+	];
 
 	return (
 		<>
@@ -131,13 +184,7 @@ function BlogPostPage() {
 			<section className="section">
 				<div className="container">
 					<div className="stack">
-						<Link
-							className="button ghost"
-							to="/$locale/blog"
-							params={{ locale }}
-						>
-							{t(locale, "blog")}
-						</Link>
+						<Breadcrumbs items={breadcrumbItems} locale={locale} />
 
 						{post.isTranslated && (
 							<div className="translation-notice">
@@ -187,7 +234,14 @@ function BlogPostPage() {
 							<div dangerouslySetInnerHTML={{ __html: html }} />
 
 							<CopyCodeButton />
+							<CodeBlockLabels />
+							<CodeLineNumbers />
+							<CodeHighlightLines />
+							<DiffHighlight />
+							<ExternalLinkIcons />
+							<HeadingAnchors />
 							<ImageLightbox />
+							<LinkPreview />
 						</article>
 
 						<PostReactions slug={post.slug} />
@@ -207,6 +261,12 @@ function BlogPostPage() {
 							locale={locale}
 						/>
 
+						<PostNavigation
+							previousPost={previousPost}
+							nextPost={nextPost}
+							locale={locale}
+						/>
+
 						<Webmentions slug={post.slug} type="blog" />
 
 						<GiscusComments
@@ -219,6 +279,7 @@ function BlogPostPage() {
 					</div>
 				</div>
 			</section>
+			<ScrollToTop />
 		</>
 	);
 }

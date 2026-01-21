@@ -48,7 +48,7 @@ export const fetchBlogPost = createServerFn({ method: "GET" })
 			return null;
 		}
 		const html = await renderMarkdown(post.content);
-		// Get all posts for related posts and backlinks
+		// Get all posts for related posts, backlinks, and navigation
 		const allPosts = await getAllBlogPosts(locale);
 		// Get series posts if this post belongs to a series
 		const seriesPosts = post.series
@@ -56,7 +56,17 @@ export const fetchBlogPost = createServerFn({ method: "GET" })
 					.filter((p) => p.series === post.series)
 					.sort((a, b) => (a.seriesOrder ?? 0) - (b.seriesOrder ?? 0))
 			: [];
-		return { post, html, allPosts, seriesPosts };
+		// Find previous and next posts (sorted by date)
+		const sortedPosts = [...allPosts].sort(
+			(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+		);
+		const currentIndex = sortedPosts.findIndex((p) => p.slug === data.slug);
+		const previousPost =
+			currentIndex < sortedPosts.length - 1
+				? sortedPosts[currentIndex + 1]
+				: null;
+		const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+		return { post, html, allPosts, seriesPosts, previousPost, nextPost };
 	});
 
 export const fetchProject = createServerFn({ method: "GET" })

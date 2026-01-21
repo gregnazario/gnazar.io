@@ -28,6 +28,8 @@
 		"new": "node scripts/new-content.mjs",
 		"new:blog": "node scripts/new-content.mjs blog",
 		"new:project": "node scripts/new-content.mjs project",
+		"check-links": "node scripts/check-links.mjs",
+		"validate": "node scripts/check-links.mjs",
 		"prepare": "husky"
 	},
 	"dependencies": {

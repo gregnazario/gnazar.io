@@ -42,8 +42,9 @@ function wrapText(text, maxChars = 40) {
 	let currentLine = "";
 
 	for (const word of words) {
-		if ((currentLine + " " + word).trim().length <= maxChars) {
-			currentLine = (currentLine + " " + word).trim();
+		const line = `${currentLine} ${word}`.trim();
+		if (line.length <= maxChars) {
+			currentLine = line;
 		} else {
 			if (currentLine) lines.push(currentLine);
 			currentLine = word;
