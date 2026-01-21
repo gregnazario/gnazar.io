@@ -11,7 +11,6 @@
  * - Terminal-style aesthetic
  */
 
-import { readFile } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -33,7 +32,6 @@ async function generateOgImage() {
 		const height = 630;
 
 		// Colors matching site theme
-		const bgColor = "#0a0a0a";
 		const accentColor = "#45d38a";
 		const textColor = "#ffffff";
 		const subtextColor = "#a0a0a0";

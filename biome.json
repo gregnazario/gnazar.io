@@ -11,7 +11,8 @@
 			"*.mjs",
 			"*.json",
 			"*.md",
-			"*.toml"
+			"*.toml",
+			"scripts/**/*.mjs"
 		],
 		"ignoreUnknown": true
 	},

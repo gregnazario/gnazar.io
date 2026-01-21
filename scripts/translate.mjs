@@ -130,7 +130,10 @@ async function translateFile(file, type, locale, cache, force) {
 
 		return translation;
 	} catch (error) {
-		console.error(`  ❌ Failed to translate ${file.name} to ${locale}:`, error.message);
+		console.error(
+			`  ❌ Failed to translate ${file.name} to ${locale}:`,
+			error.message,
+		);
 		return null;
 	}
 }
@@ -165,7 +168,13 @@ async function main() {
 			await ensureDir(outputDir);
 
 			for (const file of files) {
-				const translation = await translateFile(file, type, locale, cache, force);
+				const translation = await translateFile(
+					file,
+					type,
+					locale,
+					cache,
+					force,
+				);
 
 				if (translation) {
 					const outputPath = join(outputDir, file.name);
