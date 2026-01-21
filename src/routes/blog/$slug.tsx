@@ -15,6 +15,7 @@ import GiscusComments from "@/components/GiscusComments";
 import HeadingAnchors from "@/components/HeadingAnchors";
 import ImageLightbox from "@/components/ImageLightbox";
 import LinkPreview from "@/components/LinkPreview";
+import MermaidDiagrams from "@/components/MermaidDiagrams";
 import PostBacklinks from "@/components/PostBacklinks";
 import PostNavigation from "@/components/PostNavigation";
 import PostReactions from "@/components/PostReactions";
@@ -189,6 +190,7 @@ function BlogPostPage() {
 							<HeadingAnchors />
 							<ImageLightbox />
 							<LinkPreview />
+							<MermaidDiagrams />
 						</article>
 
 						<PostReactions slug={post.slug} />

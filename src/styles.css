@@ -1938,13 +1938,20 @@ main {
 }
 
 /* Mermaid diagrams */
-.mermaid {
+.mermaid,
+.mermaid-diagram {
 	display: flex;
 	justify-content: center;
 	margin: 1.5rem 0;
 	background: var(--surface);
 	padding: 1rem;
 	border-radius: var(--radius);
+	overflow-x: auto;
+}
+
+.mermaid-diagram svg {
+	max-width: 100%;
+	height: auto;
 }
 
 /* Code syntax highlighting - theme aware */
