@@ -6,10 +6,14 @@ import {
 } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
+import CopyCodeButton from "@/components/CopyCodeButton";
 import NotFound from "@/components/NotFound";
+import ShareButtons from "@/components/ShareButtons";
+import TableOfContents from "@/components/TableOfContents";
 import Webmentions from "@/components/Webmentions";
 import { formatDate } from "@/lib/format";
 import { isValidLocale, type Locale, t } from "@/lib/i18n";
+import { calculateReadingTime, formatReadingTime } from "@/lib/reading-time";
 import { siteConfig } from "@/lib/site";
 import { fetchBlogPost } from "@/server/content";
 
@@ -55,6 +59,8 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
 			};
 		}
 
+		const ogImage = `${siteConfig.url}/og/${loaderData.post.slug}.png`;
+
 		return {
 			meta: [
 				{ title: `${loaderData.post.title} | Greg Nazario` },
@@ -65,7 +71,11 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
 					property: "og:url",
 					content: `${siteConfig.url}/${loaderData.locale}/blog/${loaderData.post.slug}`,
 				},
+				{ property: "og:image", content: ogImage },
+				{ property: "og:image:width", content: "1200" },
+				{ property: "og:image:height", content: "630" },
 				{ name: "twitter:card", content: "summary_large_image" },
+				{ name: "twitter:image", content: ogImage },
 			],
 		};
 	},
@@ -91,6 +101,7 @@ function BlogPostPage() {
 	}
 
 	const { post, html, locale } = data;
+	const readingTime = calculateReadingTime(html);
 
 	return (
 		<section className="section">
@@ -111,13 +122,19 @@ function BlogPostPage() {
 						<h1>{post.title}</h1>
 						<div className="card-meta">
 							<span>{formatDate(post.date)}</span>
+							<span className="reading-time">
+								{formatReadingTime(readingTime)}
+							</span>
 							{post.tags.map((tag) => (
 								<Badge key={tag}>{tag}</Badge>
 							))}
 						</div>
+						<TableOfContents html={html} />
 						{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
 						<div dangerouslySetInnerHTML={{ __html: html }} />
+						<CopyCodeButton />
 					</article>
+					<ShareButtons title={post.title} slug={post.slug} type="blog" />
 					<Webmentions slug={post.slug} type="blog" />
 				</div>
 			</div>

@@ -18,10 +18,27 @@ export default memo(function PostCard({
 	locale = defaultLocale,
 }: PostCardProps) {
 	const tags = maxTags ? post.tags.slice(0, maxTags) : post.tags;
-	const linkTo =
-		locale === defaultLocale
-			? `/blog/${post.slug}`
-			: `/${locale}/blog/${post.slug}`;
+
+	// For default locale, use /blog/$slug route
+	// For other locales, use /$locale/blog/$slug route
+	if (locale === defaultLocale) {
+		return (
+			<article className="card">
+				<div className="card-meta">
+					<span>{formatDate(post.date)}</span>
+					{tags.map((tag) => (
+						<Badge key={tag}>{tag}</Badge>
+					))}
+				</div>
+				<h3>
+					<Link to="/blog/$slug" params={{ slug: post.slug }}>
+						{post.title}
+					</Link>
+				</h3>
+				<p>{post.summary}</p>
+			</article>
+		);
+	}
 
 	return (
 		<article className="card">
@@ -32,7 +49,9 @@ export default memo(function PostCard({
 				))}
 			</div>
 			<h3>
-				<Link to={linkTo}>{post.title}</Link>
+				<Link to="/$locale/blog/$slug" params={{ locale, slug: post.slug }}>
+					{post.title}
+				</Link>
 			</h3>
 			<p>{post.summary}</p>
 		</article>

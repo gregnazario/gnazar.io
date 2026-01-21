@@ -18,10 +18,36 @@ export default memo(function ProjectCard({
 	showAction = false,
 	locale = defaultLocale,
 }: ProjectCardProps) {
-	const linkTo =
-		locale === defaultLocale
-			? `/projects/${project.slug}`
-			: `/${locale}/projects/${project.slug}`;
+	// For default locale, use /projects/$slug route
+	// For other locales, use /$locale/projects/$slug route
+	if (locale === defaultLocale) {
+		return (
+			<article className="card">
+				<div className="card-meta">
+					{project.year ? <span>{project.year}</span> : null}
+					{showRole && project.role ? <span>{project.role}</span> : null}
+					{project.featured ? <Badge>Featured</Badge> : null}
+				</div>
+				<h3>
+					<Link to="/projects/$slug" params={{ slug: project.slug }}>
+						{project.title}
+					</Link>
+				</h3>
+				<p>{project.summary}</p>
+				{showAction ? (
+					<div className="hero-actions">
+						<Link
+							className="button ghost"
+							to="/projects/$slug"
+							params={{ slug: project.slug }}
+						>
+							{t(locale, "readMore")}
+						</Link>
+					</div>
+				) : null}
+			</article>
+		);
+	}
 
 	return (
 		<article className="card">
@@ -31,12 +57,21 @@ export default memo(function ProjectCard({
 				{project.featured ? <Badge>Featured</Badge> : null}
 			</div>
 			<h3>
-				<Link to={linkTo}>{project.title}</Link>
+				<Link
+					to="/$locale/projects/$slug"
+					params={{ locale, slug: project.slug }}
+				>
+					{project.title}
+				</Link>
 			</h3>
 			<p>{project.summary}</p>
 			{showAction ? (
 				<div className="hero-actions">
-					<Link className="button ghost" to={linkTo}>
+					<Link
+						className="button ghost"
+						to="/$locale/projects/$slug"
+						params={{ locale, slug: project.slug }}
+					>
 						{t(locale, "readMore")}
 					</Link>
 				</div>

@@ -4,12 +4,14 @@ import {
 	Scripts,
 	useRouterState,
 } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import ErrorBoundary from "@/components/ErrorBoundary";
 import NotFound from "@/components/NotFound";
+import Search from "@/components/Search";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import {
 	addLocaleToPath,
 	defaultLocale,
@@ -21,6 +23,7 @@ import {
 import { LocaleProvider } from "@/lib/locale-context";
 import { registerServiceWorker } from "@/lib/pwa";
 import { siteConfig } from "@/lib/site";
+import { fetchSearchIndex, type SearchItem } from "@/server/search";
 
 import appCss from "@/styles.css?url";
 
@@ -157,6 +160,12 @@ export const Route = createRootRoute({
 				type: "application/ld+json",
 				children: JSON.stringify(jsonLd),
 			},
+			// Plausible Analytics (privacy-friendly, no cookies)
+			{
+				defer: true,
+				"data-domain": "gnazar.io",
+				src: "https://plausible.io/js/script.js",
+			},
 		],
 	}),
 	shellComponent: RootDocument,
@@ -166,10 +175,32 @@ export const Route = createRootRoute({
 function RootDocument({ children }: { children: React.ReactNode }) {
 	const routerState = useRouterState();
 	const locale = getLocaleFromPath(routerState.location.pathname);
+	const [searchOpen, setSearchOpen] = useState(false);
+	const [searchItems, setSearchItems] = useState<SearchItem[]>([]);
 
 	useEffect(() => {
 		registerServiceWorker();
 	}, []);
+
+	// Load search index on first open
+	useEffect(() => {
+		if (searchOpen && searchItems.length === 0) {
+			fetchSearchIndex().then(setSearchItems).catch(console.error);
+		}
+	}, [searchOpen, searchItems.length]);
+
+	const handleSearchOpen = useCallback(() => {
+		setSearchOpen(true);
+	}, []);
+
+	const handleSearchClose = useCallback(() => {
+		setSearchOpen(false);
+	}, []);
+
+	// Keyboard shortcuts
+	useKeyboardShortcuts({
+		onSearch: handleSearchOpen,
+	});
 
 	return (
 		<html lang={locale}>
@@ -181,11 +212,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					<a className="skip-link" href="#main-content">
 						{t(locale, "skipToContent")}
 					</a>
-					<SiteHeader />
+					<SiteHeader onSearchOpen={handleSearchOpen} />
 					<ErrorBoundary>
 						<main id="main-content">{children}</main>
 					</ErrorBoundary>
 					<SiteFooter />
+					<Search
+						items={searchItems}
+						isOpen={searchOpen}
+						onClose={handleSearchClose}
+					/>
 				</LocaleProvider>
 				<Scripts />
 			</body>
