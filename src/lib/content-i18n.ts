@@ -9,9 +9,13 @@ export type BlogPost = {
 	slug: string;
 	title: string;
 	date: string;
+	lastUpdated?: string;
 	summary: string;
 	tags: string[];
 	published: boolean;
+	draft?: boolean;
+	series?: string;
+	seriesOrder?: number;
 	content: string;
 	locale: Locale;
 	isTranslated: boolean;
@@ -129,16 +133,27 @@ export async function getBlogPostBySlug(
 		const title = normalizeString(data.title, slug);
 		const summary = normalizeString(data.summary, "");
 		const date = normalizeString(data.date, "");
+		const lastUpdated = data.lastUpdated
+			? normalizeString(data.lastUpdated, "")
+			: undefined;
 		const tags = normalizeStringArray(data.tags);
 		const published = normalizeBoolean(data.published, true);
+		const draft = normalizeBoolean(data.draft, false);
+		const series = data.series ? normalizeString(data.series, "") : undefined;
+		const seriesOrder =
+			typeof data.seriesOrder === "number" ? data.seriesOrder : undefined;
 
 		return {
 			slug,
 			title,
 			summary,
 			date,
+			lastUpdated,
 			tags,
 			published,
+			draft,
+			series,
+			seriesOrder,
 			content,
 			locale,
 			isTranslated,

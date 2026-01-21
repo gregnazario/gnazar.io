@@ -48,7 +48,15 @@ export const fetchBlogPost = createServerFn({ method: "GET" })
 			return null;
 		}
 		const html = await renderMarkdown(post.content);
-		return { post, html };
+		// Get all posts for related posts and backlinks
+		const allPosts = await getAllBlogPosts(locale);
+		// Get series posts if this post belongs to a series
+		const seriesPosts = post.series
+			? allPosts
+					.filter((p) => p.series === post.series)
+					.sort((a, b) => (a.seriesOrder ?? 0) - (b.seriesOrder ?? 0))
+			: [];
+		return { post, html, allPosts, seriesPosts };
 	});
 
 export const fetchProject = createServerFn({ method: "GET" })

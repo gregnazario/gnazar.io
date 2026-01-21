@@ -7,10 +7,20 @@ import {
 
 import Badge from "@/components/Badge";
 import CopyCodeButton from "@/components/CopyCodeButton";
+import FontSizeControls from "@/components/FontSizeControls";
+import GiscusComments from "@/components/GiscusComments";
+import ImageLightbox from "@/components/ImageLightbox";
 import NotFound from "@/components/NotFound";
+import PostBacklinks from "@/components/PostBacklinks";
+import PostReactions from "@/components/PostReactions";
+import PostSeries from "@/components/PostSeries";
+import ReadingProgress from "@/components/ReadingProgress";
+import RelatedPosts from "@/components/RelatedPosts";
 import ShareButtons from "@/components/ShareButtons";
 import TableOfContents from "@/components/TableOfContents";
 import Webmentions from "@/components/Webmentions";
+import { useMarkAsRead } from "@/hooks/useReadingHistory";
+import type { BlogPost } from "@/lib/content-i18n";
 import { formatDate } from "@/lib/format";
 import { isValidLocale, type Locale, t } from "@/lib/i18n";
 import { calculateReadingTime, formatReadingTime } from "@/lib/reading-time";
@@ -20,6 +30,8 @@ import { fetchBlogPost } from "@/server/content";
 type BlogLoaderData = {
 	post: NonNullable<Awaited<ReturnType<typeof fetchBlogPost>>>["post"];
 	html: string;
+	allPosts: BlogPost[];
+	seriesPosts: BlogPost[];
 	locale: Locale;
 } | null;
 
@@ -56,6 +68,7 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
 		if (!loaderData) {
 			return {
 				meta: [{ title: "Post not found | Greg Nazario" }],
+				links: [],
 			};
 		}
 
@@ -77,12 +90,21 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
 				{ name: "twitter:card", content: "summary_large_image" },
 				{ name: "twitter:image", content: ogImage },
 			],
+			links: [
+				{
+					rel: "stylesheet",
+					href: "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",
+				},
+			],
 		};
 	},
 });
 
 function BlogPostPage() {
 	const data = Route.useLoaderData();
+
+	// Mark post as read
+	useMarkAsRead(data?.post.slug ?? "");
 
 	if (!data) {
 		return (
@@ -100,44 +122,103 @@ function BlogPostPage() {
 		);
 	}
 
-	const { post, html, locale } = data;
+	const { post, html, allPosts, seriesPosts, locale } = data;
 	const readingTime = calculateReadingTime(html);
 
 	return (
-		<section className="section">
-			<div className="container">
-				<div className="stack">
-					<Link className="button ghost" to={`/${locale}/blog` as string}>
-						{t(locale, "blog")}
-					</Link>
-					{post.isTranslated && (
-						<div className="translation-notice">
-							<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-								<path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" />
-							</svg>
-							{t(locale, "translatedBy")}
-						</div>
-					)}
-					<article className="prose">
-						<h1>{post.title}</h1>
-						<div className="card-meta">
-							<span>{formatDate(post.date)}</span>
-							<span className="reading-time">
-								{formatReadingTime(readingTime)}
-							</span>
-							{post.tags.map((tag) => (
-								<Badge key={tag}>{tag}</Badge>
-							))}
-						</div>
-						<TableOfContents html={html} />
-						{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
-						<div dangerouslySetInnerHTML={{ __html: html }} />
-						<CopyCodeButton />
-					</article>
-					<ShareButtons title={post.title} slug={post.slug} type="blog" />
-					<Webmentions slug={post.slug} type="blog" />
+		<>
+			<ReadingProgress />
+			<section className="section">
+				<div className="container">
+					<div className="stack">
+						<Link
+							className="button ghost"
+							to="/$locale/blog"
+							params={{ locale }}
+						>
+							{t(locale, "blog")}
+						</Link>
+
+						{post.isTranslated && (
+							<div className="translation-notice">
+								<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+									<path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" />
+								</svg>
+								{t(locale, "translatedBy")}
+							</div>
+						)}
+
+						{post.series && seriesPosts.length > 1 && (
+							<PostSeries
+								seriesName={post.series}
+								posts={seriesPosts.map((p) => ({
+									slug: p.slug,
+									title: p.title,
+								}))}
+								currentSlug={post.slug}
+								locale={locale}
+							/>
+						)}
+
+						<article className="prose">
+							<h1>
+								{post.title}
+								{post.draft && <span className="draft-indicator">Draft</span>}
+							</h1>
+							<div className="card-meta">
+								<span>{formatDate(post.date)}</span>
+								{post.lastUpdated && (
+									<span className="last-updated">
+										Updated {formatDate(post.lastUpdated)}
+									</span>
+								)}
+								<span className="reading-time">
+									{formatReadingTime(readingTime)}
+								</span>
+								{post.tags.map((tag) => (
+									<Badge key={tag}>{tag}</Badge>
+								))}
+							</div>
+
+							<FontSizeControls />
+							<TableOfContents html={html} />
+
+							{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
+							<div dangerouslySetInnerHTML={{ __html: html }} />
+
+							<CopyCodeButton />
+							<ImageLightbox />
+						</article>
+
+						<PostReactions slug={post.slug} />
+
+						<ShareButtons title={post.title} slug={post.slug} type="blog" />
+
+						<RelatedPosts
+							currentSlug={post.slug}
+							currentTags={post.tags}
+							allPosts={allPosts}
+							locale={locale}
+						/>
+
+						<PostBacklinks
+							currentSlug={post.slug}
+							allPosts={allPosts}
+							locale={locale}
+						/>
+
+						<Webmentions slug={post.slug} type="blog" />
+
+						<GiscusComments
+							repo="gregnazario/gnazar.io"
+							repoId="MDEwOlJlcG9zaXRvcnkxNzI0MDcxNjQ="
+							category="General"
+							categoryId="DIC_kwDOCka5fM4C1PUp"
+							lang={locale}
+						/>
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		</>
 	);
 }
