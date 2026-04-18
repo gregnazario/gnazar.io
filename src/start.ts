@@ -112,7 +112,15 @@ Chronological archive of blog posts: ${siteConfig.url}/archive
 const markdownNegotiationMiddleware = createMiddleware().server(
 	async ({ next, request }) => {
 		const ctx = getStartContext({ throwIfNotFound: false });
-		if (!ctx || ctx.handlerType !== "router") {
+		if (!ctx) {
+			return next();
+		}
+		// Newer TanStack Start adds handlerType; omitting a direct property access keeps
+		// tsc happy when the lockfile resolves an older @tanstack/start-storage-context.
+		if (
+			"handlerType" in ctx &&
+			(ctx as { handlerType?: string }).handlerType !== "router"
+		) {
 			return next();
 		}
 		if (request.method !== "GET" && request.method !== "HEAD") {
