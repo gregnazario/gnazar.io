@@ -1,9 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import {
-	SITE_AGENT_SKILL_MD,
-	sha256HexOfString,
-} from "@/lib/agent-discovery";
+import { SITE_AGENT_SKILL_MD, sha256HexOfString } from "@/lib/agent-discovery";
 import { siteConfig } from "@/lib/site";
 
 const skillUrl = `${siteConfig.url}/.well-known/agent-skills/site.md`;

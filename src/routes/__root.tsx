@@ -191,15 +191,17 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				execute: (args: unknown, options?: { signal?: AbortSignal }) => unknown;
 			}) => { unregister?: () => void } | undefined;
 		};
-		const modelContext = (navigator as Navigator & { modelContext?: ModelContextApi })
-			.modelContext;
+		const modelContext = (
+			navigator as Navigator & { modelContext?: ModelContextApi }
+		).modelContext;
 		if (!modelContext?.registerTool) return;
 
 		const cleanups: Array<() => void> = [];
 
 		const navTool = modelContext.registerTool({
 			name: "navigate",
-			description: "Go to a path on gnazar.io (same-origin), for example /blog or /projects.",
+			description:
+				"Go to a path on gnazar.io (same-origin), for example /blog or /projects.",
 			inputSchema: {
 				type: "object",
 				additionalProperties: false,
@@ -224,13 +226,18 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				return { ok: true, path: safePath };
 			},
 		});
-		if (navTool && typeof navTool === "object" && typeof navTool.unregister === "function") {
+		if (
+			navTool &&
+			typeof navTool === "object" &&
+			typeof navTool.unregister === "function"
+		) {
 			cleanups.push(() => navTool.unregister?.());
 		}
 
 		const searchTool = modelContext.registerTool({
 			name: "open_site_search",
-			description: "Open the in-site search overlay (keyboard shortcut overlay).",
+			description:
+				"Open the in-site search overlay (keyboard shortcut overlay).",
 			inputSchema: {
 				type: "object",
 				additionalProperties: false,
