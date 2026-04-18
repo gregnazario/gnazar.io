@@ -12,7 +12,7 @@ function escapeXml(value: string): string {
 		.replace(/'/g, "&apos;");
 }
 
-export const Route = createFileRoute("/rss/xml")({
+export const Route = createFileRoute("/rss.xml")({
 	server: {
 		handlers: {
 			GET: async () => {
@@ -44,8 +44,10 @@ export const Route = createFileRoute("/rss/xml")({
           </rss>`;
 
 				return new Response(feed, {
+					status: 200,
 					headers: {
 						"Content-Type": "application/rss+xml; charset=utf-8",
+						"Cache-Control": "public, max-age=3600",
 					},
 				});
 			},
