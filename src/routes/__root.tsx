@@ -182,6 +182,78 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 		registerServiceWorker();
 	}, []);
 
+	useEffect(() => {
+		type ModelContextApi = {
+			registerTool?: (tool: {
+				name: string;
+				description: string;
+				inputSchema: Record<string, unknown>;
+				execute: (args: unknown, options?: { signal?: AbortSignal }) => unknown;
+			}) => { unregister?: () => void } | undefined;
+		};
+		const modelContext = (navigator as Navigator & { modelContext?: ModelContextApi })
+			.modelContext;
+		if (!modelContext?.registerTool) return;
+
+		const cleanups: Array<() => void> = [];
+
+		const navTool = modelContext.registerTool({
+			name: "navigate",
+			description: "Go to a path on gnazar.io (same-origin), for example /blog or /projects.",
+			inputSchema: {
+				type: "object",
+				additionalProperties: false,
+				properties: {
+					path: {
+						type: "string",
+						description: "Absolute path on this site, starting with /",
+					},
+				},
+				required: ["path"],
+			},
+			execute: (args) => {
+				const path =
+					args &&
+					typeof args === "object" &&
+					"path" in args &&
+					typeof (args as { path?: unknown }).path === "string"
+						? (args as { path: string }).path
+						: "/";
+				const safePath = path.startsWith("/") ? path : `/${path}`;
+				window.location.assign(safePath);
+				return { ok: true, path: safePath };
+			},
+		});
+		if (navTool && typeof navTool === "object" && typeof navTool.unregister === "function") {
+			cleanups.push(() => navTool.unregister?.());
+		}
+
+		const searchTool = modelContext.registerTool({
+			name: "open_site_search",
+			description: "Open the in-site search overlay (keyboard shortcut overlay).",
+			inputSchema: {
+				type: "object",
+				additionalProperties: false,
+				properties: {},
+			},
+			execute: () => {
+				window.dispatchEvent(new CustomEvent("gnazar:open-search"));
+				return { ok: true };
+			},
+		});
+		if (
+			searchTool &&
+			typeof searchTool === "object" &&
+			typeof searchTool.unregister === "function"
+		) {
+			cleanups.push(() => searchTool.unregister?.());
+		}
+
+		return () => {
+			for (const fn of cleanups) fn();
+		};
+	}, []);
+
 	// Load search index on first open
 	useEffect(() => {
 		if (searchOpen && searchItems.length === 0) {

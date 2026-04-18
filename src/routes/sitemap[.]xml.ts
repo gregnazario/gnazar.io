@@ -4,7 +4,7 @@ import { getAllBlogPosts, getAllProjects } from "@/lib/content-i18n";
 import { defaultLocale, locales } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
 
-export const Route = createFileRoute("/sitemap/xml")({
+export const Route = createFileRoute("/sitemap.xml")({
 	server: {
 		handlers: {
 			GET: async () => {
@@ -14,13 +14,11 @@ export const Route = createFileRoute("/sitemap/xml")({
 				]);
 				const now = new Date();
 
-				// Generate URLs for all locales
 				const urls: Array<{ loc: string; lastmod: Date }> = [];
 
 				for (const locale of locales) {
 					const prefix = locale === defaultLocale ? "" : `/${locale}`;
 
-					// Static pages
 					urls.push({
 						loc: `${siteConfig.url}${prefix}`,
 						lastmod: now,
@@ -33,8 +31,11 @@ export const Route = createFileRoute("/sitemap/xml")({
 						loc: `${siteConfig.url}${prefix}/projects`,
 						lastmod: now,
 					});
+					urls.push({
+						loc: `${siteConfig.url}${prefix}/archive`,
+						lastmod: now,
+					});
 
-					// Blog posts
 					for (const post of posts) {
 						urls.push({
 							loc: `${siteConfig.url}${prefix}/blog/${post.slug}`,
@@ -42,7 +43,6 @@ export const Route = createFileRoute("/sitemap/xml")({
 						});
 					}
 
-					// Projects
 					for (const project of projects) {
 						urls.push({
 							loc: `${siteConfig.url}${prefix}/projects/${project.slug}`,
@@ -52,22 +52,22 @@ export const Route = createFileRoute("/sitemap/xml")({
 				}
 
 				const xml = `<?xml version="1.0" encoding="UTF-8"?>
-          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-            ${urls
-							.map(
-								(entry) => `
-              <url>
-                <loc>${entry.loc}</loc>
-                <lastmod>${entry.lastmod.toISOString()}</lastmod>
-              </url>
-            `,
-							)
-							.join("")}
-          </urlset>`;
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls
+	.map(
+		(entry) => `  <url>
+    <loc>${entry.loc}</loc>
+    <lastmod>${entry.lastmod.toISOString()}</lastmod>
+  </url>`,
+	)
+	.join("\n")}
+</urlset>`;
 
 				return new Response(xml, {
+					status: 200,
 					headers: {
 						"Content-Type": "application/xml; charset=utf-8",
+						"Cache-Control": "public, max-age=3600",
 					},
 				});
 			},

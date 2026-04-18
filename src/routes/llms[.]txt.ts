@@ -15,8 +15,11 @@ Greg Nazario is a Founding Senior Software Engineer at Aptos Labs with over 12 y
 - / - Homepage with bio, experience highlights, and featured content
 - /blog - Technical blog posts about infrastructure, systems, and software engineering
 - /projects - Portfolio of projects and open source contributions
+- /archive - Chronological blog archive
 - /rss.xml - RSS feed for blog posts
 - /sitemap.xml - XML sitemap for all pages
+- /.well-known/api-catalog - RFC 9727 API catalog (static site; no authenticated HTTP API)
+- /.well-known/agent-skills/index.json - Agent skills discovery index
 
 ## Topics Covered
 
@@ -38,13 +41,15 @@ Greg Nazario is a Founding Senior Software Engineer at Aptos Labs with over 12 y
 This site is built with TanStack Start (React), deployed on Netlify, and uses TypeScript throughout.
 `;
 
-export const Route = createFileRoute("/llms/txt")({
+export const Route = createFileRoute("/llms.txt")({
 	server: {
 		handlers: {
 			GET: () => {
 				return new Response(llmsContent, {
+					status: 200,
 					headers: {
 						"Content-Type": "text/plain; charset=utf-8",
+						"Cache-Control": "public, max-age=3600",
 					},
 				});
 			},

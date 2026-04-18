@@ -57,6 +57,13 @@ export default function SiteHeader({ onSearchOpen }: SiteHeaderProps) {
 		return () => document.removeEventListener("keydown", handleEscape);
 	}, []);
 
+	useEffect(() => {
+		if (!onSearchOpen) return;
+		const onCustomOpen = () => onSearchOpen();
+		window.addEventListener("gnazar:open-search", onCustomOpen);
+		return () => window.removeEventListener("gnazar:open-search", onCustomOpen);
+	}, [onSearchOpen]);
+
 	return (
 		<header className="site-header">
 			<div className="container header-inner">
