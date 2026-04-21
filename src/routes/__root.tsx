@@ -214,16 +214,34 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				required: ["path"],
 			},
 			execute: (args) => {
-				const path =
+				const raw =
 					args &&
 					typeof args === "object" &&
 					"path" in args &&
 					typeof (args as { path?: unknown }).path === "string"
 						? (args as { path: string }).path
 						: "/";
-				const safePath = path.startsWith("/") ? path : `/${path}`;
-				window.location.assign(safePath);
-				return { ok: true, path: safePath };
+				// Reject protocol-relative URLs and other off-origin targets.
+				if (
+					raw.startsWith("//") ||
+					raw.includes(":\\") ||
+					raw.includes("%5c")
+				) {
+					return { ok: false, error: "invalid_path" };
+				}
+				const withSlash = raw.startsWith("/") ? raw : `/${raw}`;
+				let resolved: URL;
+				try {
+					resolved = new URL(withSlash, window.location.origin);
+				} catch {
+					return { ok: false, error: "invalid_path" };
+				}
+				if (resolved.origin !== window.location.origin) {
+					return { ok: false, error: "cross_origin" };
+				}
+				const path = `${resolved.pathname}${resolved.search}${resolved.hash}`;
+				window.location.assign(path);
+				return { ok: true, path };
 			},
 		});
 		if (

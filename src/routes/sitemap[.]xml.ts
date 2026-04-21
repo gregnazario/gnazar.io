@@ -31,10 +31,13 @@ export const Route = createFileRoute("/sitemap.xml")({
 						loc: `${siteConfig.url}${prefix}/projects`,
 						lastmod: now,
 					});
-					urls.push({
-						loc: `${siteConfig.url}${prefix}/archive`,
-						lastmod: now,
-					});
+					// /archive exists only at the default path (no /$locale/archive route).
+					if (locale === defaultLocale) {
+						urls.push({
+							loc: `${siteConfig.url}/archive`,
+							lastmod: now,
+						});
+					}
 
 					for (const post of posts) {
 						urls.push({
