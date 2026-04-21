@@ -1,10 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { siteConfig } from "@/lib/site";
-
+/** No OIDC provider on this origin — avoid a non-conformant 200 discovery document. */
 const body = {
-	issuer: siteConfig.url,
-	error: "not_configured",
+	error: "not_found",
 	error_description:
 		"gnazar.io is a static site and does not expose an OpenID Connect provider on this origin.",
 };
@@ -14,7 +12,7 @@ export const Route = createFileRoute("/.well-known/openid-configuration")({
 		handlers: {
 			GET: () =>
 				new Response(JSON.stringify(body), {
-					status: 200,
+					status: 404,
 					headers: {
 						"Content-Type": "application/json; charset=utf-8",
 						"Cache-Control": "public, max-age=86400",
