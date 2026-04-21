@@ -1,10 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { siteConfig } from "@/lib/site";
-
+/** No OAuth authorization server on this origin — avoid misleading RFC 8414-style 200 responses. */
 const body = {
-	issuer: siteConfig.url,
-	error: "not_configured",
+	error: "not_found",
 	error_description:
 		"gnazar.io is a static site and does not expose an OAuth 2.0 authorization server on this origin.",
 };
@@ -15,7 +13,7 @@ export const Route = createFileRoute("/.well-known/oauth-authorization-server")(
 			handlers: {
 				GET: () =>
 					new Response(JSON.stringify(body), {
-						status: 200,
+						status: 404,
 						headers: {
 							"Content-Type": "application/json; charset=utf-8",
 							"Cache-Control": "public, max-age=86400",
