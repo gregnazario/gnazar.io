@@ -221,11 +221,17 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					typeof (args as { path?: unknown }).path === "string"
 						? (args as { path: string }).path
 						: "/";
-				// Reject protocol-relative URLs and other off-origin targets.
+				// Reject protocol-relative URLs, backslashes, control characters, and other off-origin targets.
+				const hasControlChar = [...raw].some((ch) => {
+					const c = ch.codePointAt(0) ?? 0;
+					return c <= 0x1f || c === 0x7f;
+				});
 				if (
 					raw.startsWith("//") ||
+					raw.includes("\\") ||
 					raw.includes(":\\") ||
-					raw.includes("%5c")
+					raw.includes("%5c") ||
+					hasControlChar
 				) {
 					return { ok: false, error: "invalid_path" };
 				}

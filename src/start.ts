@@ -11,19 +11,16 @@ import {
 import { defaultLocale, isValidLocale, type Locale } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
 
-/** Parse Accept: ignore media ranges with q=0; treat markdown as acceptable if any q>0 entry exists. */
-function acceptsMarkdown(request: Request): boolean {
-	const accept = request.headers.get("Accept");
-	if (!accept) return false;
+type AcceptRange = { type: string; q: number; index: number };
 
+function parseAcceptRanges(accept: string): AcceptRange[] {
+	const out: AcceptRange[] = [];
+	let index = 0;
 	for (const part of accept.split(",")) {
 		const trimmed = part.trim();
 		if (!trimmed) continue;
 		const [typePart, ...params] = trimmed.split(";").map((s) => s.trim());
-		const type = typePart?.toLowerCase();
-		if (type !== "text/markdown" && type !== "application/markdown") {
-			continue;
-		}
+		const type = typePart?.toLowerCase() ?? "";
 		let q = 1;
 		for (const p of params) {
 			const [k, v] = p.split("=").map((s) => s.trim());
@@ -32,9 +29,33 @@ function acceptsMarkdown(request: Request): boolean {
 				if (!Number.isNaN(parsed)) q = parsed;
 			}
 		}
-		if (q > 0) return true;
+		out.push({ type, q, index: index++ });
 	}
-	return false;
+	return out;
+}
+
+function isMarkdownType(type: string): boolean {
+	return type === "text/markdown" || type === "application/markdown";
+}
+
+/**
+ * Serve markdown only when it wins over other positive-q alternatives in the
+ * Accept list (higher q first; at equal q, earlier listed type wins per RFC 7231).
+ */
+function prefersMarkdownResponse(request: Request): boolean {
+	const accept = request.headers.get("Accept");
+	if (!accept) return false;
+
+	const ranges = parseAcceptRanges(accept).filter((r) => r.q > 0);
+	if (ranges.length === 0) return false;
+	if (!ranges.some((r) => isMarkdownType(r.type))) return false;
+
+	const sorted = [...ranges].sort((a, b) => {
+		if (b.q !== a.q) return b.q - a.q;
+		return a.index - b.index;
+	});
+	const winner = sorted[0];
+	return isMarkdownType(winner.type);
 }
 
 function localeAndBasePath(pathname: string): {
@@ -163,6 +184,50 @@ Chronological archive of blog posts: ${siteConfig.url}/archive
 		};
 	}
 
+	if (path === "/tags") {
+		const posts = await getAllBlogPosts(locale);
+		const tagCounts = new Map<string, number>();
+		for (const post of posts) {
+			for (const tag of post.tags) {
+				tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+			}
+		}
+		const tags = Array.from(tagCounts.entries())
+			.map(([tag, count]) => ({ tag, count }))
+			.sort((a, b) => {
+				if (b.count !== a.count) return b.count - a.count;
+				return a.tag.localeCompare(b.tag);
+			});
+		const prefix = locale === defaultLocale ? "" : `/${locale}`;
+		return {
+			status: 200,
+			body: `# Tags
+
+${tags.map((t) => `- [${t.tag}](${siteConfig.url}${prefix}/tags/${encodeURIComponent(t.tag)}) (${t.count})`).join("\n")}
+`,
+		};
+	}
+
+	const tagMatch = path.match(/^\/tags\/([^/]+)$/);
+	if (tagMatch) {
+		const param = decodeURIComponent(tagMatch[1]);
+		const posts = await getAllBlogPosts(locale);
+		const filtered = posts.filter((post) =>
+			post.tags.some((t) => t.toLowerCase() === param.toLowerCase()),
+		);
+		const actualTag =
+			filtered[0]?.tags.find((t) => t.toLowerCase() === param.toLowerCase()) ??
+			param;
+		const prefix = locale === defaultLocale ? "" : `/${locale}`;
+		return {
+			status: 200,
+			body: `# #${actualTag}
+
+${filtered.map((p) => `- [${p.title}](${siteConfig.url}${prefix}/blog/${p.slug})`).join("\n")}
+`,
+		};
+	}
+
 	return null;
 }
 
@@ -192,7 +257,7 @@ const markdownNegotiationMiddleware = createMiddleware().server(
 		if (request.method !== "GET" && request.method !== "HEAD") {
 			return next();
 		}
-		if (!acceptsMarkdown(request)) {
+		if (!prefersMarkdownResponse(request)) {
 			return next();
 		}
 
