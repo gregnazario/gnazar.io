@@ -11,7 +11,7 @@ test.describe("Markdown content negotiation", () => {
 		expect(response.status()).toBe(200);
 		expect(response.headers()["content-type"]).toContain("text/markdown");
 		expect(response.headers()["x-markdown-tokens"]).toMatch(/^\d+$/);
-		await expect(response.text()).resolves.toContain("# Greg Nazario");
+		await expect(response.text()).resolves.toContain("# gnazar.io");
 	});
 
 	test("keeps HTML as the browser default", async ({ request }) => {
