@@ -1,5 +1,4 @@
 import { createMiddleware, createStart } from "@tanstack/react-start";
-import { getStartContext } from "@tanstack/start-storage-context";
 
 import { approximateTokenCount } from "@/lib/agent-discovery";
 import {
@@ -77,6 +76,11 @@ function stripTrailingSlash(pathname: string): string {
 		return pathname.slice(0, -1);
 	}
 	return pathname;
+}
+
+function isPageLikePath(pathname: string): boolean {
+	const lastSegment = pathname.split("/").filter(Boolean).at(-1) ?? "";
+	return !lastSegment.includes(".");
 }
 
 async function markdownForPath(
@@ -242,18 +246,6 @@ No markdown representation is available for \`${url.pathname}\`.
 
 const markdownNegotiationMiddleware = createMiddleware().server(
 	async ({ next, request }) => {
-		const ctx = getStartContext({ throwIfNotFound: false });
-		if (!ctx) {
-			return next();
-		}
-		// Newer TanStack Start adds handlerType; omitting a direct property access keeps
-		// tsc happy when the lockfile resolves an older @tanstack/start-storage-context.
-		if (
-			"handlerType" in ctx &&
-			(ctx as { handlerType?: string }).handlerType !== "router"
-		) {
-			return next();
-		}
 		if (request.method !== "GET" && request.method !== "HEAD") {
 			return next();
 		}
@@ -262,6 +254,10 @@ const markdownNegotiationMiddleware = createMiddleware().server(
 		}
 
 		const url = new URL(request.url);
+		if (!isPageLikePath(url.pathname)) {
+			return next();
+		}
+
 		const result = await markdownForPath(url.pathname);
 
 		const varyHeaders = {
