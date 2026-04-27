@@ -27,14 +27,16 @@ test.describe("Markdown content negotiation", () => {
 	});
 
 	test("does not intercept well-known JSON endpoints", async ({ request }) => {
-		const response = await request.get("/.well-known/openid-configuration", {
+		const response = await request.get("/.well-known/api-catalog", {
 			headers: {
 				Accept: "text/markdown",
 			},
 		});
 
 		expect(response.status()).toBe(200);
-		expect(response.headers()["content-type"]).toContain("application/json");
+		expect(response.headers()["content-type"]).toContain(
+			"application/linkset+json",
+		);
 		expect(response.headers()["x-markdown-tokens"]).toBeUndefined();
 	});
 });
