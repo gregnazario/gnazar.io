@@ -79,7 +79,22 @@ function stripTrailingSlash(pathname: string): string {
 }
 
 function isPageLikePath(pathname: string): boolean {
-	const lastSegment = pathname.split("/").filter(Boolean).at(-1) ?? "";
+	const segments = pathname.split("/").filter(Boolean);
+	const baseSegments =
+		segments[0] && isValidLocale(segments[0]) ? segments.slice(1) : segments;
+
+	if (
+		baseSegments.some(
+			(segment) => segment.startsWith(".") || segment.startsWith("_"),
+		)
+	) {
+		return false;
+	}
+	if (baseSegments[0] === "api") {
+		return false;
+	}
+
+	const lastSegment = baseSegments.at(-1) ?? "";
 	return !lastSegment.includes(".");
 }
 
