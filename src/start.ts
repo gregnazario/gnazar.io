@@ -308,6 +308,23 @@ const markdownNegotiationMiddleware = createMiddleware().server(
 	},
 );
 
+/**
+ * Add Content-Signal header to all responses for AI agent defense-in-depth.
+ * Signals that content may be used for search indexing but not for training
+ * or AI input generation. Complements robots.txt directives.
+ * @see https://github.com/argenos/content-signal-header
+ */
+const contentSignalMiddleware = createMiddleware().server(
+	async ({ next, request }) => {
+		const response = await next();
+		response.headers.set(
+			"Content-Signal",
+			"ai-train=no, search=yes, ai-input=no",
+		);
+		return response;
+	},
+);
+
 export const startInstance = createStart(() => ({
-	requestMiddleware: [markdownNegotiationMiddleware],
+	requestMiddleware: [markdownNegotiationMiddleware, contentSignalMiddleware],
 }));
