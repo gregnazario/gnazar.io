@@ -33,6 +33,8 @@ export const Route = createFileRoute("/robots.txt")({
 
 # LLM/AI assistant overview (see https://llmstxt.org)
 # LLMs-Txt: ${siteConfig.url}/llms.txt
+# Full content dump for AI context windows
+# LLMs-Full-Txt: ${siteConfig.url}/llms-full.txt
 `;
 
 				return new Response(body, {

@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
 import { Route as ArchiveRouteImport } from './routes/archive'
 import { Route as R500RouteImport } from './routes/500'
 import { Route as IndexRouteImport } from './routes/index'
@@ -54,6 +55,11 @@ const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
 const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
   id: '/llms.txt',
   path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
+  id: '/llms-full.txt',
+  path: '/llms-full.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArchiveRoute = ArchiveRouteImport.update({
@@ -178,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/500': typeof R500Route
   '/archive': typeof ArchiveRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -206,6 +213,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/500': typeof R500Route
   '/archive': typeof ArchiveRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -235,6 +243,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/500': typeof R500Route
   '/archive': typeof ArchiveRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -265,6 +274,7 @@ export interface FileRouteTypes {
     | '/'
     | '/500'
     | '/archive'
+    | '/llms-full.txt'
     | '/llms.txt'
     | '/robots.txt'
     | '/rss.xml'
@@ -293,6 +303,7 @@ export interface FileRouteTypes {
     | '/'
     | '/500'
     | '/archive'
+    | '/llms-full.txt'
     | '/llms.txt'
     | '/robots.txt'
     | '/rss.xml'
@@ -321,6 +332,7 @@ export interface FileRouteTypes {
     | '/'
     | '/500'
     | '/archive'
+    | '/llms-full.txt'
     | '/llms.txt'
     | '/robots.txt'
     | '/rss.xml'
@@ -350,6 +362,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   R500Route: typeof R500Route
   ArchiveRoute: typeof ArchiveRoute
+  LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   RssDotxmlRoute: typeof RssDotxmlRoute
@@ -403,6 +416,13 @@ declare module '@tanstack/react-router' {
       path: '/llms.txt'
       fullPath: '/llms.txt'
       preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms-full.txt': {
+      id: '/llms-full.txt'
+      path: '/llms-full.txt'
+      fullPath: '/llms-full.txt'
+      preLoaderRoute: typeof LlmsFullDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/archive': {
@@ -566,6 +586,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   R500Route: R500Route,
   ArchiveRoute: ArchiveRoute,
+  LlmsFullDottxtRoute: LlmsFullDottxtRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   RssDotxmlRoute: RssDotxmlRoute,
