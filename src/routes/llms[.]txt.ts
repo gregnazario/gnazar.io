@@ -20,6 +20,8 @@ Greg Nazario is a Founding Senior Software Engineer at Aptos Labs with over 12 y
 - /sitemap.xml - XML sitemap for all pages
 - /.well-known/api-catalog - RFC 9727 API catalog (static site; no authenticated HTTP API)
 - /.well-known/agent-skills/index.json - Agent skills discovery index
+- /llms-full.txt - Full-text content dump (all posts and projects)
+- /reprompt.txt - AI assistant interaction instructions
 
 ## Topics Covered
 

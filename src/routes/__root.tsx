@@ -87,6 +87,8 @@ export const Route = createRootRoute({
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
 			{ title: siteConfig.title },
 			{ name: "description", content: siteConfig.description },
+			// AI scraping prevention (defense-in-depth with robots.txt + Content-Signal)
+			{ name: "robots", content: "noai, noimageai" },
 			// Open Graph
 			{ property: "og:title", content: siteConfig.title },
 			{ property: "og:description", content: siteConfig.description },

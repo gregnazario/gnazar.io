@@ -17,6 +17,8 @@ ${siteConfig.description}
 - RSS: ${siteConfig.url}/rss.xml
 - Sitemap: ${siteConfig.url}/sitemap.xml
 - LLMs overview: ${siteConfig.url}/llms.txt
+- Full content dump: ${siteConfig.url}/llms-full.txt
+- AI assistant instructions: ${siteConfig.url}/reprompt.txt
 - API catalog (RFC 9727): ${siteConfig.url}/.well-known/api-catalog
 
 ## Policy
