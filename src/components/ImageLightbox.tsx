@@ -136,7 +136,6 @@ export default memo(function ImageLightbox({
 				aria-label={
 					currentAlt ? `Expanded image: ${currentAlt}` : "Expanded image"
 				}
-				onClick={(e) => e.stopPropagation()}
 				onKeyDown={(e) => {
 					if (e.key === "Tab") {
 						e.preventDefault();
