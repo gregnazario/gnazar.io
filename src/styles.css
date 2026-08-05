@@ -24,9 +24,10 @@
 	--text: #1f2b20;
 	--text-muted: #5d6d5f;
 	--border: #c9d7c5;
-	--accent: #4aa85a;
-	--accent-strong: #3f8f4f;
-	--accent-soft: rgba(74, 168, 90, 0.18);
+	--accent: #26753b;
+	--accent-strong: #1f6a34;
+	--accent-foreground: #fff;
+	--accent-soft: rgba(38, 117, 59, 0.18);
 	--shadow:
 		0 0 0 1px rgba(107, 207, 115, 0.2), 6px 6px 0 rgba(55, 73, 60, 0.15);
 	--grid-line: rgba(107, 207, 115, 0.08);
@@ -49,6 +50,7 @@
 		--border: #26362c;
 		--accent: #6bcf73;
 		--accent-strong: #5bc469;
+		--accent-foreground: #102018;
 		--accent-soft: rgba(107, 207, 115, 0.2);
 		--shadow: 0 0 0 1px rgba(107, 207, 115, 0.25), 6px 6px 0 rgba(0, 0, 0, 0.5);
 		--grid-line: rgba(107, 207, 115, 0.12);
@@ -66,9 +68,10 @@
 	--text: #1f2b20;
 	--text-muted: #5d6d5f;
 	--border: #c9d7c5;
-	--accent: #4aa85a;
-	--accent-strong: #3f8f4f;
-	--accent-soft: rgba(74, 168, 90, 0.18);
+	--accent: #26753b;
+	--accent-strong: #1f6a34;
+	--accent-foreground: #fff;
+	--accent-soft: rgba(38, 117, 59, 0.18);
 	--shadow:
 		0 0 0 1px rgba(107, 207, 115, 0.2), 6px 6px 0 rgba(55, 73, 60, 0.15);
 	--grid-line: rgba(107, 207, 115, 0.08);
@@ -87,6 +90,7 @@
 	--border: #26362c;
 	--accent: #6bcf73;
 	--accent-strong: #5bc469;
+	--accent-foreground: #102018;
 	--accent-soft: rgba(107, 207, 115, 0.2);
 	--shadow: 0 0 0 1px rgba(107, 207, 115, 0.25), 6px 6px 0 rgba(0, 0, 0, 0.5);
 	--grid-line: rgba(107, 207, 115, 0.12);
@@ -409,7 +413,7 @@ main {
 	padding: 0.65rem 1.1rem;
 	border-radius: var(--radius-sm);
 	background: var(--accent);
-	color: #102018;
+	color: var(--accent-foreground);
 	font-weight: 600;
 	font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
 	letter-spacing: 0.12em;
@@ -1158,12 +1162,23 @@ main {
 }
 
 .search-modal {
+	position: relative;
+	z-index: 1;
 	width: min(560px, 90vw);
 	background: var(--surface);
 	border: 2px solid var(--border);
 	border-radius: var(--radius);
 	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 	overflow: hidden;
+}
+
+.search-backdrop,
+.lightbox-backdrop {
+	position: absolute;
+	inset: 0;
+	border: 0;
+	background: transparent;
+	cursor: zoom-out;
 }
 
 .search-input-wrapper {
@@ -1732,7 +1747,16 @@ main {
 	align-items: center;
 	justify-content: center;
 	padding: 2rem;
-	cursor: zoom-out;
+}
+
+.lightbox-dialog {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 100%;
+	max-height: 100%;
 }
 
 .lightbox-close {

@@ -22,6 +22,7 @@ export default memo(function Search({ items, isOpen, onClose }: SearchProps) {
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const resultsRef = useRef<HTMLDivElement>(null);
+	const returnFocusRef = useRef<HTMLElement | null>(null);
 	const navigate = useNavigate();
 
 	const fuse = useRef(
@@ -49,13 +50,24 @@ export default memo(function Search({ items, isOpen, onClose }: SearchProps) {
 		});
 	}, [items]);
 
-	// Focus input when opened
+	// Keep keyboard focus inside the modal and return it to the invoking control.
 	useEffect(() => {
-		if (isOpen && inputRef.current) {
-			inputRef.current.focus();
+		if (isOpen) {
+			returnFocusRef.current =
+				document.activeElement instanceof HTMLElement
+					? document.activeElement
+					: null;
+			inputRef.current?.focus();
 			setQuery("");
 			setResults([]);
 			setSelectedIndex(0);
+			return;
+		}
+
+		const previouslyFocused = returnFocusRef.current;
+		returnFocusRef.current = null;
+		if (previouslyFocused) {
+			requestAnimationFrame(() => previouslyFocused.focus());
 		}
 	}, [isOpen]);
 
@@ -98,10 +110,12 @@ export default memo(function Search({ items, isOpen, onClose }: SearchProps) {
 		(e: React.KeyboardEvent) => {
 			switch (e.key) {
 				case "ArrowDown":
+					if (results.length === 0) return;
 					e.preventDefault();
 					setSelectedIndex((i) => Math.min(i + 1, results.length - 1));
 					break;
 				case "ArrowUp":
+					if (results.length === 0) return;
 					e.preventDefault();
 					setSelectedIndex((i) => Math.max(i - 1, 0));
 					break;
@@ -120,6 +134,19 @@ export default memo(function Search({ items, isOpen, onClose }: SearchProps) {
 		[results, selectedIndex, onClose, navigateToItem],
 	);
 
+	const handleModalKeyDown = useCallback(
+		(e: React.KeyboardEvent) => {
+			if (e.key === "Tab") {
+				e.preventDefault();
+				inputRef.current?.focus();
+				return;
+			}
+
+			handleKeyDown(e);
+		},
+		[handleKeyDown],
+	);
+
 	const handleResultClick = useCallback(
 		(e: React.MouseEvent, item: SearchItem) => {
 			e.preventDefault();
@@ -131,13 +158,17 @@ export default memo(function Search({ items, isOpen, onClose }: SearchProps) {
 	if (!isOpen) return null;
 
 	return (
-		// biome-ignore lint/a11y/useKeyWithClickEvents: Escape key handled in input
-		// biome-ignore lint/a11y/noStaticElementInteractions: Backdrop click to close
-		<div className="search-overlay" onClick={onClose}>
-			{/* biome-ignore lint/a11y/useKeyWithClickEvents: Escape key handled in input */}
+		<div className="search-overlay">
+			<button
+				type="button"
+				className="search-backdrop"
+				onClick={onClose}
+				aria-label="Close search"
+			/>
 			<div
 				className="search-modal"
 				onClick={(e) => e.stopPropagation()}
+				onKeyDown={handleModalKeyDown}
 				role="dialog"
 				aria-modal="true"
 				aria-label="Search"
@@ -153,24 +184,49 @@ export default memo(function Search({ items, isOpen, onClose }: SearchProps) {
 						placeholder="Search posts and projects..."
 						value={query}
 						onChange={(e) => setQuery(e.target.value)}
-						onKeyDown={handleKeyDown}
+						role="combobox"
+						aria-autocomplete="list"
+						aria-controls="search-results"
+						aria-expanded={results.length > 0}
+						aria-activedescendant={
+							results[selectedIndex]
+								? `search-result-${selectedIndex}`
+								: undefined
+						}
 						aria-label="Search"
 						autoComplete="off"
 					/>
 					<kbd className="search-kbd">ESC</kbd>
 				</div>
 
+				{query && (
+					<output className="sr-only" aria-live="polite">
+						{results.length === 0
+							? `No results found for ${query}.`
+							: `${results.length} result${results.length === 1 ? "" : "s"} found for ${query}.`}
+					</output>
+				)}
+
 				{results.length > 0 && (
-					<div className="search-results" ref={resultsRef}>
+					<div
+						className="search-results"
+						ref={resultsRef}
+						id="search-results"
+						role="listbox"
+						aria-label="Search results"
+					>
 						{results.map((item, index) => (
 							<a
 								key={`${item.type}-${item.slug}`}
+								id={`search-result-${index}`}
 								href={
 									item.type === "blog"
 										? `/blog/${item.slug}`
 										: `/projects/${item.slug}`
 								}
 								className={`search-result ${index === selectedIndex ? "search-result-selected" : ""}`}
+								role="option"
+								aria-selected={index === selectedIndex}
 								onMouseEnter={() => setSelectedIndex(index)}
 								onClick={(e) => handleResultClick(e, item)}
 							>

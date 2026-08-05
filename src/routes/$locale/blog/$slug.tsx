@@ -1,9 +1,4 @@
-import {
-	createFileRoute,
-	Link,
-	notFound,
-	redirect,
-} from "@tanstack/react-router";
+import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
 import Breadcrumbs, {
@@ -49,7 +44,7 @@ type BlogLoaderData = {
 	previousPost: BlogPostType | null;
 	nextPost: BlogPostType | null;
 	locale: Locale;
-} | null;
+};
 
 export const Route = createFileRoute("/$locale/blog/$slug")({
 	beforeLoad: ({ params }) => {
@@ -73,7 +68,7 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
 		});
 
 		if (!data) {
-			return null;
+			throw notFound();
 		}
 
 		return { ...data, locale };
@@ -119,7 +114,7 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
 					property: "article:modified_time",
 					content: loaderData.post.lastUpdated || loaderData.post.date,
 				},
-				{ property: "article:author", content: siteConfig.title },
+				{ property: "article:author", content: siteConfig.author },
 				...loaderData.post.tags.map((tag) => ({
 					property: "article:tag",
 					content: tag,
@@ -152,22 +147,6 @@ function BlogPostPage() {
 
 	// Mark post as read
 	useMarkAsRead(data?.post.slug ?? "");
-
-	if (!data) {
-		return (
-			<section className="section">
-				<div className="container">
-					<div className="card">
-						<h2>Post not found</h2>
-						<p>This post does not exist.</p>
-						<Link className="button ghost" to="/blog">
-							Back to blog
-						</Link>
-					</div>
-				</div>
-			</section>
-		);
-	}
 
 	const { post, html, allPosts, seriesPosts, previousPost, nextPost, locale } =
 		data;
