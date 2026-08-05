@@ -314,16 +314,14 @@ const markdownNegotiationMiddleware = createMiddleware().server(
  * or AI input generation. Complements robots.txt directives.
  * @see https://github.com/argenos/content-signal-header
  */
-const contentSignalMiddleware = createMiddleware().server(
-	async ({ next, request }) => {
-		const response = await next();
-		response.headers.set(
-			"Content-Signal",
-			"ai-train=no, search=yes, ai-input=no",
-		);
-		return response;
-	},
-);
+const contentSignalMiddleware = createMiddleware().server(async ({ next }) => {
+	const result = await next();
+	result.response.headers.set(
+		"Content-Signal",
+		"ai-train=no, search=yes, ai-input=no",
+	);
+	return result;
+});
 
 export const startInstance = createStart(() => ({
 	requestMiddleware: [markdownNegotiationMiddleware, contentSignalMiddleware],

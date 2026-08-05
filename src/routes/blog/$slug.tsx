@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
 import Breadcrumbs, {
@@ -34,11 +34,20 @@ import { siteConfig } from "@/lib/site";
 import { generateBlogPostingSchema } from "@/lib/structured-data";
 import { fetchBlogPost } from "@/server/content";
 
-type BlogLoaderData = Awaited<ReturnType<typeof fetchBlogPost>>;
+type BlogLoaderData = NonNullable<Awaited<ReturnType<typeof fetchBlogPost>>>;
 
 export const Route = createFileRoute("/blog/$slug")({
-	loader: async ({ params }): Promise<BlogLoaderData> =>
-		fetchBlogPost({ data: { slug: params.slug, locale: defaultLocale } }),
+	loader: async ({ params }): Promise<BlogLoaderData> => {
+		const data = await fetchBlogPost({
+			data: { slug: params.slug, locale: defaultLocale },
+		});
+
+		if (!data) {
+			throw notFound();
+		}
+
+		return data;
+	},
 	component: BlogPostPage,
 	head: ({ loaderData }) => {
 		if (!loaderData) {
@@ -76,7 +85,7 @@ export const Route = createFileRoute("/blog/$slug")({
 					property: "article:modified_time",
 					content: loaderData.post.lastUpdated || loaderData.post.date,
 				},
-				{ property: "article:author", content: siteConfig.title },
+				{ property: "article:author", content: siteConfig.author },
 				...loaderData.post.tags.map((tag) => ({
 					property: "article:tag",
 					content: tag,
@@ -110,22 +119,6 @@ function BlogPostPage() {
 
 	// Mark post as read
 	useMarkAsRead(data?.post.slug ?? "");
-
-	if (!data) {
-		return (
-			<section className="section">
-				<div className="container">
-					<div className="card">
-						<h2>Post not found</h2>
-						<p>This post does not exist.</p>
-						<Link className="button ghost" to="/blog">
-							Back to blog
-						</Link>
-					</div>
-				</div>
-			</section>
-		);
-	}
 
 	const { post, html, allPosts, seriesPosts, previousPost, nextPost } = data;
 	const readingTime = calculateReadingTime(html);

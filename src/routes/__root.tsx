@@ -18,6 +18,7 @@ import {
 	getLocaleFromPath,
 	locales,
 	localeToHreflang,
+	removeLocaleFromPath,
 	t,
 } from "@/lib/i18n";
 import { LocaleProvider } from "@/lib/locale-context";
@@ -42,10 +43,10 @@ const jsonLd = {
 		{
 			"@type": "Person",
 			"@id": `${siteConfig.url}/#person`,
-			name: siteConfig.title,
+			name: siteConfig.author,
 			url: siteConfig.url,
 			description: siteConfig.description,
-			jobTitle: "Founding Senior Software Engineer",
+			jobTitle: "Founding Engineer",
 			worksFor: {
 				"@type": "Organization",
 				name: "Aptos Labs",
@@ -81,95 +82,106 @@ function getHreflangLinks(currentPath: string) {
 }
 
 export const Route = createRootRoute({
-	head: () => ({
-		meta: [
-			{ charSet: "utf-8" },
-			{ name: "viewport", content: "width=device-width, initial-scale=1" },
-			{ title: siteConfig.title },
-			{ name: "description", content: siteConfig.description },
-			// AI scraping prevention (defense-in-depth with robots.txt + Content-Signal)
-			{ name: "robots", content: "noai, noimageai" },
-			// Open Graph
-			{ property: "og:title", content: siteConfig.title },
-			{ property: "og:description", content: siteConfig.description },
-			{ property: "og:type", content: "website" },
-			{ property: "og:url", content: siteConfig.url },
-			{ property: "og:site_name", content: siteConfig.title },
-			{ property: "og:locale", content: siteConfig.locale },
-			{ property: "og:image", content: `${siteConfig.url}/og-image.png` },
-			{ property: "og:image:width", content: "1200" },
-			{ property: "og:image:height", content: "630" },
-			{ property: "og:image:alt", content: siteConfig.title },
-			// Twitter
-			{ name: "twitter:card", content: "summary_large_image" },
-			{ name: "twitter:site", content: siteConfig.twitterHandle },
-			{ name: "twitter:creator", content: siteConfig.twitterHandle },
-			{ name: "twitter:title", content: siteConfig.title },
-			{ name: "twitter:description", content: siteConfig.description },
-			{ name: "twitter:image", content: `${siteConfig.url}/og-image.png` },
-			{ name: "twitter:image:alt", content: siteConfig.title },
-			// PWA meta tags
-			{ name: "theme-color", content: "#45d38a" },
-			{ name: "mobile-web-app-capable", content: "yes" },
-			{ name: "apple-mobile-web-app-capable", content: "yes" },
-			{
-				name: "apple-mobile-web-app-status-bar-style",
-				content: "black-translucent",
-			},
-			{ name: "apple-mobile-web-app-title", content: siteConfig.title },
-		],
-		links: [
-			// Performance: Preconnect to external resources
-			{ rel: "preconnect", href: "https://fonts.googleapis.com" },
-			{
-				rel: "preconnect",
-				href: "https://fonts.gstatic.com",
-				crossOrigin: "anonymous",
-			},
-			// DNS prefetch for external resources
-			{ rel: "dns-prefetch", href: "https://fonts.googleapis.com" },
-			{ rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
-			{ rel: "stylesheet", href: appCss },
-			// Fonts loaded after critical CSS - display: swap ensures no FOIT
-			{
-				rel: "stylesheet",
-				href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
-			},
-			// Prefetch critical routes for faster navigation
-			{ rel: "prefetch", href: "/blog" },
-			{ rel: "prefetch", href: "/projects" },
-			{ rel: "canonical", href: siteConfig.url },
-			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-			{ rel: "icon", href: "/favicon.ico" },
-			// RSS feed autodiscovery
-			{
-				rel: "alternate",
-				type: "application/rss+xml",
-				title: `${siteConfig.title} RSS Feed`,
-				href: "/rss.xml",
-			},
-			// Webmention endpoints for IndieWeb support (webmention.io)
-			{ rel: "webmention", href: "https://webmention.io/gnazar.io/webmention" },
-			{ rel: "pingback", href: "https://webmention.io/gnazar.io/xmlrpc" },
-			// i18n - hreflang for all locales
-			...getHreflangLinks("/"),
-			// PWA manifest
-			{ rel: "manifest", href: "/manifest.json" },
-			{ rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png" },
-		],
-		scripts: [
-			{
-				type: "application/ld+json",
-				children: JSON.stringify(jsonLd),
-			},
-			// Plausible Analytics (privacy-friendly, no cookies)
-			{
-				defer: true,
-				"data-domain": "gnazar.io",
-				src: "https://plausible.io/js/script.js",
-			},
-		],
-	}),
+	head: ({ matches }) => {
+		const currentPath = matches[matches.length - 1]?.pathname ?? "/";
+		const canonicalPath = currentPath === "/" ? "" : currentPath;
+		const isLocalizedHome = removeLocaleFromPath(currentPath) === "/";
+
+		return {
+			meta: [
+				{ charSet: "utf-8" },
+				{ name: "viewport", content: "width=device-width, initial-scale=1" },
+				{ title: siteConfig.title },
+				{ name: "description", content: siteConfig.description },
+				// AI scraping prevention (defense-in-depth with robots.txt + Content-Signal)
+				{ name: "robots", content: "noai, noimageai" },
+				// Open Graph
+				{ property: "og:title", content: siteConfig.title },
+				{ property: "og:description", content: siteConfig.description },
+				{ property: "og:type", content: "website" },
+				{ property: "og:url", content: siteConfig.url },
+				{ property: "og:site_name", content: siteConfig.title },
+				{ property: "og:locale", content: siteConfig.locale },
+				{ property: "og:image", content: `${siteConfig.url}/og-image.png` },
+				{ property: "og:image:width", content: "1200" },
+				{ property: "og:image:height", content: "630" },
+				{ property: "og:image:alt", content: siteConfig.title },
+				// Twitter
+				{ name: "twitter:card", content: "summary_large_image" },
+				{ name: "twitter:site", content: siteConfig.twitterHandle },
+				{ name: "twitter:creator", content: siteConfig.twitterHandle },
+				{ name: "twitter:title", content: siteConfig.title },
+				{ name: "twitter:description", content: siteConfig.description },
+				{ name: "twitter:image", content: `${siteConfig.url}/og-image.png` },
+				{ name: "twitter:image:alt", content: siteConfig.title },
+				// PWA meta tags
+				{ name: "theme-color", content: "#45d38a" },
+				{ name: "mobile-web-app-capable", content: "yes" },
+				{ name: "apple-mobile-web-app-capable", content: "yes" },
+				{
+					name: "apple-mobile-web-app-status-bar-style",
+					content: "black-translucent",
+				},
+				{ name: "apple-mobile-web-app-title", content: siteConfig.title },
+			],
+			links: [
+				// Performance: Preconnect to external resources
+				{ rel: "preconnect", href: "https://fonts.googleapis.com" },
+				{
+					rel: "preconnect",
+					href: "https://fonts.gstatic.com",
+					crossOrigin: "anonymous",
+				},
+				// DNS prefetch for external resources
+				{ rel: "dns-prefetch", href: "https://fonts.googleapis.com" },
+				{ rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
+				{ rel: "stylesheet", href: appCss },
+				// Fonts loaded after critical CSS - display: swap ensures no FOIT
+				{
+					rel: "stylesheet",
+					href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
+				},
+				// Prefetch critical routes for faster navigation
+				{ rel: "prefetch", href: "/blog" },
+				{ rel: "prefetch", href: "/projects" },
+				{ rel: "canonical", href: `${siteConfig.url}${canonicalPath}` },
+				{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+				{ rel: "icon", href: "/favicon.ico" },
+				// RSS feed autodiscovery
+				{
+					rel: "alternate",
+					type: "application/rss+xml",
+					title: `${siteConfig.title} RSS Feed`,
+					href: "/rss.xml",
+				},
+				// Webmention endpoints for IndieWeb support (webmention.io)
+				{
+					rel: "webmention",
+					href: "https://webmention.io/gnazar.io/webmention",
+				},
+				{ rel: "pingback", href: "https://webmention.io/gnazar.io/xmlrpc" },
+				// The home page has complete, maintained translations. Content pages
+				// without a translated equivalent intentionally omit hreflang instead
+				// of pointing search engines to a mismatched page.
+				...(isLocalizedHome ? getHreflangLinks("/") : []),
+				// PWA manifest
+				{ rel: "manifest", href: "/manifest.json" },
+				{ rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png" },
+			],
+			scripts: [
+				{
+					type: "application/ld+json",
+					children: JSON.stringify(jsonLd),
+				},
+				// Plausible Analytics (privacy-friendly, no cookies)
+				{
+					defer: true,
+					"data-domain": "gnazar.io",
+					src: "https://plausible.io/js/script.js",
+				},
+			],
+		};
+	},
 	shellComponent: RootDocument,
 	notFoundComponent: NotFound,
 });
