@@ -324,5 +324,5 @@ const contentSignalMiddleware = createMiddleware().server(async ({ next }) => {
 });
 
 export const startInstance = createStart(() => ({
-	requestMiddleware: [markdownNegotiationMiddleware, contentSignalMiddleware],
+	requestMiddleware: [contentSignalMiddleware, markdownNegotiationMiddleware],
 }));
