@@ -16,12 +16,12 @@ export function generateArticleSchema(post: BlogPost, url: string) {
 		dateModified: post.lastUpdated || post.date,
 		author: {
 			"@type": "Person",
-			name: siteConfig.title,
+			name: siteConfig.author,
 			url: siteConfig.url,
 		},
 		publisher: {
 			"@type": "Person",
-			name: siteConfig.title,
+			name: siteConfig.author,
 			url: siteConfig.url,
 			logo: {
 				"@type": "ImageObject",

@@ -15,7 +15,7 @@ type ProjectLoaderData = {
 	project: NonNullable<Awaited<ReturnType<typeof fetchProject>>>["project"];
 	html: string;
 	locale: Locale;
-} | null;
+};
 
 export const Route = createFileRoute("/$locale/projects/$slug")({
 	beforeLoad: ({ params }) => {
@@ -39,7 +39,7 @@ export const Route = createFileRoute("/$locale/projects/$slug")({
 		});
 
 		if (!data) {
-			return null;
+			throw notFound();
 		}
 
 		return { ...data, locale };
@@ -70,22 +70,6 @@ export const Route = createFileRoute("/$locale/projects/$slug")({
 
 function ProjectPage() {
 	const data = Route.useLoaderData();
-
-	if (!data) {
-		return (
-			<section className="section">
-				<div className="container">
-					<div className="card">
-						<h2>Project not found</h2>
-						<p>This project does not exist.</p>
-						<Link className="button ghost" to="/projects">
-							Back to projects
-						</Link>
-					</div>
-				</div>
-			</section>
-		);
-	}
 
 	const { project, html, locale } = data;
 

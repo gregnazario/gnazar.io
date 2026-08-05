@@ -8,7 +8,7 @@ const llmsContent = `# ${siteConfig.title}
 
 ## About
 
-Greg Nazario is a Founding Senior Software Engineer at Aptos Labs with over 12 years of experience in infrastructure, developer tooling, and engineering leadership. Previously worked at AWS and Meta.
+Greg Nazario is a Founding Engineer at Aptos Labs with over 11 years of experience in infrastructure, developer tooling, and engineering leadership. Previously worked at AWS and Meta.
 
 ## Site Structure
 

@@ -1,15 +1,24 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import Badge from "@/components/Badge";
 import { defaultLocale } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
 import { fetchProject } from "@/server/content";
 
-type ProjectLoaderData = Awaited<ReturnType<typeof fetchProject>>;
+type ProjectLoaderData = NonNullable<Awaited<ReturnType<typeof fetchProject>>>;
 
 export const Route = createFileRoute("/projects/$slug")({
-	loader: async ({ params }): Promise<ProjectLoaderData> =>
-		fetchProject({ data: { slug: params.slug, locale: defaultLocale } }),
+	loader: async ({ params }): Promise<ProjectLoaderData> => {
+		const data = await fetchProject({
+			data: { slug: params.slug, locale: defaultLocale },
+		});
+
+		if (!data) {
+			throw notFound();
+		}
+
+		return data;
+	},
 	component: ProjectPage,
 	head: ({ loaderData }) => {
 		if (!loaderData) {
@@ -35,22 +44,6 @@ export const Route = createFileRoute("/projects/$slug")({
 
 function ProjectPage() {
 	const data = Route.useLoaderData();
-
-	if (!data) {
-		return (
-			<section className="section">
-				<div className="container">
-					<div className="card">
-						<h2>Project not found</h2>
-						<p>This project does not exist.</p>
-						<Link className="button ghost" to="/projects">
-							Back to projects
-						</Link>
-					</div>
-				</div>
-			</section>
-		);
-	}
 
 	return (
 		<section className="section">
