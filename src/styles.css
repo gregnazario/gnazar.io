@@ -679,6 +679,22 @@ main {
 	justify-content: space-between;
 }
 
+.footer-nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.25rem;
+}
+
+.footer-nav a,
+.footer-nav a:visited {
+	color: var(--text-muted);
+}
+
+.footer-nav a:hover,
+.footer-nav a:focus {
+	color: var(--accent);
+}
+
 .prose {
 	display: grid;
 	gap: 1.25rem;

@@ -1,5 +1,5 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-
+import katexCss from "katex/dist/katex.min.css?url";
 import Badge from "@/components/Badge";
 import Breadcrumbs, {
 	generateBreadcrumbSchema,
@@ -94,11 +94,8 @@ export const Route = createFileRoute("/blog/$slug")({
 				{ name: "twitter:image", content: ogImage },
 			],
 			links: [
-				// KaTeX CSS for math rendering
-				{
-					rel: "stylesheet",
-					href: "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",
-				},
+				// KaTeX CSS for math rendering (self-hosted, CSP-friendly)
+				{ rel: "stylesheet", href: katexCss },
 			],
 			scripts: [
 				{
