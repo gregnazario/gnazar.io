@@ -1,0 +1,18 @@
+---
+title: "gimme"
+summary: "An all-in-one global package management system for macOS — pure orchestration over Homebrew, Go, uv, Cargo, bun, npm, pnpm, yarn, RubyGems, Composer, Deno, pipx, aqua, and ubi."
+year: "2026"
+role: "Design + Engineering"
+featured: true
+links:
+  - label: "Source"
+    href: "https://github.com/gregnazario/gimme"
+---
+
+macOS package management is fragmented: every language ecosystem ships its own
+manager, and keeping global tools up to date means remembering a dozen
+different commands. gimme is a single orchestration layer on top of all of
+them — it does not replace Homebrew, Cargo, or npm, it coordinates them.
+
+Built in Swift as a native CLI, it treats each underlying manager as a plugin
+so new ecosystems can be added without changing the core.
