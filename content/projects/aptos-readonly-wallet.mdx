@@ -1,0 +1,18 @@
+---
+title: "Aptos Readonly Wallet"
+summary: "An Aptos wallet for reading transactions that would occur if you were actually that account."
+year: "2026"
+role: "Design + Engineering"
+featured: false
+links:
+  - label: "Source"
+    href: "https://github.com/gregnazario/aptos-readonly-wallet"
+---
+
+An Aptos wallet that answers a deceptively useful question: what would
+happen if this account did that? It injects as a standard wallet into any
+dapp, but instead of signing transactions with real keys, it simulates them
+as the target account and shows the resulting state.
+
+Handy for auditing what a dapp would do to an account, debugging
+transactions, and exploring protocol behavior without risking funds.

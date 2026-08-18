@@ -1,0 +1,18 @@
+---
+title: "config-sync"
+summary: "Cross-platform config sync with post-quantum end-to-end encryption."
+year: "2026"
+role: "Design + Engineering"
+featured: false
+links:
+  - label: "Source"
+    href: "https://github.com/gregnazario/config-sync"
+---
+
+Keeping dotfiles and app configuration in sync across machines usually means
+either a public git repo or trusting a third-party cloud with everything.
+config-sync takes a different route: cross-platform sync in Rust with
+post-quantum end-to-end encryption, so the sync server never sees plaintext.
+
+The interesting part is the crypto engineering — hybrid key exchange and
+sealed storage — applied to an everyday dev-tools problem.
