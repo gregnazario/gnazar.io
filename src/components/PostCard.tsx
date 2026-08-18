@@ -27,7 +27,9 @@ export default memo(function PostCard({
 				<div className="card-meta">
 					<span>{formatDate(post.date)}</span>
 					{tags.map((tag) => (
-						<Badge key={tag}>{tag}</Badge>
+						<Link key={tag} to="/tags/$tag" params={{ tag }}>
+							<Badge>{tag}</Badge>
+						</Link>
 					))}
 				</div>
 				<h3>
@@ -45,7 +47,9 @@ export default memo(function PostCard({
 			<div className="card-meta">
 				<span>{formatDate(post.date)}</span>
 				{tags.map((tag) => (
-					<Badge key={tag}>{tag}</Badge>
+					<Link key={tag} to="/tags/$tag" params={{ tag }}>
+						<Badge>{tag}</Badge>
+					</Link>
 				))}
 			</div>
 			<h3>
