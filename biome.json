@@ -12,7 +12,8 @@
 			"*.md",
 			"*.toml",
 			"scripts/**/*.mjs",
-			"!src/routeTree.gen.ts"
+			"!src/routeTree.gen.ts",
+			"!.worktrees"
 		],
 		"ignoreUnknown": true
 	},

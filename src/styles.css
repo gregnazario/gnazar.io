@@ -1,6 +1,22 @@
 /* biome-ignore-all lint/complexity/noImportantStyles: WCAG accessibility - !important is required for prefers-reduced-motion */
 
-/* Fonts loaded via link preload in head for non-blocking render */
+/* Self-hosted variable fonts (latin subset). Preloaded in <head>; the
+   variable files cover every weight used on the site. */
+@font-face {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("/fonts/inter-latin-var.woff2") format("woff2-variations");
+}
+
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-weight: 100 800;
+	font-display: swap;
+	src: url("/fonts/jetbrains-mono-latin-var.woff2") format("woff2-variations");
+}
 
 *,
 *::before,

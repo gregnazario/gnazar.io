@@ -41,5 +41,49 @@
 	],
 	"categories": ["portfolio", "blog", "technology"],
 	"lang": "en",
-	"dir": "ltr"
+	"dir": "ltr",
+	"shortcuts": [
+		{
+			"name": "Blog",
+			"short_name": "Blog",
+			"description": "Read the latest writing",
+			"url": "/blog",
+			"icons": [
+				{
+					"src": "/icons/icon-192.png",
+					"sizes": "192x192",
+					"type": "image/png"
+				}
+			]
+		},
+		{
+			"name": "Projects",
+			"short_name": "Projects",
+			"description": "Browse selected work",
+			"url": "/projects",
+			"icons": [
+				{
+					"src": "/icons/icon-192.png",
+					"sizes": "192x192",
+					"type": "image/png"
+				}
+			]
+		}
+	],
+	"screenshots": [
+		{
+			"src": "/screenshots/desktop.png",
+			"sizes": "1280x720",
+			"type": "image/png",
+			"form_factor": "wide",
+			"label": "gnazar.io home page on desktop"
+		},
+		{
+			"src": "/screenshots/mobile.png",
+			"sizes": "540x720",
+			"type": "image/png",
+			"form_factor": "narrow",
+			"label": "gnazar.io home page on mobile"
+		}
+	]
 }
