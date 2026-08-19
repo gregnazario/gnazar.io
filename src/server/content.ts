@@ -26,21 +26,21 @@ function parseLocale(input: string | undefined): Locale {
 }
 
 export const fetchBlogPosts = createServerFn({ method: "GET" })
-	.inputValidator((input: LocaleInput) => input)
+	.validator((input: LocaleInput) => input)
 	.handler(async ({ data }) => {
 		const locale = parseLocale(data?.locale);
 		return getAllBlogPosts(locale);
 	});
 
 export const fetchProjects = createServerFn({ method: "GET" })
-	.inputValidator((input: LocaleInput) => input)
+	.validator((input: LocaleInput) => input)
 	.handler(async ({ data }) => {
 		const locale = parseLocale(data?.locale);
 		return getAllProjects(locale);
 	});
 
 export const fetchBlogPost = createServerFn({ method: "GET" })
-	.inputValidator((input: SlugInput) => input)
+	.validator((input: SlugInput) => input)
 	.handler(async ({ data }) => {
 		const locale = parseLocale(data.locale);
 		const post = await getBlogPostBySlug(data.slug, locale);
@@ -70,7 +70,7 @@ export const fetchBlogPost = createServerFn({ method: "GET" })
 	});
 
 export const fetchProject = createServerFn({ method: "GET" })
-	.inputValidator((input: SlugInput) => input)
+	.validator((input: SlugInput) => input)
 	.handler(async ({ data }) => {
 		const locale = parseLocale(data.locale);
 		const project = await getProjectBySlug(data.slug, locale);
