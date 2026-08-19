@@ -19,10 +19,10 @@ test.describe("Theme Toggle", () => {
 		const themeToggle = await revealThemeToggle(page);
 		await expect(themeToggle).toBeVisible();
 
-		// Get initial theme
-		const initialTheme = await page.evaluate(
-			() => document.documentElement.dataset.theme,
-		);
+		// Get initial theme (unset until the first toggle, which means light)
+		const initialTheme =
+			(await page.evaluate(() => document.documentElement.dataset.theme)) ??
+			"light";
 
 		// Click to toggle theme
 		await themeToggle.click();
