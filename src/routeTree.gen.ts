@@ -9,68 +9,38 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
-import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
-import { Route as RepromptDottxtRouteImport } from './routes/reprompt[.]txt'
-import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
-import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
-import { Route as ArchiveRouteImport } from './routes/archive'
-import { Route as R500RouteImport } from './routes/500'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TagsIndexRouteImport } from './routes/tags/index'
-import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
-import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as R500RouteImport } from './routes/500'
+import { Route as ArchiveRouteImport } from './routes/archive'
+import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as RepromptDottxtRouteImport } from './routes/reprompt[.]txt'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
-import { Route as TagsTagRouteImport } from './routes/tags/$tag'
-import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
-import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
-import { Route as DotwellKnownOpenidConfigurationRouteImport } from './routes/[.]well-known/openid-configuration'
-import { Route as DotwellKnownOpenapiDotjsonRouteImport } from './routes/[.]well-known/openapi[.]json'
-import { Route as DotwellKnownOauthProtectedResourceRouteImport } from './routes/[.]well-known/oauth-protected-resource'
-import { Route as DotwellKnownOauthAuthorizationServerRouteImport } from './routes/[.]well-known/oauth-authorization-server'
 import { Route as DotwellKnownApiCatalogRouteImport } from './routes/[.]well-known/api-catalog'
-import { Route as LocaleProjectsIndexRouteImport } from './routes/$locale/projects/index'
+import { Route as DotwellKnownOauthAuthorizationServerRouteImport } from './routes/[.]well-known/oauth-authorization-server'
+import { Route as DotwellKnownOauthProtectedResourceRouteImport } from './routes/[.]well-known/oauth-protected-resource'
+import { Route as DotwellKnownOpenapiDotjsonRouteImport } from './routes/[.]well-known/openapi[.]json'
+import { Route as DotwellKnownOpenidConfigurationRouteImport } from './routes/[.]well-known/openid-configuration'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
+import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
+import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
+import { Route as TagsIndexRouteImport } from './routes/tags/index'
+import { Route as TagsTagRouteImport } from './routes/tags/$tag'
 import { Route as LocaleBlogIndexRouteImport } from './routes/$locale/blog/index'
-import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[.]well-known/mcp/server-card[.]json'
-import { Route as DotwellKnownAgentSkillsSiteDotmdRouteImport } from './routes/[.]well-known/agent-skills/site[.]md'
-import { Route as DotwellKnownAgentSkillsIndexDotjsonRouteImport } from './routes/[.]well-known/agent-skills/index[.]json'
-import { Route as LocaleProjectsSlugRouteImport } from './routes/$locale/projects/$slug'
 import { Route as LocaleBlogSlugRouteImport } from './routes/$locale/blog/$slug'
+import { Route as LocaleProjectsIndexRouteImport } from './routes/$locale/projects/index'
+import { Route as LocaleProjectsSlugRouteImport } from './routes/$locale/projects/$slug'
+import { Route as DotwellKnownAgentSkillsIndexDotjsonRouteImport } from './routes/[.]well-known/agent-skills/index[.]json'
+import { Route as DotwellKnownAgentSkillsSiteDotmdRouteImport } from './routes/[.]well-known/agent-skills/site[.]md'
+import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[.]well-known/mcp/server-card[.]json'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RssDotxmlRoute = RssDotxmlRouteImport.update({
-  id: '/rss.xml',
-  path: '/rss.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
-  id: '/robots.txt',
-  path: '/robots.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RepromptDottxtRoute = RepromptDottxtRouteImport.update({
-  id: '/reprompt.txt',
-  path: '/reprompt.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
-  id: '/llms.txt',
-  path: '/llms.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
-  id: '/llms-full.txt',
-  path: '/llms-full.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ArchiveRoute = ArchiveRouteImport.update({
-  id: '/archive',
-  path: '/archive',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const R500Route = R500RouteImport.update({
@@ -78,24 +48,39 @@ const R500Route = R500RouteImport.update({
   path: '/500',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ArchiveRoute = ArchiveRouteImport.update({
+  id: '/archive',
+  path: '/archive',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TagsIndexRoute = TagsIndexRouteImport.update({
-  id: '/tags/',
-  path: '/tags/',
+const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
+  id: '/llms-full.txt',
+  path: '/llms-full.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
-  id: '/projects/',
-  path: '/projects/',
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BlogIndexRoute = BlogIndexRouteImport.update({
-  id: '/blog/',
-  path: '/blog/',
+const RepromptDottxtRoute = RepromptDottxtRouteImport.update({
+  id: '/reprompt.txt',
+  path: '/reprompt.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
@@ -103,31 +88,15 @@ const LocaleIndexRoute = LocaleIndexRouteImport.update({
   path: '/$locale/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TagsTagRoute = TagsTagRouteImport.update({
-  id: '/tags/$tag',
-  path: '/tags/$tag',
+const DotwellKnownApiCatalogRoute = DotwellKnownApiCatalogRouteImport.update({
+  id: '/.well-known/api-catalog',
+  path: '/.well-known/api-catalog',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
-  id: '/projects/$slug',
-  path: '/projects/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/blog/$slug',
-  path: '/blog/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DotwellKnownOpenidConfigurationRoute =
-  DotwellKnownOpenidConfigurationRouteImport.update({
-    id: '/.well-known/openid-configuration',
-    path: '/.well-known/openid-configuration',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const DotwellKnownOpenapiDotjsonRoute =
-  DotwellKnownOpenapiDotjsonRouteImport.update({
-    id: '/.well-known/openapi.json',
-    path: '/.well-known/openapi.json',
+const DotwellKnownOauthAuthorizationServerRoute =
+  DotwellKnownOauthAuthorizationServerRouteImport.update({
+    id: '/.well-known/oauth-authorization-server',
+    path: '/.well-known/oauth-authorization-server',
     getParentRoute: () => rootRouteImport,
   } as any)
 const DotwellKnownOauthProtectedResourceRoute =
@@ -136,20 +105,46 @@ const DotwellKnownOauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
-const DotwellKnownOauthAuthorizationServerRoute =
-  DotwellKnownOauthAuthorizationServerRouteImport.update({
-    id: '/.well-known/oauth-authorization-server',
-    path: '/.well-known/oauth-authorization-server',
+const DotwellKnownOpenapiDotjsonRoute =
+  DotwellKnownOpenapiDotjsonRouteImport.update({
+    id: '/.well-known/openapi.json',
+    path: '/.well-known/openapi.json',
     getParentRoute: () => rootRouteImport,
   } as any)
-const DotwellKnownApiCatalogRoute = DotwellKnownApiCatalogRouteImport.update({
-  id: '/.well-known/api-catalog',
-  path: '/.well-known/api-catalog',
+const DotwellKnownOpenidConfigurationRoute =
+  DotwellKnownOpenidConfigurationRouteImport.update({
+    id: '/.well-known/openid-configuration',
+    path: '/.well-known/openid-configuration',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LocaleProjectsIndexRoute = LocaleProjectsIndexRouteImport.update({
-  id: '/$locale/projects/',
-  path: '/$locale/projects/',
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
+  id: '/projects/$slug',
+  path: '/projects/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TagsIndexRoute = TagsIndexRouteImport.update({
+  id: '/tags/',
+  path: '/tags/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TagsTagRoute = TagsTagRouteImport.update({
+  id: '/tags/$tag',
+  path: '/tags/$tag',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleBlogIndexRoute = LocaleBlogIndexRouteImport.update({
@@ -157,10 +152,25 @@ const LocaleBlogIndexRoute = LocaleBlogIndexRouteImport.update({
   path: '/$locale/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DotwellKnownMcpServerCardDotjsonRoute =
-  DotwellKnownMcpServerCardDotjsonRouteImport.update({
-    id: '/.well-known/mcp/server-card.json',
-    path: '/.well-known/mcp/server-card.json',
+const LocaleBlogSlugRoute = LocaleBlogSlugRouteImport.update({
+  id: '/$locale/blog/$slug',
+  path: '/$locale/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleProjectsIndexRoute = LocaleProjectsIndexRouteImport.update({
+  id: '/$locale/projects/',
+  path: '/$locale/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleProjectsSlugRoute = LocaleProjectsSlugRouteImport.update({
+  id: '/$locale/projects/$slug',
+  path: '/$locale/projects/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DotwellKnownAgentSkillsIndexDotjsonRoute =
+  DotwellKnownAgentSkillsIndexDotjsonRouteImport.update({
+    id: '/.well-known/agent-skills/index.json',
+    path: '/.well-known/agent-skills/index.json',
     getParentRoute: () => rootRouteImport,
   } as any)
 const DotwellKnownAgentSkillsSiteDotmdRoute =
@@ -169,22 +179,12 @@ const DotwellKnownAgentSkillsSiteDotmdRoute =
     path: '/.well-known/agent-skills/site.md',
     getParentRoute: () => rootRouteImport,
   } as any)
-const DotwellKnownAgentSkillsIndexDotjsonRoute =
-  DotwellKnownAgentSkillsIndexDotjsonRouteImport.update({
-    id: '/.well-known/agent-skills/index.json',
-    path: '/.well-known/agent-skills/index.json',
+const DotwellKnownMcpServerCardDotjsonRoute =
+  DotwellKnownMcpServerCardDotjsonRouteImport.update({
+    id: '/.well-known/mcp/server-card.json',
+    path: '/.well-known/mcp/server-card.json',
     getParentRoute: () => rootRouteImport,
   } as any)
-const LocaleProjectsSlugRoute = LocaleProjectsSlugRouteImport.update({
-  id: '/$locale/projects/$slug',
-  path: '/$locale/projects/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocaleBlogSlugRoute = LocaleBlogSlugRouteImport.update({
-  id: '/$locale/blog/$slug',
-  path: '/$locale/blog/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -403,53 +403,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/rss.xml': {
-      id: '/rss.xml'
-      path: '/rss.xml'
-      fullPath: '/rss.xml'
-      preLoaderRoute: typeof RssDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/robots.txt': {
-      id: '/robots.txt'
-      path: '/robots.txt'
-      fullPath: '/robots.txt'
-      preLoaderRoute: typeof RobotsDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reprompt.txt': {
-      id: '/reprompt.txt'
-      path: '/reprompt.txt'
-      fullPath: '/reprompt.txt'
-      preLoaderRoute: typeof RepromptDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/llms.txt': {
-      id: '/llms.txt'
-      path: '/llms.txt'
-      fullPath: '/llms.txt'
-      preLoaderRoute: typeof LlmsDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/llms-full.txt': {
-      id: '/llms-full.txt'
-      path: '/llms-full.txt'
-      fullPath: '/llms-full.txt'
-      preLoaderRoute: typeof LlmsFullDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/archive': {
-      id: '/archive'
-      path: '/archive'
-      fullPath: '/archive'
-      preLoaderRoute: typeof ArchiveRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/500': {
@@ -459,32 +417,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof R500RouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/archive': {
+      id: '/archive'
+      path: '/archive'
+      fullPath: '/archive'
+      preLoaderRoute: typeof ArchiveRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tags/': {
-      id: '/tags/'
-      path: '/tags'
-      fullPath: '/tags/'
-      preLoaderRoute: typeof TagsIndexRouteImport
+    '/llms-full.txt': {
+      id: '/llms-full.txt'
+      path: '/llms-full.txt'
+      fullPath: '/llms-full.txt'
+      preLoaderRoute: typeof LlmsFullDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projects/': {
-      id: '/projects/'
-      path: '/projects'
-      fullPath: '/projects/'
-      preLoaderRoute: typeof ProjectsIndexRouteImport
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blog/': {
-      id: '/blog/'
-      path: '/blog'
-      fullPath: '/blog/'
-      preLoaderRoute: typeof BlogIndexRouteImport
+    '/reprompt.txt': {
+      id: '/reprompt.txt'
+      path: '/reprompt.txt'
+      fullPath: '/reprompt.txt'
+      preLoaderRoute: typeof RepromptDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/': {
@@ -494,46 +473,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tags/$tag': {
-      id: '/tags/$tag'
-      path: '/tags/$tag'
-      fullPath: '/tags/$tag'
-      preLoaderRoute: typeof TagsTagRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projects/$slug': {
-      id: '/projects/$slug'
-      path: '/projects/$slug'
-      fullPath: '/projects/$slug'
-      preLoaderRoute: typeof ProjectsSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog/$slug': {
-      id: '/blog/$slug'
-      path: '/blog/$slug'
-      fullPath: '/blog/$slug'
-      preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.well-known/openid-configuration': {
-      id: '/.well-known/openid-configuration'
-      path: '/.well-known/openid-configuration'
-      fullPath: '/.well-known/openid-configuration'
-      preLoaderRoute: typeof DotwellKnownOpenidConfigurationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.well-known/openapi.json': {
-      id: '/.well-known/openapi.json'
-      path: '/.well-known/openapi.json'
-      fullPath: '/.well-known/openapi.json'
-      preLoaderRoute: typeof DotwellKnownOpenapiDotjsonRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.well-known/oauth-protected-resource': {
-      id: '/.well-known/oauth-protected-resource'
-      path: '/.well-known/oauth-protected-resource'
-      fullPath: '/.well-known/oauth-protected-resource'
-      preLoaderRoute: typeof DotwellKnownOauthProtectedResourceRouteImport
+    '/.well-known/api-catalog': {
+      id: '/.well-known/api-catalog'
+      path: '/.well-known/api-catalog'
+      fullPath: '/.well-known/api-catalog'
+      preLoaderRoute: typeof DotwellKnownApiCatalogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.well-known/oauth-authorization-server': {
@@ -543,18 +487,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DotwellKnownOauthAuthorizationServerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.well-known/api-catalog': {
-      id: '/.well-known/api-catalog'
-      path: '/.well-known/api-catalog'
-      fullPath: '/.well-known/api-catalog'
-      preLoaderRoute: typeof DotwellKnownApiCatalogRouteImport
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof DotwellKnownOauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$locale/projects/': {
-      id: '/$locale/projects/'
-      path: '/$locale/projects'
-      fullPath: '/$locale/projects/'
-      preLoaderRoute: typeof LocaleProjectsIndexRouteImport
+    '/.well-known/openapi.json': {
+      id: '/.well-known/openapi.json'
+      path: '/.well-known/openapi.json'
+      fullPath: '/.well-known/openapi.json'
+      preLoaderRoute: typeof DotwellKnownOpenapiDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/openid-configuration': {
+      id: '/.well-known/openid-configuration'
+      path: '/.well-known/openid-configuration'
+      fullPath: '/.well-known/openid-configuration'
+      preLoaderRoute: typeof DotwellKnownOpenidConfigurationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/': {
+      id: '/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof ProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/$slug': {
+      id: '/projects/$slug'
+      path: '/projects/$slug'
+      fullPath: '/projects/$slug'
+      preLoaderRoute: typeof ProjectsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tags/': {
+      id: '/tags/'
+      path: '/tags'
+      fullPath: '/tags/'
+      preLoaderRoute: typeof TagsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tags/$tag': {
+      id: '/tags/$tag'
+      path: '/tags/$tag'
+      fullPath: '/tags/$tag'
+      preLoaderRoute: typeof TagsTagRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/blog/': {
@@ -564,25 +557,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleBlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.well-known/mcp/server-card.json': {
-      id: '/.well-known/mcp/server-card.json'
-      path: '/.well-known/mcp/server-card.json'
-      fullPath: '/.well-known/mcp/server-card.json'
-      preLoaderRoute: typeof DotwellKnownMcpServerCardDotjsonRouteImport
+    '/$locale/blog/$slug': {
+      id: '/$locale/blog/$slug'
+      path: '/$locale/blog/$slug'
+      fullPath: '/$locale/blog/$slug'
+      preLoaderRoute: typeof LocaleBlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.well-known/agent-skills/site.md': {
-      id: '/.well-known/agent-skills/site.md'
-      path: '/.well-known/agent-skills/site.md'
-      fullPath: '/.well-known/agent-skills/site.md'
-      preLoaderRoute: typeof DotwellKnownAgentSkillsSiteDotmdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.well-known/agent-skills/index.json': {
-      id: '/.well-known/agent-skills/index.json'
-      path: '/.well-known/agent-skills/index.json'
-      fullPath: '/.well-known/agent-skills/index.json'
-      preLoaderRoute: typeof DotwellKnownAgentSkillsIndexDotjsonRouteImport
+    '/$locale/projects/': {
+      id: '/$locale/projects/'
+      path: '/$locale/projects'
+      fullPath: '/$locale/projects/'
+      preLoaderRoute: typeof LocaleProjectsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/projects/$slug': {
@@ -592,11 +578,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleProjectsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$locale/blog/$slug': {
-      id: '/$locale/blog/$slug'
-      path: '/$locale/blog/$slug'
-      fullPath: '/$locale/blog/$slug'
-      preLoaderRoute: typeof LocaleBlogSlugRouteImport
+    '/.well-known/agent-skills/index.json': {
+      id: '/.well-known/agent-skills/index.json'
+      path: '/.well-known/agent-skills/index.json'
+      fullPath: '/.well-known/agent-skills/index.json'
+      preLoaderRoute: typeof DotwellKnownAgentSkillsIndexDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/agent-skills/site.md': {
+      id: '/.well-known/agent-skills/site.md'
+      path: '/.well-known/agent-skills/site.md'
+      fullPath: '/.well-known/agent-skills/site.md'
+      preLoaderRoute: typeof DotwellKnownAgentSkillsSiteDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/mcp/server-card.json': {
+      id: '/.well-known/mcp/server-card.json'
+      path: '/.well-known/mcp/server-card.json'
+      fullPath: '/.well-known/mcp/server-card.json'
+      preLoaderRoute: typeof DotwellKnownMcpServerCardDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
