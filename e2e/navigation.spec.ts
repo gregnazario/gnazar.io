@@ -17,8 +17,9 @@ test.describe("Site Navigation", () => {
 			.click();
 		await expect(page).toHaveURL(/\/projects/);
 
-		// Navigate back to home
-		await page.getByRole("link", { name: /greg nazario/i }).click();
+		// Navigate back to home via the header link (the logo's accessible
+		// name is "gnazar.io", not the site author's name)
+		await page.getByRole("link", { name: "Home" }).click();
 		await expect(page).toHaveURL("/");
 	});
 
