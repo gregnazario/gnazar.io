@@ -65,10 +65,14 @@ test.describe("Accessibility", () => {
 	test("should have focusable interactive elements", async ({ page }) => {
 		await page.goto("/");
 
-		// Theme toggle should be focusable
+		// Theme toggle should be focusable (behind the hamburger menu on
+		// small viewports)
 		const themeToggle = page.getByRole("button", {
 			name: /switch to .* mode/i,
 		});
+		if (!(await themeToggle.isVisible())) {
+			await page.getByRole("button", { name: /open menu/i }).click();
+		}
 		await themeToggle.focus();
 		await expect(themeToggle).toBeFocused();
 

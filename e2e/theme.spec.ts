@@ -1,12 +1,22 @@
 import { expect, test } from "@playwright/test";
 
+// The theme toggle sits inside the nav, which collapses behind the
+// hamburger menu on small viewports.
+async function revealThemeToggle(page: import("@playwright/test").Page) {
+	const themeToggle = page.getByRole("button", {
+		name: /switch to .* mode/i,
+	});
+	if (!(await themeToggle.isVisible())) {
+		await page.getByRole("button", { name: /open menu/i }).click();
+	}
+	return themeToggle;
+}
+
 test.describe("Theme Toggle", () => {
 	test("should toggle between light and dark themes", async ({ page }) => {
 		await page.goto("/");
 
-		const themeToggle = page.getByRole("button", {
-			name: /switch to .* mode/i,
-		});
+		const themeToggle = await revealThemeToggle(page);
 		await expect(themeToggle).toBeVisible();
 
 		// Get initial theme
@@ -34,9 +44,7 @@ test.describe("Theme Toggle", () => {
 	test("should persist theme across page navigation", async ({ page }) => {
 		await page.goto("/");
 
-		const themeToggle = page.getByRole("button", {
-			name: /switch to .* mode/i,
-		});
+		const themeToggle = await revealThemeToggle(page);
 
 		// Set to dark mode
 		await themeToggle.click();

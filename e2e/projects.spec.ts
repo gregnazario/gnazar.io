@@ -4,8 +4,10 @@ test.describe("Projects Page", () => {
 	test("should display projects listing", async ({ page }) => {
 		await page.goto("/projects");
 
-		// Check page heading
-		await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+		// SectionHeading titles render as h2 on standalone pages
+		await expect(
+			page.getByRole("heading", { name: /projects/i, level: 2 }),
+		).toBeVisible();
 	});
 
 	test("should display project cards", async ({ page }) => {

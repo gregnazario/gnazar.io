@@ -35,9 +35,13 @@ export default defineConfig({
 		},
 	],
 	webServer: {
-		command: "bun run dev",
+		// CI tests against the production build (faster and more stable than
+		// the on-demand dev server); locally keep the dev server for HMR.
+		command: process.env.CI
+			? "bun run build && bun run preview --port 3000 --strictPort"
+			: "bun run dev",
 		url: "http://localhost:3000",
 		reuseExistingServer: !process.env.CI,
-		timeout: 120000,
+		timeout: 300000,
 	},
 });
