@@ -1,5 +1,17 @@
 import { expect, test } from "@playwright/test";
 
+// Nav links sit behind the hamburger menu on small viewports.
+async function revealNavLink(
+	page: import("@playwright/test").Page,
+	name: RegExp,
+) {
+	const link = page.getByRole("link", { name }).first();
+	if (!(await link.isVisible())) {
+		await page.getByRole("button", { name: /open menu/i }).click();
+	}
+	return link;
+}
+
 test.describe("Site Navigation", () => {
 	test("should navigate between pages correctly", async ({ page }) => {
 		// Start at home
@@ -7,19 +19,19 @@ test.describe("Site Navigation", () => {
 		await expect(page).toHaveURL("/");
 
 		// Navigate to blog
-		await page.getByRole("link", { name: /blog/i }).first().click();
+		const blogLink = await revealNavLink(page, /blog/i);
+		await blogLink.click();
 		await expect(page).toHaveURL(/\/blog/);
 
 		// Navigate to projects
-		await page
-			.getByRole("link", { name: /projects/i })
-			.first()
-			.click();
+		const projectsLink = await revealNavLink(page, /projects/i);
+		await projectsLink.click();
 		await expect(page).toHaveURL(/\/projects/);
 
 		// Navigate back to home via the header link (the logo's accessible
 		// name is "gnazar.io", not the site author's name)
-		await page.getByRole("link", { name: "Home" }).click();
+		const homeLink = await revealNavLink(page, /^Home$/);
+		await homeLink.click();
 		await expect(page).toHaveURL("/");
 	});
 
