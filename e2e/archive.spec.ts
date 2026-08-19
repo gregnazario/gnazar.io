@@ -4,7 +4,10 @@ test.describe("Archive Page", () => {
 	test("should display the archive grouped by date", async ({ page }) => {
 		await page.goto("/archive");
 
-		await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+		// SectionHeading titles render as h2 on standalone pages
+		await expect(
+			page.getByRole("heading", { name: "Archive", level: 2 }),
+		).toBeVisible();
 
 		// Posts are grouped under year headings
 		const yearHeadings = page.locator(".archive-year-title");

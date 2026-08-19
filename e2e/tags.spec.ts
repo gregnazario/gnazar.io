@@ -4,7 +4,10 @@ test.describe("Tags Pages", () => {
 	test("should display the tags index", async ({ page }) => {
 		await page.goto("/tags");
 
-		await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+		// SectionHeading titles render as h2 on standalone pages
+		await expect(
+			page.getByRole("heading", { name: "Tags", level: 2 }),
+		).toBeVisible();
 
 		// Tag links render in the cloud
 		const tagLinks = page.locator(".tags-cloud a.tag-link");

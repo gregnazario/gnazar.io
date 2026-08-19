@@ -21,7 +21,10 @@ test.describe("Home Page", () => {
 	test("should display social links", async ({ page }) => {
 		await page.goto("/");
 
-		const socialNav = page.getByRole("navigation", { name: /social links/i });
+		// Social links appear in the hero and the footer; scope to the hero
+		const socialNav = page
+			.locator("section.hero")
+			.getByRole("navigation", { name: /social links/i });
 		await expect(socialNav).toBeVisible();
 
 		// Check that social links exist and open in new tab
