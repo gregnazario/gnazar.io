@@ -53,6 +53,8 @@ export const Route = createFileRoute("/$locale/projects/$slug")({
 			};
 		}
 
+		const ogImage = `${siteConfig.url}/og/${loaderData.project.slug}.png`;
+
 		return {
 			meta: [
 				{ title: `${loaderData.project.title} | Greg Nazario` },
@@ -63,6 +65,15 @@ export const Route = createFileRoute("/$locale/projects/$slug")({
 					property: "og:url",
 					content: `${siteConfig.url}/${loaderData.locale}/projects/${loaderData.project.slug}`,
 				},
+				{ property: "og:image", content: ogImage },
+				{ property: "og:image:width", content: "1200" },
+				{ property: "og:image:height", content: "630" },
+				{ property: "og:image:alt", content: loaderData.project.title },
+				{ name: "twitter:card", content: "summary_large_image" },
+				{ name: "twitter:title", content: loaderData.project.title },
+				{ name: "twitter:description", content: loaderData.project.summary },
+				{ name: "twitter:image", content: ogImage },
+				{ name: "twitter:image:alt", content: loaderData.project.title },
 			],
 		};
 	},

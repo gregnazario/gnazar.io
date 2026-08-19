@@ -28,6 +28,7 @@
 *.swo
 /.netlify
 .next/
+.worktrees/
 
 npm-debug.log*
 yarn-debug.log*

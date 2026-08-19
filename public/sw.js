@@ -1,12 +1,16 @@
 /// <reference lib="webworker" />
 
-const CACHE_NAME = "gnazario-v1";
+const CACHE_NAME = "gnazario-v2";
 const STATIC_ASSETS = [
 	"/",
 	"/blog",
 	"/projects",
+	"/tags",
+	"/archive",
 	"/favicon.svg",
 	"/manifest.json",
+	"/fonts/inter-latin-var.woff2",
+	"/fonts/jetbrains-mono-latin-var.woff2",
 ];
 
 // Install event - cache static assets

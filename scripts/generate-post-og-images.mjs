@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Generate OG images for individual blog posts
+ * Generate OG images for individual blog posts and projects
  *
  * Usage:
  *   node scripts/generate-post-og-images.mjs
@@ -16,7 +16,6 @@ import matter from "gray-matter";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, "..");
-const contentDir = join(rootDir, "content", "blog");
 const outputDir = join(rootDir, "public", "og");
 
 const force = process.argv.includes("--force");
@@ -55,7 +54,7 @@ function wrapText(text, maxChars = 40) {
 	return lines.slice(0, 3); // Max 3 lines
 }
 
-async function generateOgImage(slug, title, date, tags) {
+async function generateOgImage(slug, title, footerLabel, tags, type) {
 	const outputPath = join(outputDir, `${slug}.png`);
 
 	// Skip if already exists (unless force)
@@ -65,11 +64,7 @@ async function generateOgImage(slug, title, date, tags) {
 	}
 
 	const titleLines = wrapText(title, 35);
-	const formattedDate = new Date(date).toLocaleDateString("en-US", {
-		year: "numeric",
-		month: "long",
-		day: "numeric",
-	});
+	const typeLabel = type === "project" ? "PROJECT" : "BLOG POST";
 
 	const titleY = 280;
 	const lineHeight = 65;
@@ -112,7 +107,7 @@ async function generateOgImage(slug, title, date, tags) {
 			<rect x="80" y="180" width="120" height="4" fill="${accentColor}"/>
 
 			<!-- Blog label -->
-			<text x="80" y="220" font-family="monospace" font-size="14" letter-spacing="0.2em" fill="${accentColor}">BLOG POST</text>
+			<text x="80" y="220" font-family="monospace" font-size="14" letter-spacing="0.2em" fill="${accentColor}">${typeLabel}</text>
 
 			<!-- Title -->
 			${titleSvg}
@@ -120,8 +115,8 @@ async function generateOgImage(slug, title, date, tags) {
 			<!-- Tags -->
 			${tagsSvg}
 
-			<!-- Date -->
-			<text x="80" y="560" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="${mutedColor}">${escapeXml(formattedDate)}</text>
+			<!-- Footer label (date for posts, year for projects) -->
+			<text x="80" y="560" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="${mutedColor}">${escapeXml(footerLabel)}</text>
 
 			<!-- Site -->
 			<text x="1120" y="560" font-family="monospace" font-size="16" fill="${mutedColor}" text-anchor="end">gnazar.io</text>
@@ -136,26 +131,45 @@ async function generateOgImage(slug, title, date, tags) {
 }
 
 async function main() {
-	console.log("🖼️  Generating blog post OG images...\n");
+	console.log("🖼️  Generating OG images...\n");
 
 	// Ensure output directory exists
 	if (!existsSync(outputDir)) {
 		mkdirSync(outputDir, { recursive: true });
 	}
 
-	// Get all blog posts
-	const files = readdirSync(contentDir).filter((f) => f.endsWith(".mdx"));
-
-	for (const file of files) {
+	// Blog posts
+	const blogDir = join(rootDir, "content", "blog");
+	for (const file of readdirSync(blogDir).filter((f) => f.endsWith(".mdx"))) {
 		const slug = file.replace(/\.mdx$/, "");
-		const content = readFileSync(join(contentDir, file), "utf-8");
-		const { data } = matter(content);
+		const { data } = matter(readFileSync(join(blogDir, file), "utf-8"));
 
 		const title = data.title || slug;
 		const date = data.date || new Date().toISOString();
+		const formattedDate = new Date(date).toLocaleDateString("en-US", {
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		});
 		const tags = data.tags || [];
 
-		await generateOgImage(slug, title, date, tags);
+		await generateOgImage(slug, title, formattedDate, tags, "blog");
+	}
+
+	// Projects
+	const projectsDir = join(rootDir, "content", "projects");
+	for (const file of readdirSync(projectsDir).filter((f) =>
+		f.endsWith(".mdx"),
+	)) {
+		const slug = file.replace(/\.mdx$/, "");
+		const { data } = matter(readFileSync(join(projectsDir, file), "utf-8"));
+
+		const title = data.title || slug;
+		const footerLabel = data.role
+			? `${data.role} · ${data.year ?? ""}`.trim()
+			: (data.year ?? "");
+
+		await generateOgImage(slug, title, footerLabel, [], "project");
 	}
 
 	console.log("\n✅ OG image generation complete!");

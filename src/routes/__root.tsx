@@ -125,21 +125,21 @@ export const Route = createRootRoute({
 				{ name: "apple-mobile-web-app-title", content: siteConfig.title },
 			],
 			links: [
-				// Performance: Preconnect to external resources
-				{ rel: "preconnect", href: "https://fonts.googleapis.com" },
+				{ rel: "stylesheet", href: appCss },
+				// Self-hosted variable fonts — preloaded to start before CSS parses
 				{
-					rel: "preconnect",
-					href: "https://fonts.gstatic.com",
+					rel: "preload",
+					href: "/fonts/inter-latin-var.woff2",
+					as: "font",
+					type: "font/woff2",
 					crossOrigin: "anonymous",
 				},
-				// DNS prefetch for external resources
-				{ rel: "dns-prefetch", href: "https://fonts.googleapis.com" },
-				{ rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
-				{ rel: "stylesheet", href: appCss },
-				// Fonts loaded after critical CSS - display: swap ensures no FOIT
 				{
-					rel: "stylesheet",
-					href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
+					rel: "preload",
+					href: "/fonts/jetbrains-mono-latin-var.woff2",
+					as: "font",
+					type: "font/woff2",
+					crossOrigin: "anonymous",
 				},
 				// Prefetch critical routes for faster navigation
 				{ rel: "prefetch", href: "/blog" },

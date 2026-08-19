@@ -53,7 +53,9 @@ bun run dev
 | `bun run test:e2e` | Run E2E tests |
 | `bun run test:e2e:ui` | Run E2E tests with UI |
 | `bun run generate:icons` | Generate PWA icons |
-| `bun run generate:og` | Generate OG images |
+| `bun run generate:og` | Generate site OG image |
+| `bun run generate:og:posts` | Generate OG images for posts and projects |
+| `bun run generate:screenshots` | Generate PWA screenshots |
 | `bun run generate:assets` | Generate all assets |
 
 ## Content
@@ -117,6 +119,8 @@ links:
 | `/manifest.json` | PWA manifest |
 | `/.well-known/security.txt` | Security contact info |
 | `/humans.txt` | Site credits |
+| `/archive` | All blog posts grouped by date |
+| `/tags` | Blog post tag index and per-tag pages |
 
 ## License
 
