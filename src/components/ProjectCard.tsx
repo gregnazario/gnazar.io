@@ -38,11 +38,10 @@ function CardBody({
 					to={to}
 					params={params}
 					tabIndex={-1}
-					aria-hidden="true"
 				>
 					<img
 						src={project.image}
-						alt=""
+						alt={`${project.title} preview`}
 						loading="lazy"
 						decoding="async"
 						width={1200}

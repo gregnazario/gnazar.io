@@ -70,7 +70,7 @@ function ProjectPage() {
 							<img
 								className="project-hero-image"
 								src={data.project.image}
-								alt=""
+								alt={`${data.project.title} screenshot or poster`}
 								width={1200}
 								height={750}
 								// React 18 only recognizes the lowercase attribute; the camelCase
