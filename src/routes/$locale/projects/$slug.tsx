@@ -7,6 +7,7 @@ import {
 
 import Badge from "@/components/Badge";
 import NotFound from "@/components/NotFound";
+import { formatDate } from "@/lib/format";
 import { isValidLocale, type Locale, t } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
 import { fetchProject } from "@/server/content";
@@ -101,11 +102,57 @@ function ProjectPage() {
 					)}
 					<article className="prose">
 						<h1>{project.title}</h1>
+						{project.image ? (
+							<img
+								className="project-hero-image"
+								src={project.image}
+								alt=""
+								width={1200}
+								height={750}
+								// React 18 only recognizes the lowercase attribute; the camelCase
+								// prop logs a dev warning and the types reject the lowercase form.
+								{...{ fetchpriority: "high" }}
+								decoding="async"
+							/>
+						) : null}
 						<div className="card-meta">
 							{project.year ? <span>{project.year}</span> : null}
 							{project.role ? <span>{project.role}</span> : null}
 							{project.featured ? <Badge>Featured</Badge> : null}
+							{project.status ? (
+								<span className={`badge status-${project.status}`}>
+									{project.status}
+								</span>
+							) : null}
 						</div>
+						{project.tech && project.tech.length > 0 ? (
+							<div className="card-tech">
+								{project.tech.map((item) => (
+									<Badge key={item}>{item}</Badge>
+								))}
+							</div>
+						) : null}
+						{project.stars !== undefined ||
+						project.forks !== undefined ||
+						project.lastPush ? (
+							<div className="project-stats">
+								{project.stars !== undefined ? (
+									<span className="project-stat">
+										★ {project.stars} star{project.stars === 1 ? "" : "s"}
+									</span>
+								) : null}
+								{project.forks !== undefined ? (
+									<span className="project-stat">
+										⑂ {project.forks} fork{project.forks === 1 ? "" : "s"}
+									</span>
+								) : null}
+								{project.lastPush ? (
+									<span className="project-stat">
+										Last push {formatDate(project.lastPush)}
+									</span>
+								) : null}
+							</div>
+						) : null}
 						{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
 						<div dangerouslySetInnerHTML={{ __html: html }} />
 						{project.links.length > 0 ? (
