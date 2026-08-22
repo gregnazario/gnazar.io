@@ -18,7 +18,7 @@
       <feColorMatrix
         in="blur"
         type="matrix"
-        values="0 0 0 0 0.27  0 0 0 0 0.83  0 0 0 0 0.54  0 0 0 1 0"
+        values="0 0 0 0 0.29  0 0 0 0 0.87  0 0 0 0 0.50  0 0 0 1 0"
         result="glow"
       />
       <feMerge>
@@ -28,19 +28,19 @@
     </filter>
   </defs>
 
-  <rect x="6" y="10" width="52" height="44" rx="4" fill="#0b0f0d" stroke="#45d38a" stroke-width="3" />
+  <rect x="6" y="10" width="52" height="44" rx="4" fill="#0b0f0d" stroke="#4ade80" stroke-width="3" />
   <rect x="10" y="14" width="44" height="36" rx="2" fill="url(#screen)" />
   <rect x="10" y="14" width="44" height="36" rx="2" fill="url(#scanlines)" opacity="0.4" />
-  <rect x="10" y="14" width="44" height="36" rx="2" stroke="rgba(69, 211, 138, 0.25)" stroke-width="1" />
+  <rect x="10" y="14" width="44" height="36" rx="2" stroke="rgba(74, 222, 128, 0.25)" stroke-width="1" />
 
-  <circle cx="52" cy="16" r="1.5" fill="#45d38a" filter="url(#glow)" />
+  <circle cx="52" cy="16" r="1.5" fill="#4ade80" filter="url(#glow)" />
   <path
     d="M18 28 L26 36 L18 44"
-    stroke="#45d38a"
+    stroke="#4ade80"
     stroke-width="3"
     stroke-linecap="round"
     stroke-linejoin="round"
     filter="url(#glow)"
   />
-  <rect x="30" y="34" width="18" height="4" fill="#45d38a" filter="url(#glow)" />
+  <rect x="30" y="34" width="18" height="4" fill="#4ade80" filter="url(#glow)" />
 </svg>

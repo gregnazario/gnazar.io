@@ -4,8 +4,8 @@
 	"description": "Founding Engineer at Aptos Labs. 11+ years scaling infrastructure, developer tooling, and teams at the frontier of technology.",
 	"start_url": "/",
 	"display": "standalone",
-	"background_color": "#0a0a0a",
-	"theme_color": "#45d38a",
+	"background_color": "#0b1510",
+	"theme_color": "#4ade80",
 	"orientation": "portrait-primary",
 	"icons": [
 		{

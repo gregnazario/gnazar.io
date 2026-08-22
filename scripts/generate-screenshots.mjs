@@ -19,10 +19,10 @@ const outputDir = join(rootDir, "public", "screenshots");
 
 const force = process.argv.includes("--force");
 
-const darkBg = "#0f1712";
-const accentColor = "#6bcf73";
-const textColor = "#e6f4e7";
-const mutedColor = "#9bb3a1";
+const darkBg = "#0b1510";
+const accentColor = "#4ade80";
+const textColor = "#e9f3ec";
+const mutedColor = "#9db3a4";
 
 function browserChrome(width, height, contentSvg) {
 	return `
@@ -37,8 +37,8 @@ function browserChrome(width, height, contentSvg) {
 			<rect width="${width}" height="56" fill="#1a2420"/>
 			<circle cx="28" cy="28" r="7" fill="#e06c60"/>
 			<circle cx="52" cy="28" r="7" fill="#e0b84c"/>
-			<circle cx="76" cy="28" r="7" fill="#6bcf73"/>
-			<rect x="104" y="12" width="${width - 128}" height="32" rx="6" fill="#0f1712"/>
+			<circle cx="76" cy="28" r="7" fill="#4ade80"/>
+			<rect x="104" y="12" width="${width - 128}" height="32" rx="6" fill="#0b1510"/>
 			<text x="120" y="34" font-family="monospace" font-size="15" fill="${mutedColor}">gnazar.io</text>
 
 			<!-- Page -->

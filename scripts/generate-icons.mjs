@@ -45,7 +45,7 @@ async function generateIcons() {
 					bottom: padding,
 					left: padding,
 					right: padding,
-					background: { r: 10, g: 10, b: 10, alpha: 1 }, // #0a0a0a
+					background: { r: 11, g: 21, b: 16, alpha: 1 }, // #0b1510 Evergreen bg
 				})
 				.png()
 				.toFile(join(iconsDir, `icon-maskable-${size}.png`));
