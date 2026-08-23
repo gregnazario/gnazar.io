@@ -98,6 +98,8 @@ links:
 Project images: projects with a live demo get a real screenshot captured
 into `public/images/projects/<slug>.png`; the rest get a generated poster
 (`bun run generate:posters`, reads `tech` and `summary` from frontmatter).
+The poster script skips existing images — rerun with `--force` after
+changing a project's title, summary, or tech so its poster refreshes.
 
 ## Project Structure
 

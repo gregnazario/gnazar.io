@@ -38,22 +38,37 @@ function repoFromFrontmatter(data) {
 		) {
 			const parts = link.href.replace("https://github.com/", "").split("/");
 			if (parts.length >= 2) {
-				return `${parts[0]}/${parts[1].replace(/\\.git$/, "")}`;
+				return `${parts[0]}/${parts[1].replace(/\.git$/, "")}`;
 			}
 		}
 	}
 	return null;
 }
 
+/**
+ * Update `key` in the frontmatter block only, leaving the MDX body
+ * untouched even if it contains lines that look like frontmatter.
+ */
 function setFrontmatterValue(src, key, value) {
-	const re = new RegExp(`^${key}:.*$`, "m");
-	if (re.test(src)) {
-		return src.replace(re, `${key}: ${value}`);
+	// Frontmatter is everything through the closing `---` delimiter.
+	const match = src.match(/^---\n.*?\n---\n/s);
+	if (!match) {
+		return src;
 	}
-	// Insert after status: (or featured: as fallback) inside frontmatter
-	const anchor = /^status:.*$/m.test(src) ? "status" : "featured";
-	const anchorRe = new RegExp(`^(${anchor}:.*$)`, "m");
-	return src.replace(anchorRe, `$1\n${key}: ${value}`);
+	const frontmatter = match[0];
+	const rest = src.slice(frontmatter.length);
+
+	const re = new RegExp(`^${key}:.*$`, "m");
+	let updated;
+	if (re.test(frontmatter)) {
+		updated = frontmatter.replace(re, `${key}: ${value}`);
+	} else {
+		// Insert after status: (or featured: as fallback) inside frontmatter
+		const anchor = /^status:.*$/m.test(frontmatter) ? "status" : "featured";
+		const anchorRe = new RegExp(`^(${anchor}:.*$)`, "m");
+		updated = frontmatter.replace(anchorRe, `$1\n${key}: ${value}`);
+	}
+	return `${updated}${rest}`;
 }
 
 async function main() {

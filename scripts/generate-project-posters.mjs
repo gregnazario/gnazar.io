@@ -165,4 +165,7 @@ async function main() {
 	console.log("\n✅ Poster generation complete!");
 }
 
-main().catch(console.error);
+main().catch((err) => {
+	console.error(err);
+	process.exit(1);
+});
