@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 
 import { stripHtmlTags } from "@/lib/html-utils";
 
@@ -14,9 +14,11 @@ type TableOfContentsProps = {
 };
 
 function extractHeadings(html: string): Heading[] {
-	// Match h2 and h3 headings with id attributes
-	const regex =
-		/<h([23])[^>]*id="([^"]*)"[^>]*>([^<]*(?:<[^/][^>]*>[^<]*)*)<\/h[23]>/gi;
+	// Headings are autolink-wrapped (nested <a>/<span> markup), so match the
+	// full element non-greedily and strip tags from the content afterwards.
+	// The previous pattern could not consume nested closing tags and silently
+	// dropped every autolinked heading, so the TOC never rendered.
+	const regex = /<h([23])[^>]*\sid="([^"]*)"[^>]*>([\s\S]*?)<\/h\1>/gi;
 	const headings: Heading[] = [];
 	let match: RegExpExecArray | null;
 
@@ -41,9 +43,22 @@ export default memo(function TableOfContents({
 	minHeadings = 3,
 }: TableOfContentsProps) {
 	const [activeId, setActiveId] = useState<string>("");
+	const detailsRef = useRef<HTMLDetailsElement>(null);
 
 	// Memoize headings to avoid recreating IntersectionObserver on every render
 	const headings = useMemo(() => extractHeadings(html), [html]);
+
+	// Desktop keeps the TOC expanded; small viewports collapse it so the
+	// article title stays above the fold.
+	useEffect(() => {
+		const mq = window.matchMedia("(min-width: 768px)");
+		const apply = () => {
+			if (detailsRef.current) detailsRef.current.open = mq.matches;
+		};
+		apply();
+		mq.addEventListener("change", apply);
+		return () => mq.removeEventListener("change", apply);
+	}, []);
 
 	useEffect(() => {
 		if (headings.length < minHeadings) return;
@@ -77,8 +92,8 @@ export default memo(function TableOfContents({
 	}
 
 	return (
-		<nav className="toc" aria-label="Table of contents">
-			<h2 className="toc-title">Contents</h2>
+		<details className="toc" aria-label="Table of contents" ref={detailsRef}>
+			<summary className="toc-title">Contents</summary>
 			<ul className="toc-list">
 				{headings.map((heading) => (
 					<li
@@ -102,6 +117,6 @@ export default memo(function TableOfContents({
 					</li>
 				))}
 			</ul>
-		</nav>
+		</details>
 	);
 });

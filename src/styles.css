@@ -771,9 +771,12 @@ a:focus-visible > .badge {
 	height: 1.4rem;
 	align-items: center;
 	justify-content: center;
-	font-size: 0.9rem;
-	line-height: 1;
 	color: var(--accent);
+}
+
+.theme-toggle-icon svg {
+	width: 1rem;
+	height: 1rem;
 }
 
 .language-switcher {
@@ -1306,6 +1309,43 @@ pre {
 	text-transform: uppercase;
 	color: var(--accent);
 	margin: 0 0 0.75rem;
+	cursor: pointer;
+	list-style: none;
+	display: flex;
+	align-items: center;
+	user-select: none;
+}
+
+.toc-title::-webkit-details-marker {
+	display: none;
+}
+
+/* Disclosure chevron — the only visible collapse cue, hidden on desktop
+   where the TOC is forced open */
+.toc-title::after {
+	content: "▾";
+	margin-left: auto;
+	font-size: 0.85em;
+	transition: transform var(--dur-fast) var(--ease);
+}
+
+.toc[open] > .toc-title::after {
+	transform: rotate(180deg);
+}
+
+@media (min-width: 768px) {
+	.toc-title {
+		cursor: default;
+		pointer-events: none;
+	}
+
+	.toc-title::after {
+		display: none;
+	}
+}
+
+.toc:not([open]) > .toc-title {
+	margin-bottom: 0;
 }
 
 .toc-list {
@@ -1411,6 +1451,13 @@ pre {
 .code-block-wrapper:hover .copy-code-button,
 .copy-code-button:focus-visible {
 	opacity: 1;
+}
+
+/* Touch devices have no hover to reveal the button — keep it visible */
+@media (hover: none) {
+	.copy-code-button {
+		opacity: 0.6;
+	}
 }
 
 .copy-code-button:hover {
@@ -3044,4 +3091,40 @@ h6:hover .heading-anchor {
 	flex-wrap: wrap;
 	gap: 0.75rem;
 	align-items: center;
+}
+
+/* Card title links — kept at the end of the sheet: the :hover/:active
+   compounds are higher-specificity than the scoped link rules above, and
+   a later position keeps the noDescendingSpecificity order clean.
+   Transparent underline fills on hover/press so touch users get tap
+   feedback even without the desktop hover lift. */
+.card h3 a {
+	text-decoration: underline;
+	text-decoration-color: transparent;
+	text-underline-offset: 3px;
+	transition: text-decoration-color var(--dur-fast) var(--ease);
+}
+
+.card h3 a:hover,
+.card h3 a:active {
+	text-decoration-color: var(--accent);
+}
+
+/* Coarse pointers: keep header controls at or above the 44px touch-target
+   minimum recommended by WCAG 2.5.5 / Apple HIG. Kept at the end of the
+   sheet so these equal-specificity overrides win against the base rules
+   defined alongside each component. */
+@media (pointer: coarse) {
+	.theme-toggle,
+	.search-trigger,
+	.language-select,
+	.menu-toggle {
+		min-height: 44px;
+		min-width: 44px;
+	}
+
+	.social-links a {
+		width: 44px;
+		height: 44px;
+	}
 }
