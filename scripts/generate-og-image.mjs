@@ -31,18 +31,18 @@ async function generateOgImage() {
 		const width = 1200;
 		const height = 630;
 
-		// Colors matching site theme
-		const accentColor = "#45d38a";
-		const textColor = "#ffffff";
-		const subtextColor = "#a0a0a0";
+		// Evergreen palette (docs/design-system.md)
+		const accentColor = "#4ade80";
+		const textColor = "#e9f3ec";
+		const subtextColor = "#9db3a4";
 
 		// Create SVG with text overlay
 		const svgText = `
 			<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
 				<defs>
 					<linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-						<stop offset="0%" style="stop-color:#0f0f0f;stop-opacity:1" />
-						<stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
+						<stop offset="0%" style="stop-color:#101d15;stop-opacity:1" />
+						<stop offset="100%" style="stop-color:#0b1510;stop-opacity:1" />
 					</linearGradient>
 					<linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
 						<stop offset="0%" style="stop-color:${accentColor};stop-opacity:0.3" />

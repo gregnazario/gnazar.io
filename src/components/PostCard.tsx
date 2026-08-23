@@ -5,6 +5,7 @@ import Badge from "@/components/Badge";
 import type { BlogPost } from "@/lib/content-i18n";
 import { formatDate } from "@/lib/format";
 import { defaultLocale, type Locale } from "@/lib/i18n";
+import { calculateReadingTime, formatReadingTime } from "@/lib/reading-time";
 
 type PostCardProps = {
 	post: BlogPost;
@@ -18,6 +19,7 @@ export default memo(function PostCard({
 	locale = defaultLocale,
 }: PostCardProps) {
 	const tags = maxTags ? post.tags.slice(0, maxTags) : post.tags;
+	const readingTime = formatReadingTime(calculateReadingTime(post.content));
 
 	// For default locale, use /blog/$slug route
 	// For other locales, use /$locale/blog/$slug route
@@ -26,6 +28,7 @@ export default memo(function PostCard({
 			<article className="card">
 				<div className="card-meta">
 					<span>{formatDate(post.date)}</span>
+					<span className="reading-time">{readingTime}</span>
 					{tags.map((tag) => (
 						<Link key={tag} to="/tags/$tag" params={{ tag }}>
 							<Badge>{tag}</Badge>
@@ -46,6 +49,7 @@ export default memo(function PostCard({
 		<article className="card">
 			<div className="card-meta">
 				<span>{formatDate(post.date)}</span>
+				<span className="reading-time">{readingTime}</span>
 				{tags.map((tag) => (
 					<Link key={tag} to="/tags/$tag" params={{ tag }}>
 						<Badge>{tag}</Badge>

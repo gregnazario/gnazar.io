@@ -115,7 +115,16 @@ export const Route = createRootRoute({
 				{ name: "twitter:image", content: `${siteConfig.url}/og-image.png` },
 				{ name: "twitter:image:alt", content: siteConfig.title },
 				// PWA meta tags
-				{ name: "theme-color", content: "#45d38a" },
+				{
+					name: "theme-color",
+					media: "(prefers-color-scheme: light)",
+					content: "#f6f9f4",
+				},
+				{
+					name: "theme-color",
+					media: "(prefers-color-scheme: dark)",
+					content: "#0b1510",
+				},
 				{ name: "mobile-web-app-capable", content: "yes" },
 				{ name: "apple-mobile-web-app-capable", content: "yes" },
 				{

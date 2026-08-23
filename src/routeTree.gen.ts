@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as R500RouteImport } from './routes/500'
 import { Route as ArchiveRouteImport } from './routes/archive'
+import { Route as DesignRouteImport } from './routes/design'
 import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as RepromptDottxtRouteImport } from './routes/reprompt[.]txt'
@@ -51,6 +52,11 @@ const R500Route = R500RouteImport.update({
 const ArchiveRoute = ArchiveRouteImport.update({
   id: '/archive',
   path: '/archive',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DesignRoute = DesignRouteImport.update({
+  id: '/design',
+  path: '/design',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
@@ -190,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/500': typeof R500Route
   '/archive': typeof ArchiveRoute
+  '/design': typeof DesignRoute
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/reprompt.txt': typeof RepromptDottxtRoute
@@ -220,6 +227,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/500': typeof R500Route
   '/archive': typeof ArchiveRoute
+  '/design': typeof DesignRoute
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/reprompt.txt': typeof RepromptDottxtRoute
@@ -251,6 +259,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/500': typeof R500Route
   '/archive': typeof ArchiveRoute
+  '/design': typeof DesignRoute
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/reprompt.txt': typeof RepromptDottxtRoute
@@ -283,6 +292,7 @@ export interface FileRouteTypes {
     | '/'
     | '/500'
     | '/archive'
+    | '/design'
     | '/llms-full.txt'
     | '/llms.txt'
     | '/reprompt.txt'
@@ -313,6 +323,7 @@ export interface FileRouteTypes {
     | '/'
     | '/500'
     | '/archive'
+    | '/design'
     | '/llms-full.txt'
     | '/llms.txt'
     | '/reprompt.txt'
@@ -343,6 +354,7 @@ export interface FileRouteTypes {
     | '/'
     | '/500'
     | '/archive'
+    | '/design'
     | '/llms-full.txt'
     | '/llms.txt'
     | '/reprompt.txt'
@@ -374,6 +386,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   R500Route: typeof R500Route
   ArchiveRoute: typeof ArchiveRoute
+  DesignRoute: typeof DesignRoute
   LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   RepromptDottxtRoute: typeof RepromptDottxtRoute
@@ -422,6 +435,13 @@ declare module '@tanstack/react-router' {
       path: '/archive'
       fullPath: '/archive'
       preLoaderRoute: typeof ArchiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/design': {
+      id: '/design'
+      path: '/design'
+      fullPath: '/design'
+      preLoaderRoute: typeof DesignRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/llms-full.txt': {
@@ -606,6 +626,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   R500Route: R500Route,
   ArchiveRoute: ArchiveRoute,
+  DesignRoute: DesignRoute,
   LlmsFullDottxtRoute: LlmsFullDottxtRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   RepromptDottxtRoute: RepromptDottxtRoute,

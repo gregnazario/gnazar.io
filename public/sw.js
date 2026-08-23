@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 
-const CACHE_NAME = "gnazario-v2";
+const CACHE_NAME = "gnazario-v3";
 const STATIC_ASSETS = [
 	"/",
 	"/blog",

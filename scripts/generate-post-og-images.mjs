@@ -21,10 +21,10 @@ const outputDir = join(rootDir, "public", "og");
 const force = process.argv.includes("--force");
 
 // Color scheme
-const darkBg = "#0f1712";
-const accentColor = "#6bcf73";
-const textColor = "#e6f4e7";
-const mutedColor = "#9bb3a1";
+const darkBg = "#0b1510";
+const accentColor = "#4ade80";
+const textColor = "#e9f3ec";
+const mutedColor = "#9db3a4";
 
 function escapeXml(text) {
 	return text
