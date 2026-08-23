@@ -51,11 +51,7 @@ export default memo(function PostCard({
 				<span>{formatDate(post.date)}</span>
 				<span className="reading-time">{readingTime}</span>
 				{tags.map((tag) => (
-					<Link
-						key={tag}
-						to="/$locale/blog/$slug"
-						params={{ locale, slug: post.slug }}
-					>
+					<Link key={tag} to="/tags/$tag" params={{ tag }}>
 						<Badge>{tag}</Badge>
 					</Link>
 				))}

@@ -19,6 +19,17 @@ function getPreferredTheme(): ThemeMode {
 		: "light";
 }
 
+// The meta tags ship prefers-color-scheme variants, but a persisted
+// data-theme override should also recolor the browser/PWA chrome.
+function syncThemeColor(theme: ThemeMode) {
+	const color = theme === "dark" ? "#0b1510" : "#f6f9f4";
+	for (const meta of document.querySelectorAll<HTMLMetaElement>(
+		'meta[name="theme-color"]',
+	)) {
+		meta.content = color;
+	}
+}
+
 function SunIcon() {
 	return (
 		<svg
@@ -59,6 +70,7 @@ export default function ThemeToggle() {
 		const preferred = getPreferredTheme();
 		setTheme(preferred);
 		document.documentElement.dataset.theme = preferred;
+		syncThemeColor(preferred);
 	}, []);
 
 	const toggleTheme = () => {
@@ -66,6 +78,7 @@ export default function ThemeToggle() {
 		setTheme(next);
 		document.documentElement.dataset.theme = next;
 		window.localStorage.setItem(storageKey, next);
+		syncThemeColor(next);
 	};
 
 	return (

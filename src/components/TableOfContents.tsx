@@ -43,6 +43,7 @@ export default memo(function TableOfContents({
 	minHeadings = 3,
 }: TableOfContentsProps) {
 	const [activeId, setActiveId] = useState<string>("");
+	const [isDesktop, setIsDesktop] = useState(false);
 	const detailsRef = useRef<HTMLDetailsElement>(null);
 
 	// Memoize headings to avoid recreating IntersectionObserver on every render
@@ -53,12 +54,21 @@ export default memo(function TableOfContents({
 	useEffect(() => {
 		const mq = window.matchMedia("(min-width: 768px)");
 		const apply = () => {
+			setIsDesktop(mq.matches);
 			if (detailsRef.current) detailsRef.current.open = mq.matches;
 		};
 		apply();
 		mq.addEventListener("change", apply);
 		return () => mq.removeEventListener("change", apply);
 	}, []);
+
+	// The summary is pointer-disabled and untabbable on desktop; if a toggle
+	// still sneaks through (e.g. an AT form control), keep the TOC open.
+	const handleToggle = () => {
+		if (isDesktop && detailsRef.current && !detailsRef.current.open) {
+			detailsRef.current.open = true;
+		}
+	};
 
 	useEffect(() => {
 		if (headings.length < minHeadings) return;
@@ -92,31 +102,35 @@ export default memo(function TableOfContents({
 	}
 
 	return (
-		<details className="toc" aria-label="Table of contents" ref={detailsRef}>
-			<summary className="toc-title">Contents</summary>
-			<ul className="toc-list">
-				{headings.map((heading) => (
-					<li
-						key={heading.id}
-						className={`toc-item toc-level-${heading.level}`}
-					>
-						<a
-							href={`#${heading.id}`}
-							className={activeId === heading.id ? "toc-active" : ""}
-							onClick={(e) => {
-								e.preventDefault();
-								const element = document.getElementById(heading.id);
-								if (element) {
-									element.scrollIntoView({ behavior: "smooth" });
-									history.pushState(null, "", `#${heading.id}`);
-								}
-							}}
+		<nav aria-label="Table of contents">
+			<details className="toc" ref={detailsRef} onToggle={handleToggle}>
+				<summary className="toc-title" tabIndex={isDesktop ? -1 : undefined}>
+					<h2>Contents</h2>
+				</summary>
+				<ul className="toc-list">
+					{headings.map((heading) => (
+						<li
+							key={heading.id}
+							className={`toc-item toc-level-${heading.level}`}
 						>
-							{heading.text}
-						</a>
-					</li>
-				))}
-			</ul>
-		</details>
+							<a
+								href={`#${heading.id}`}
+								className={activeId === heading.id ? "toc-active" : ""}
+								onClick={(e) => {
+									e.preventDefault();
+									const element = document.getElementById(heading.id);
+									if (element) {
+										element.scrollIntoView({ behavior: "smooth" });
+										history.pushState(null, "", `#${heading.id}`);
+									}
+								}}
+							>
+								{heading.text}
+							</a>
+						</li>
+					))}
+				</ul>
+			</details>
+		</nav>
 	);
 });

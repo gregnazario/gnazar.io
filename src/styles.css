@@ -681,6 +681,33 @@ a:focus-visible > .badge {
 	display: block;
 }
 
+/* Base nav link styles live above the mobile media query so the
+   equal-specificity mobile overrides (larger padding, full width) win */
+.nav a {
+	color: var(--text-muted);
+	font-weight: 500;
+	font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	font-size: 0.74rem;
+	padding: 0.45rem 0.85rem;
+	border-radius: 999px;
+	transition:
+		color var(--dur-fast) var(--ease),
+		background var(--dur-fast) var(--ease);
+}
+
+.nav a:hover,
+.nav a:focus {
+	color: var(--text);
+	background: var(--accent-soft);
+}
+
+.nav a[aria-current="page"] {
+	color: var(--link);
+	background: var(--accent-soft);
+}
+
 /* Mobile responsive nav */
 @media (max-width: 640px) {
 	.menu-toggle {
@@ -714,31 +741,6 @@ a:focus-visible > .badge {
 	.header-inner {
 		position: relative;
 	}
-}
-
-.nav a {
-	color: var(--text-muted);
-	font-weight: 500;
-	font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	font-size: 0.74rem;
-	padding: 0.45rem 0.85rem;
-	border-radius: 999px;
-	transition:
-		color var(--dur-fast) var(--ease),
-		background var(--dur-fast) var(--ease);
-}
-
-.nav a:hover,
-.nav a:focus {
-	color: var(--text);
-	background: var(--accent-soft);
-}
-
-.nav a[aria-current="page"] {
-	color: var(--link);
-	background: var(--accent-soft);
 }
 
 .theme-toggle {
@@ -1320,6 +1322,13 @@ pre {
 	display: none;
 }
 
+/* Keep "Contents" in the document outline without changing the label look */
+.toc-title h2 {
+	font: inherit;
+	margin: 0;
+	display: inline;
+}
+
 /* Disclosure chevron — the only visible collapse cue, hidden on desktop
    where the TOC is forced open */
 .toc-title::after {
@@ -1453,8 +1462,9 @@ pre {
 	opacity: 1;
 }
 
-/* Touch devices have no hover to reveal the button — keep it visible */
-@media (hover: none) {
+/* Touch devices have no hover to reveal the button — keep it visible.
+   any-pointer also covers touch-screen laptops that do report hover. */
+@media (hover: none), (any-pointer: coarse) {
 	.copy-code-button {
 		opacity: 0.6;
 	}
@@ -3113,13 +3123,19 @@ h6:hover .heading-anchor {
 /* Coarse pointers: keep header controls at or above the 44px touch-target
    minimum recommended by WCAG 2.5.5 / Apple HIG. Kept at the end of the
    sheet so these equal-specificity overrides win against the base rules
-   defined alongside each component. */
-@media (pointer: coarse) {
+   defined alongside each component. any-pointer covers touch-screen
+   laptops whose primary pointer is a trackpad. */
+@media (any-pointer: coarse) {
 	.theme-toggle,
 	.search-trigger,
 	.language-select,
-	.menu-toggle {
+	.menu-toggle,
+	.nav a {
 		min-height: 44px;
+	}
+
+	.menu-toggle,
+	.nav a {
 		min-width: 44px;
 	}
 
