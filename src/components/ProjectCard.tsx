@@ -12,70 +12,84 @@ type ProjectCardProps = {
 	locale?: Locale;
 };
 
-export default memo(function ProjectCard({
+function CardBody({
 	project,
-	showRole = false,
-	showAction = false,
-	locale = defaultLocale,
-}: ProjectCardProps) {
-	// For default locale, use /projects/$slug route
-	// For other locales, use /$locale/projects/$slug route
-	if (locale === defaultLocale) {
-		return (
-			<article className="card">
-				<div className="card-meta">
-					{project.year ? <span>{project.year}</span> : null}
-					{showRole && project.role ? <span>{project.role}</span> : null}
-					{project.featured ? <Badge>Featured</Badge> : null}
-				</div>
-				<h3>
-					<Link to="/projects/$slug" params={{ slug: project.slug }}>
-						{project.title}
-					</Link>
-				</h3>
-				<p>{project.summary}</p>
-				{showAction ? (
-					<div className="hero-actions">
-						<Link
-							className="button ghost"
-							to="/projects/$slug"
-							params={{ slug: project.slug }}
-						>
-							{t(locale, "readMore")}
-						</Link>
-					</div>
-				) : null}
-			</article>
-		);
-	}
+	showRole,
+	showAction,
+	locale,
+}: {
+	project: Project;
+	showRole: boolean;
+	showAction: boolean;
+	locale: Locale;
+}) {
+	const to =
+		locale === defaultLocale ? "/projects/$slug" : "/$locale/projects/$slug";
+	const params =
+		locale === defaultLocale
+			? { slug: project.slug }
+			: { locale, slug: project.slug };
 
 	return (
-		<article className="card">
+		<article className="card project-card">
+			{project.image ? (
+				<Link
+					className="project-card-image"
+					to={to}
+					params={params}
+					tabIndex={-1}
+				>
+					<img
+						src={project.image}
+						alt={`${project.title} preview`}
+						loading="lazy"
+						decoding="async"
+						width={1200}
+						height={750}
+					/>
+				</Link>
+			) : null}
 			<div className="card-meta">
 				{project.year ? <span>{project.year}</span> : null}
 				{showRole && project.role ? <span>{project.role}</span> : null}
 				{project.featured ? <Badge>Featured</Badge> : null}
 			</div>
 			<h3>
-				<Link
-					to="/$locale/projects/$slug"
-					params={{ locale, slug: project.slug }}
-				>
+				<Link to={to} params={params}>
 					{project.title}
 				</Link>
 			</h3>
 			<p>{project.summary}</p>
+			{project.tech && project.tech.length > 0 ? (
+				<div className="card-tech">
+					{project.tech.map((item) => (
+						<Badge key={item}>{item}</Badge>
+					))}
+				</div>
+			) : null}
 			{showAction ? (
 				<div className="hero-actions">
-					<Link
-						className="button ghost"
-						to="/$locale/projects/$slug"
-						params={{ locale, slug: project.slug }}
-					>
+					<Link className="button ghost" to={to} params={params}>
 						{t(locale, "readMore")}
 					</Link>
 				</div>
 			) : null}
 		</article>
+	);
+}
+
+export default memo(function ProjectCard({
+	project,
+	showRole = false,
+	showAction = false,
+	locale = defaultLocale,
+}: ProjectCardProps) {
+	return (
+		<CardBody
+			project={project}
+			showRole={showRole}
+			showAction={showAction}
+			locale={locale}
+		/>
 	);
 });

@@ -56,6 +56,8 @@ bun run dev
 | `bun run generate:og` | Generate site OG image |
 | `bun run generate:og:posts` | Generate OG images for posts and projects |
 | `bun run generate:screenshots` | Generate PWA screenshots |
+| `bun run generate:posters` | Generate poster images for projects without screenshots |
+| `bun run sync:stats` | Refresh GitHub stars/forks/last-push in project frontmatter |
 | `bun run generate:assets` | Generate all assets |
 
 ## Content
@@ -82,10 +84,22 @@ summary: A brief summary
 year: 2026
 role: Your role
 featured: true
+image: /images/projects/my-project.png  # hero + card image (optional)
+tech:                                   # badges on page and cards
+  - TypeScript
+  - React
+status: active                          # active | maintained | archived
 links:
   - label: GitHub
     url: https://github.com/...
+# stars / forks / lastPush are refreshed by `bun run sync:stats`
 ```
+
+Project images: projects with a live demo get a real screenshot captured
+into `public/images/projects/<slug>.png`; the rest get a generated poster
+(`bun run generate:posters`, reads `tech` and `summary` from frontmatter).
+The poster script skips existing images — rerun with `--force` after
+changing a project's title, summary, or tech so its poster refreshes.
 
 ## Project Structure
 

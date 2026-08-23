@@ -435,6 +435,78 @@ main {
 	text-transform: uppercase;
 }
 
+/* Project card thumbnails */
+.project-card-image {
+	display: block;
+	margin: -1.5rem -1.5rem 0;
+	overflow: hidden;
+	border-bottom: 2px solid var(--border);
+}
+
+.project-card-image img {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 1200 / 750;
+	object-fit: cover;
+	transition: transform 0.3s ease;
+}
+
+.project-card-image:hover img,
+.project-card-image:focus-visible img {
+	transform: scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.project-card-image img {
+		transition: none !important;
+		transform: none !important;
+	}
+}
+
+.card-tech {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+}
+
+/* Project detail page */
+.project-hero-image {
+	width: 100%;
+	height: auto;
+	border: 2px solid var(--border);
+	border-radius: var(--radius);
+}
+
+.project-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.project-stat {
+	font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+	font-size: 0.78rem;
+	color: var(--text-muted);
+}
+
+/* Status badge variants */
+.status-active {
+	border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+	color: var(--accent);
+}
+
+.status-maintained {
+	border-color: color-mix(in srgb, var(--text-muted) 60%, transparent);
+	color: var(--text-muted);
+}
+
+.status-archived {
+	border-style: dashed;
+	color: var(--text-muted);
+	opacity: 0.75;
+}
+
 .button {
 	display: inline-flex;
 	align-items: center;

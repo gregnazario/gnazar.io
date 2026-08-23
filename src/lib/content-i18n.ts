@@ -26,6 +26,8 @@ export type ProjectLink = {
 	href: string;
 };
 
+export type ProjectStatus = "active" | "maintained" | "archived";
+
 export type Project = {
 	slug: string;
 	title: string;
@@ -34,10 +36,45 @@ export type Project = {
 	year?: string;
 	featured: boolean;
 	links: ProjectLink[];
+	/** Hero/card image path, e.g. /images/projects/<slug>.png */
+	image?: string;
+	/** Tech-stack badges */
+	tech?: string[];
+	status?: ProjectStatus;
+	/** GitHub stats, refreshed by scripts/sync-project-stats.mjs */
+	stars?: number;
+	forks?: number;
+	lastPush?: string;
 	content: string;
 	locale: Locale;
 	isTranslated: boolean;
 };
+
+const PROJECT_STATUSES: readonly ProjectStatus[] = [
+	"active",
+	"maintained",
+	"archived",
+];
+
+function normalizeStatus(value: unknown): ProjectStatus | undefined {
+	return typeof value === "string" &&
+		(PROJECT_STATUSES as readonly string[]).includes(value)
+		? (value as ProjectStatus)
+		: undefined;
+}
+
+function normalizeOptionalNumber(value: unknown): number | undefined {
+	return typeof value === "number" && Number.isFinite(value)
+		? value
+		: undefined;
+}
+
+function normalizeOptionalString(value: unknown): string | undefined {
+	if (typeof value !== "string" || value.trim().length === 0) {
+		return undefined;
+	}
+	return value.trim();
+}
 
 function getContentPath(folder: "blog" | "projects", locale: Locale): string {
 	if (locale === defaultLocale) {
@@ -216,6 +253,12 @@ export async function getProjectBySlug(
 			year: year || undefined,
 			featured,
 			links,
+			image: normalizeOptionalString(data.image),
+			tech: normalizeStringArray(data.tech),
+			status: normalizeStatus(data.status),
+			stars: normalizeOptionalNumber(data.stars),
+			forks: normalizeOptionalNumber(data.forks),
+			lastPush: normalizeOptionalString(data.lastPush),
 			content,
 			locale,
 			isTranslated,

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
-import Badge from "@/components/Badge";
+import ProjectHeader from "@/components/ProjectHeader";
 import { defaultLocale } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
 import { fetchProject } from "@/server/content";
@@ -65,11 +65,7 @@ function ProjectPage() {
 					</Link>
 					<article className="prose">
 						<h1>{data.project.title}</h1>
-						<div className="card-meta">
-							{data.project.year ? <span>{data.project.year}</span> : null}
-							{data.project.role ? <span>{data.project.role}</span> : null}
-							{data.project.featured ? <Badge>Featured</Badge> : null}
-						</div>
+						<ProjectHeader project={data.project} />
 						{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
 						<div dangerouslySetInnerHTML={{ __html: data.html }} />
 						{data.project.links.length > 0 ? (

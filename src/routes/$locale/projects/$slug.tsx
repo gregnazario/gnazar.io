@@ -5,8 +5,8 @@ import {
 	redirect,
 } from "@tanstack/react-router";
 
-import Badge from "@/components/Badge";
 import NotFound from "@/components/NotFound";
+import ProjectHeader from "@/components/ProjectHeader";
 import { isValidLocale, type Locale, t } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
 import { fetchProject } from "@/server/content";
@@ -101,11 +101,7 @@ function ProjectPage() {
 					)}
 					<article className="prose">
 						<h1>{project.title}</h1>
-						<div className="card-meta">
-							{project.year ? <span>{project.year}</span> : null}
-							{project.role ? <span>{project.role}</span> : null}
-							{project.featured ? <Badge>Featured</Badge> : null}
-						</div>
+						<ProjectHeader project={project} locale={locale} />
 						{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
 						<div dangerouslySetInnerHTML={{ __html: html }} />
 						{project.links.length > 0 ? (

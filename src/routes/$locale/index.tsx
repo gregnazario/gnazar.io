@@ -84,9 +84,7 @@ function HomePage() {
 								className="hero-image"
 								width={420}
 								height={520}
-								// React 18 only recognizes the lowercase attribute; the camelCase
-								// prop logs a dev warning and the types reject the lowercase form.
-								{...{ fetchpriority: "high" }}
+								fetchPriority="high"
 								decoding="async"
 							/>
 						</picture>
