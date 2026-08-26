@@ -1,0 +1,31 @@
+---
+title: "pastebin"
+summary: "Post-quantum encrypted pastebin where encryption happens entirely client-side — ML-KEM + AES-256-GCM, the key lives in the URL fragment, with web, iOS, and Android clients."
+year: "2026"
+role: "Design + Engineering"
+featured: false
+image: "/images/projects/pastebin.png"
+tech:
+  - TypeScript
+  - Swift
+  - Kotlin
+status: active
+lastPush: "2026-08-26"
+forks: 0
+stars: 0
+links:
+  - label: "Live"
+    href: "https://pastebin.sed.fyi"
+  - label: "Source"
+    href: "https://github.com/gregnazario/pastebin"
+---
+
+Sharing secrets over chat shouldn't leave plaintext sitting on someone else's
+server. SecuPaste encrypts everything in the browser using an ML-KEM/Kyber +
+AES-256-GCM hybrid with Argon2id key derivation, and keeps the decryption key
+in the URL fragment — the backend stores ciphertext and nothing else.
+
+One shared API serves three clients: a TanStack Start web app, a Swift iOS
+shell, and an Android app built with Compose. Blob storage is pluggable,
+ranging from local disk to S3-compatible providers like Cloudflare R2, with
+configurable expiration defaults.

@@ -1,0 +1,28 @@
+---
+title: "must"
+summary: "A polyglot build orchestrator between task runners like Make/Just and full systems like Bazel — one Mustfile.toml with consistent verbs across ~40 recipe types and content-hash caching."
+year: "2026"
+role: "Design + Engineering"
+featured: false
+image: "/images/projects/must.png"
+tech:
+  - Rust
+  - CLI
+status: active
+lastPush: "2026-08-23"
+forks: 0
+stars: 0
+links:
+  - label: "Source"
+    href: "https://github.com/gregnazario/must"
+---
+
+Task runners like Make and Just describe commands but share nothing across
+languages; Bazel-scale systems define the whole world. must sits between
+them: one binary, one `Mustfile.toml`, and consistent verbs — `must build`,
+`must test`, `must outdated` — backed by roughly forty recipe types spanning
+Rust, Go, C/C++, TypeScript, Python, Zig, Docker, and more.
+
+Content-hash caching skips unchanged work, cross-compilation and env
+interpolation are first-class, Lua plugins extend the core, and existing
+Makefiles import directly. The project builds itself with its own Mustfile.

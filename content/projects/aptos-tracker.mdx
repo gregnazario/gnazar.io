@@ -1,0 +1,28 @@
+---
+title: "aptos-tracker"
+summary: "Track and visualize fund flows across Aptos addresses — indexer data synced into SQLite, rendered as interactive Sankey diagrams and force-directed graphs."
+year: "2026"
+role: "Design + Engineering"
+featured: false
+image: "/images/projects/aptos-tracker.png"
+tech:
+  - TypeScript
+  - D3
+status: maintained
+lastPush: "2026-06-12"
+forks: 0
+stars: 0
+links:
+  - label: "Source"
+    href: "https://github.com/gregnazario/aptos-tracker"
+---
+
+Following money on-chain means staring at raw transfer lists. aptos-tracker
+syncs fungible-asset activity from the Aptos Indexer GraphQL API into local
+SQLite and renders it as interactive Sankey diagrams and force-directed
+graphs built on D3.
+
+Heuristics handle the messy parts automatically — detecting account
+boundaries like DEX pools, exchanges, and contracts; categorizing flows by
+entry-function patterns for tax reporting; resolving `.apt` names and labeling
+well-known addresses from a built-in registry.

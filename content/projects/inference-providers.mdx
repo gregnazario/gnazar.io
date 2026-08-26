@@ -1,0 +1,31 @@
+---
+title: "inference-providers"
+summary: "An open, provenance-tracked registry of AI model providers — canonical model facts plus each provider's serving surfaces and reasoning-parameter specs. An alternative to models.dev."
+year: "2026"
+role: "Design + Engineering"
+featured: false
+image: "/images/projects/inference-providers.png"
+tech:
+  - TypeScript
+  - TOML
+status: active
+lastPush: "2026-08-26"
+forks: 0
+stars: 0
+links:
+  - label: "Docs"
+    href: "https://gregnazario.github.io/inference-providers/"
+  - label: "Source"
+    href: "https://github.com/gregnazario/inference-providers"
+---
+
+Model registries like models.dev exist, but inference-providers tracks
+provenance: lab-owned model facts live separately from provider-owned serving
+details (auth, endpoints, protocols), stored as two layers of TOML that pass
+validation gates before being emitted as typed artifacts. Structured
+reasoning/thinking parameter specs mean tools don't guess which knobs each
+provider supports.
+
+Consumption happens through an SDK — loadCatalog, resolveModel, authHeaders,
+buildReasoningParam — backed by a generated docs site deployed via GitHub
+Pages.

@@ -1,0 +1,29 @@
+---
+title: "aptos-gas-burn-estimator"
+summary: "Estimates how long an Aptos account's balance will last given its gas consumption — account state from the chain, burn history in SQLite, exposed via an API and static frontend."
+year: "2026"
+role: "Design + Engineering"
+featured: false
+image: "/images/projects/aptos-gas-burn-estimator.png"
+tech:
+  - TypeScript
+  - Express
+status: maintained
+lastPush: "2026-06-12"
+forks: 0
+stars: 0
+links:
+  - label: "Live"
+    href: "https://gregnazario.github.io/aptos-gas-burn-estimator/"
+  - label: "Source"
+    href: "https://github.com/gregnazario/aptos-gas-burn-estimator"
+---
+
+Long-lived accounts on Aptos pay upkeep in gas, and it's easy not to notice
+the meter running down. The estimator answers the runway question directly:
+it fetches live account state from Aptos, models burn from historical
+consumption stored in SQLite, and serves the result through an Express API
+validated with Zod.
+
+A lightweight vanilla-JS frontend ships in the same repo and deploys as a
+static site, so checking an address's runway takes seconds.

@@ -1,0 +1,26 @@
+---
+title: "aptos-move-publish-chunking"
+summary: "Aptos Move package enabling chunked publishing of large contracts to a code object or address — working around single-transaction bytecode size limits. Now archived."
+year: "2026"
+role: "Design + Engineering"
+featured: false
+image: "/images/projects/aptos-move-publish-chunking.png"
+tech:
+  - Move
+  - Aptos
+status: archived
+lastPush: "2026-04-21"
+forks: 0
+stars: 0
+links:
+  - label: "Source"
+    href: "https://github.com/gregnazario/aptos-move-publish-chunking"
+---
+
+Large Move packages can exceed what fits in a single transaction's bytecode
+limit. The PackageManagement module here publishes a contract to a code object
+or resource address in chunks instead, assembling large packages across
+multiple transactions against an Aptos mainnet-pinned framework.
+
+The repo is now archived — kept for reference on the chunked-publishing
+approach.

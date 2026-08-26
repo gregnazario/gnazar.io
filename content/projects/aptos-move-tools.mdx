@@ -1,0 +1,28 @@
+---
+title: "aptos-move-tools"
+summary: "Static-analysis and migration tooling for Move on Aptos, built on tree-sitter — no Move compiler required. Linting, VM-limit checks, Move 1→2 migration, and more."
+year: "2026"
+role: "Design + Engineering"
+featured: false
+image: "/images/projects/aptos-move-tools.png"
+tech:
+  - Rust
+  - Tree-sitter
+status: maintained
+lastPush: "2026-03-25"
+forks: 0
+stars: 0
+links:
+  - label: "Source"
+    href: "https://github.com/gregnazario/aptos-move-tools"
+---
+
+Most Move tooling needs a full compiler toolchain. This suite parses Move on
+Aptos with tree-sitter instead, so each tool stays fast and error-tolerant
+with zero Move dependencies installed: move-suggest lints for idiomatic Move 2,
+move-bounds-checker catches Aptos VM limit violations before deployment,
+move1-to-move2 automates syntax migration, and companions recover named
+addresses or analyze gas usage.
+
+For cases that need compiler-grade fidelity, move-bounds-checker-native plugs
+into the legacy Move parser's checkout, trading convenience for accuracy.

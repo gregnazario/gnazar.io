@@ -1,0 +1,27 @@
+---
+title: "npm-dependency-tracker"
+summary: "Parse any JavaScript lockfile — bun, npm, pnpm, or yarn — and explore the dependency graph as a local D3 visualization with force, radial, and tree layouts."
+year: "2026"
+role: "Design + Engineering"
+featured: false
+image: "/images/projects/npm-dependency-tracker.png"
+tech:
+  - TypeScript
+  - Bun
+status: maintained
+lastPush: "2026-03-13"
+forks: 0
+stars: 0
+links:
+  - label: "Source"
+    href: "https://github.com/gregnazario/npm-dependency-tracker"
+---
+
+Understanding a dependency graph starts with the lockfile — whichever manager
+happens to have written it. dep-tracker detects and parses bun, npm, pnpm, and
+yarn lockfiles (with a fallback parser for format surprises), then serves a
+local web visualization of the graph built on D3.
+
+It runs entirely on your machine via Bun: prod-only versus full-graph modes,
+custom force/radial/tree layouts, sidebar search, and auto-opens the browser
+so `bun run src/cli/index.ts` is the whole workflow.

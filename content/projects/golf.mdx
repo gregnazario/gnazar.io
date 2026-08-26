@@ -1,0 +1,29 @@
+---
+title: "golf"
+summary: "An immutable binary file format for time-series range queries — append timestamped records, seal once, read ranges at O(log B + log N). Native implementations in Rust, Go, Python, and TypeScript."
+year: "2026"
+role: "Design + Engineering"
+featured: false
+image: "/images/projects/golf.png"
+tech:
+  - Rust
+  - Polyglot
+status: maintained
+lastPush: "2026-06-12"
+forks: 0
+stars: 0
+links:
+  - label: "Source"
+    href: "https://github.com/gregnazario/golf"
+---
+
+Time-series data often outgrows the database that collected it: you need fast
+range reads over immutable history without operational overhead. golf is a
+binary file format for exactly that — append timestamped records with small
+fixed-size values, seal the file once, then read ranges through a
+binary-searched block index at O(log B + log N), with per-block LZ4/Zstd
+decompression and CRC32C integrity checks.
+
+It's spec-first: SPEC.md pins the layout byte-by-byte, and shared fixtures
+drive compatibility suites across four native implementations — Rust (the
+reference), Go, Python, and TypeScript.
