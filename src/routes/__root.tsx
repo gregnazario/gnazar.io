@@ -7,6 +7,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 
 import ErrorBoundary from "@/components/ErrorBoundary";
+import NavigationProgress from "@/components/NavigationProgress";
 import NotFound from "@/components/NotFound";
 import Search from "@/components/Search";
 import SiteFooter from "@/components/SiteFooter";
@@ -81,6 +82,12 @@ function getHreflangLinks(currentPath: string) {
 	return links;
 }
 
+// A not-found route brings no meta of its own, so its tab title is set here
+function documentTitle(matches: ReadonlyArray<{ status?: string }>): string {
+	const isNotFound = matches.some((match) => match.status === "notFound");
+	return isNotFound ? "Page not found | Greg Nazario" : siteConfig.title;
+}
+
 export const Route = createRootRoute({
 	head: ({ matches }) => {
 		const currentPath = matches[matches.length - 1]?.pathname ?? "/";
@@ -91,7 +98,7 @@ export const Route = createRootRoute({
 			meta: [
 				{ charSet: "utf-8" },
 				{ name: "viewport", content: "width=device-width, initial-scale=1" },
-				{ title: siteConfig.title },
+				{ title: documentTitle(matches) },
 				{ name: "description", content: siteConfig.description },
 				// AI scraping prevention (defense-in-depth with robots.txt + Content-Signal)
 				{ name: "robots", content: "noai, noimageai" },
@@ -114,17 +121,8 @@ export const Route = createRootRoute({
 				{ name: "twitter:description", content: siteConfig.description },
 				{ name: "twitter:image", content: `${siteConfig.url}/og-image.png` },
 				{ name: "twitter:image:alt", content: siteConfig.title },
-				// PWA meta tags
-				{
-					name: "theme-color",
-					media: "(prefers-color-scheme: light)",
-					content: "#f6f9f4",
-				},
-				{
-					name: "theme-color",
-					media: "(prefers-color-scheme: dark)",
-					content: "#0b1510",
-				},
+				// PWA meta tags. theme-color is rendered by RootDocument instead:
+				// the head manager keeps one tag per name, which dropped the light one.
 				{ name: "mobile-web-app-capable", content: "yes" },
 				{ name: "apple-mobile-web-app-capable", content: "yes" },
 				{
@@ -194,6 +192,23 @@ export const Route = createRootRoute({
 	shellComponent: RootDocument,
 	notFoundComponent: NotFound,
 });
+
+/** Progress bar for client-side navigations slow enough to notice. */
+function NavigationIndicator() {
+	const isLoading = useRouterState({ select: (state) => state.isLoading });
+	const [visible, setVisible] = useState(false);
+
+	useEffect(() => {
+		if (!isLoading) {
+			setVisible(false);
+			return;
+		}
+		const timer = window.setTimeout(() => setVisible(true), 150);
+		return () => window.clearTimeout(timer);
+	}, [isLoading]);
+
+	return <NavigationProgress pending={visible} />;
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	const routerState = useRouterState();
@@ -338,8 +353,27 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 		<html lang={locale}>
 			<head>
 				<HeadContent />
+				<meta
+					key="theme-color-light"
+					name="theme-color"
+					media="(prefers-color-scheme: light)"
+					content="#f6f9f4"
+				/>
+				<meta
+					key="theme-color-dark"
+					name="theme-color"
+					media="(prefers-color-scheme: dark)"
+					content="#0b1510"
+				/>
+				{/* The home page types its copy in; without scripts it shows at once */}
+				<noscript>
+					<style>
+						{".typewriter .typewriter-base{visibility:visible;animation:none}"}
+					</style>
+				</noscript>
 			</head>
 			<body className="site-body">
+				<NavigationIndicator />
 				<LocaleProvider locale={locale}>
 					<a className="skip-link" href="#main-content">
 						{t(locale, "skipToContent")}

@@ -26,6 +26,7 @@ function BlogPage() {
 		<section className="section">
 			<div className="container">
 				<SectionHeading
+					as="h1"
 					title="Blog"
 					subtitle="Notes on systems, engineering, and building products."
 				/>

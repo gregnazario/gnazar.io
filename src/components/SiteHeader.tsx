@@ -83,7 +83,7 @@ export default function SiteHeader({ onSearchOpen }: SiteHeaderProps) {
 					onClick={() => setIsMenuOpen(!isMenuOpen)}
 					aria-expanded={isMenuOpen}
 					aria-controls="primary-nav"
-					aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+					aria-label={t(locale, isMenuOpen ? "closeMenu" : "openMenu")}
 				>
 					<span className="menu-icon" aria-hidden="true">
 						{isMenuOpen ? "✕" : "☰"}
@@ -108,7 +108,7 @@ export default function SiteHeader({ onSearchOpen }: SiteHeaderProps) {
 						type="button"
 						className="search-trigger"
 						onClick={onSearchOpen}
-						aria-label="Search"
+						aria-label={t(locale, "search")}
 					>
 						<svg
 							className="search-trigger-icon"

@@ -4,9 +4,9 @@ test.describe("Archive Page", () => {
 	test("should display the archive grouped by date", async ({ page }) => {
 		await page.goto("/archive");
 
-		// SectionHeading titles render as h2 on standalone pages
+		// SectionHeading titles render as h1 on standalone pages
 		await expect(
-			page.getByRole("heading", { name: "Archive", level: 2 }),
+			page.getByRole("heading", { name: "Archive", level: 1 }),
 		).toBeVisible();
 
 		// Posts are grouped under year headings

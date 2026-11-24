@@ -4,6 +4,7 @@
  */
 
 import { stripHtmlTags } from "./html-utils";
+import { defaultLocale, type Locale, tf } from "./i18n";
 
 const WORDS_PER_MINUTE = 225;
 
@@ -17,6 +18,9 @@ export function calculateReadingTime(content: string): number {
 	return Math.max(1, minutes); // Minimum 1 minute
 }
 
-export function formatReadingTime(minutes: number): string {
-	return `${minutes} min read`;
+export function formatReadingTime(
+	minutes: number,
+	locale: Locale = defaultLocale,
+): string {
+	return tf(locale, "minRead", { minutes });
 }

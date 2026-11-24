@@ -8,6 +8,7 @@ import {
 	getProjectBySlug,
 } from "@/lib/content-i18n";
 import { defaultLocale, isValidLocale, type Locale } from "@/lib/i18n";
+import { applySecurityHeaders } from "@/lib/security-headers";
 import { siteConfig } from "@/lib/site";
 
 type AcceptRange = { type: string; q: number; index: number };
@@ -323,6 +324,26 @@ const contentSignalMiddleware = createMiddleware().server(async ({ next }) => {
 	return result;
 });
 
+/**
+ * netlify.toml sets the security policies for "/*", but the CDN only applies
+ * them to static files — server-rendered responses have to add their own.
+ * Development is skipped because the policy blocks Vite's HMR connection.
+ */
+const securityHeadersMiddleware = createMiddleware().server(
+	async ({ next }) => {
+		const result = await next();
+		if (import.meta.env.PROD) {
+			applySecurityHeaders(result.response.headers);
+		}
+		return result;
+	},
+);
+
 export const startInstance = createStart(() => ({
-	requestMiddleware: [contentSignalMiddleware, markdownNegotiationMiddleware],
+	requestMiddleware: [
+		// Outermost so every response, including not-found and markdown ones, is covered
+		securityHeadersMiddleware,
+		contentSignalMiddleware,
+		markdownNegotiationMiddleware,
+	],
 }));

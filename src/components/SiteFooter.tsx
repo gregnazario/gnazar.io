@@ -1,10 +1,13 @@
 import { Link } from "@tanstack/react-router";
 
 import SocialLinks from "@/components/SocialLinks";
+import { defaultLocale, t } from "@/lib/i18n";
+import { useLocale } from "@/lib/locale-context";
 import { siteConfig } from "@/lib/site";
 
 export default function SiteFooter() {
 	const year = new Date().getFullYear();
+	const locale = useLocale();
 
 	return (
 		<footer className="site-footer">
@@ -12,11 +15,27 @@ export default function SiteFooter() {
 				<div>
 					<strong>{siteConfig.title}</strong>
 				</div>
-				<nav aria-label="Site" className="footer-nav">
-					<Link to="/blog">Blog</Link>
-					<Link to="/projects">Projects</Link>
-					<Link to="/archive">Archive</Link>
-					<Link to="/tags">Tags</Link>
+				{/* Links follow the reader's language; English keeps its unprefixed paths */}
+				<nav aria-label={t(locale, "site")} className="footer-nav">
+					{locale === defaultLocale ? (
+						<>
+							<Link to="/blog">{t(locale, "blog")}</Link>
+							<Link to="/projects">{t(locale, "projects")}</Link>
+							<Link to="/archive">{t(locale, "archive")}</Link>
+							<Link to="/tags">{t(locale, "tags")}</Link>
+						</>
+					) : (
+						<>
+							<Link to={`/${locale}/blog` as string}>{t(locale, "blog")}</Link>
+							<Link to={`/${locale}/projects` as string}>
+								{t(locale, "projects")}
+							</Link>
+							<Link to={`/${locale}/archive` as string}>
+								{t(locale, "archive")}
+							</Link>
+							<Link to={`/${locale}/tags` as string}>{t(locale, "tags")}</Link>
+						</>
+					)}
 					<a href="/rss.xml">RSS</a>
 				</nav>
 				<SocialLinks />

@@ -7,14 +7,20 @@ import {
 
 import NotFound from "@/components/NotFound";
 import ProjectHeader from "@/components/ProjectHeader";
+import ProjectNavigation, {
+	type ProjectRef,
+	projectNeighbours,
+} from "@/components/ProjectNavigation";
 import { isValidLocale, type Locale, t } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
-import { fetchProject } from "@/server/content";
+import { fetchProject, fetchProjects } from "@/server/content";
 
 type ProjectLoaderData = {
 	project: NonNullable<Awaited<ReturnType<typeof fetchProject>>>["project"];
 	html: string;
 	locale: Locale;
+	previous?: ProjectRef;
+	next?: ProjectRef;
 };
 
 export const Route = createFileRoute("/$locale/projects/$slug")({
@@ -34,15 +40,22 @@ export const Route = createFileRoute("/$locale/projects/$slug")({
 			throw notFound();
 		}
 
-		const data = await fetchProject({
-			data: { slug: params.slug, locale },
-		});
+		const [data, projects] = await Promise.all([
+			fetchProject({
+				data: { slug: params.slug, locale },
+			}),
+			fetchProjects({ data: { locale } }),
+		]);
 
 		if (!data) {
 			throw notFound();
 		}
 
-		return { ...data, locale };
+		return {
+			...data,
+			locale,
+			...projectNeighbours(projects, data.project.slug),
+		};
 	},
 	component: ProjectPage,
 	notFoundComponent: NotFound,
@@ -89,7 +102,7 @@ function ProjectPage() {
 			<div className="container">
 				<div className="stack">
 					<Link className="button ghost" to={`/${locale}/projects` as string}>
-						{t(locale, "projects")}
+						{t(locale, "backToProjects")}
 					</Link>
 					{project.isTranslated && (
 						<div className="translation-notice">
@@ -102,8 +115,11 @@ function ProjectPage() {
 					<article className="prose">
 						<h1>{project.title}</h1>
 						<ProjectHeader project={project} locale={locale} />
-						{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
-						<div dangerouslySetInnerHTML={{ __html: html }} />
+						<div
+							className="prose-content"
+							// biome-ignore lint/security/noDangerouslySetInnerHtml: content is local
+							dangerouslySetInnerHTML={{ __html: html }}
+						/>
 						{project.links.length > 0 ? (
 							<div className="hero-actions">
 								{project.links.map((link) => (
@@ -120,6 +136,11 @@ function ProjectPage() {
 							</div>
 						) : null}
 					</article>
+					<ProjectNavigation
+						previous={data.previous}
+						next={data.next}
+						locale={locale}
+					/>
 				</div>
 			</div>
 		</section>

@@ -2,7 +2,7 @@ import { memo } from "react";
 
 import Badge from "@/components/Badge";
 import type { Project, ProjectStatus } from "@/lib/content-i18n";
-import { formatDate } from "@/lib/format";
+import { formatDate, isDefaultProjectRole } from "@/lib/format";
 import { defaultLocale, type Locale, t } from "@/lib/i18n";
 
 const STATUS_KEYS: Record<ProjectStatus, string> = {
@@ -24,9 +24,16 @@ export default memo(function ProjectHeader({
 	project,
 	locale = defaultLocale,
 }: ProjectHeaderProps) {
+	// A zero count says nothing, so only totals above zero are worth the space
+	const stars = project.stars && project.stars > 0 ? project.stars : undefined;
+	const forks = project.forks && project.forks > 0 ? project.forks : undefined;
+	const role =
+		project.role && !isDefaultProjectRole(project.role)
+			? project.role
+			: undefined;
 	const hasStats =
-		project.stars !== undefined ||
-		project.forks !== undefined ||
+		stars !== undefined ||
+		forks !== undefined ||
 		project.lastPush !== undefined;
 
 	return (
@@ -44,8 +51,8 @@ export default memo(function ProjectHeader({
 			) : null}
 			<div className="card-meta">
 				{project.year ? <span>{project.year}</span> : null}
-				{project.role ? <span>{project.role}</span> : null}
-				{project.featured ? <Badge>Featured</Badge> : null}
+				{role ? <span>{role}</span> : null}
+				{project.featured ? <Badge>{t(locale, "featured")}</Badge> : null}
 				{project.status ? (
 					<span className={`badge status-${project.status}`}>
 						{t(locale, STATUS_KEYS[project.status])}
@@ -61,16 +68,14 @@ export default memo(function ProjectHeader({
 			) : null}
 			{hasStats ? (
 				<div className="project-stats">
-					{project.stars !== undefined ? (
+					{stars !== undefined ? (
 						<span className="project-stat">
-							★ {project.stars}{" "}
-							{t(locale, project.stars === 1 ? "star" : "stars")}
+							★ {stars} {t(locale, stars === 1 ? "star" : "stars")}
 						</span>
 					) : null}
-					{project.forks !== undefined ? (
+					{forks !== undefined ? (
 						<span className="project-stat">
-							⑂ {project.forks}{" "}
-							{t(locale, project.forks === 1 ? "fork" : "forks")}
+							⑂ {forks} {t(locale, forks === 1 ? "fork" : "forks")}
 						</span>
 					) : null}
 					{project.lastPush ? (

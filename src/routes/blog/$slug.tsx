@@ -168,8 +168,11 @@ function BlogPostPage() {
 							<FontSizeControls />
 							<TableOfContents html={html} />
 
-							{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
-							<div dangerouslySetInnerHTML={{ __html: html }} />
+							<div
+								className="prose-content"
+								// biome-ignore lint/security/noDangerouslySetInnerHtml: content is local
+								dangerouslySetInnerHTML={{ __html: html }}
+							/>
 
 							<CopyCodeButton />
 							<CodeBlockLabels />

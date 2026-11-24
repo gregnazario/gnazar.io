@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 
-import { defaultLocale, getLocaleFromPath } from "@/lib/i18n";
+import { defaultLocale, getLocaleFromPath, t } from "@/lib/i18n";
 
 export default function NotFound() {
 	const routerState = useRouterState();
@@ -11,6 +11,7 @@ export default function NotFound() {
 	return (
 		<section className="section terminal-error">
 			<div className="container">
+				<h1 className="sr-only">{t(locale, "pageNotFound")}</h1>
 				<div className="terminal-window">
 					<div className="terminal-header">
 						<span className="terminal-dot red" />

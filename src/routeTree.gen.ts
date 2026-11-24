@@ -20,6 +20,7 @@ import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
+import { Route as LocaleArchiveRouteImport } from './routes/$locale/archive'
 import { Route as DotwellKnownApiCatalogRouteImport } from './routes/[.]well-known/api-catalog'
 import { Route as DotwellKnownOauthAuthorizationServerRouteImport } from './routes/[.]well-known/oauth-authorization-server'
 import { Route as DotwellKnownOauthProtectedResourceRouteImport } from './routes/[.]well-known/oauth-protected-resource'
@@ -35,6 +36,8 @@ import { Route as LocaleBlogIndexRouteImport } from './routes/$locale/blog/index
 import { Route as LocaleBlogSlugRouteImport } from './routes/$locale/blog/$slug'
 import { Route as LocaleProjectsIndexRouteImport } from './routes/$locale/projects/index'
 import { Route as LocaleProjectsSlugRouteImport } from './routes/$locale/projects/$slug'
+import { Route as LocaleTagsIndexRouteImport } from './routes/$locale/tags/index'
+import { Route as LocaleTagsTagRouteImport } from './routes/$locale/tags/$tag'
 import { Route as DotwellKnownAgentSkillsIndexDotjsonRouteImport } from './routes/[.]well-known/agent-skills/index[.]json'
 import { Route as DotwellKnownAgentSkillsSiteDotmdRouteImport } from './routes/[.]well-known/agent-skills/site[.]md'
 import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[.]well-known/mcp/server-card[.]json'
@@ -92,6 +95,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
   id: '/$locale/',
   path: '/$locale/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleArchiveRoute = LocaleArchiveRouteImport.update({
+  id: '/$locale/archive',
+  path: '/$locale/archive',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DotwellKnownApiCatalogRoute = DotwellKnownApiCatalogRouteImport.update({
@@ -173,6 +181,16 @@ const LocaleProjectsSlugRoute = LocaleProjectsSlugRouteImport.update({
   path: '/$locale/projects/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleTagsIndexRoute = LocaleTagsIndexRouteImport.update({
+  id: '/$locale/tags/',
+  path: '/$locale/tags/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleTagsTagRoute = LocaleTagsTagRouteImport.update({
+  id: '/$locale/tags/$tag',
+  path: '/$locale/tags/$tag',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DotwellKnownAgentSkillsIndexDotjsonRoute =
   DotwellKnownAgentSkillsIndexDotjsonRouteImport.update({
     id: '/.well-known/agent-skills/index.json',
@@ -203,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$locale/archive': typeof LocaleArchiveRoute
   '/.well-known/api-catalog': typeof DotwellKnownApiCatalogRoute
   '/.well-known/oauth-authorization-server': typeof DotwellKnownOauthAuthorizationServerRoute
   '/.well-known/oauth-protected-resource': typeof DotwellKnownOauthProtectedResourceRoute
@@ -217,11 +236,13 @@ export interface FileRoutesByFullPath {
   '/tags/': typeof TagsIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/$locale/tags/$tag': typeof LocaleTagsTagRoute
   '/.well-known/agent-skills/index.json': typeof DotwellKnownAgentSkillsIndexDotjsonRoute
   '/.well-known/agent-skills/site.md': typeof DotwellKnownAgentSkillsSiteDotmdRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
   '/$locale/projects/': typeof LocaleProjectsIndexRoute
+  '/$locale/tags/': typeof LocaleTagsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -234,6 +255,7 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$locale/archive': typeof LocaleArchiveRoute
   '/.well-known/api-catalog': typeof DotwellKnownApiCatalogRoute
   '/.well-known/oauth-authorization-server': typeof DotwellKnownOauthAuthorizationServerRoute
   '/.well-known/oauth-protected-resource': typeof DotwellKnownOauthProtectedResourceRoute
@@ -248,11 +270,13 @@ export interface FileRoutesByTo {
   '/tags': typeof TagsIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/$locale/tags/$tag': typeof LocaleTagsTagRoute
   '/.well-known/agent-skills/index.json': typeof DotwellKnownAgentSkillsIndexDotjsonRoute
   '/.well-known/agent-skills/site.md': typeof DotwellKnownAgentSkillsSiteDotmdRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
   '/$locale/blog': typeof LocaleBlogIndexRoute
   '/$locale/projects': typeof LocaleProjectsIndexRoute
+  '/$locale/tags': typeof LocaleTagsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -266,6 +290,7 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$locale/archive': typeof LocaleArchiveRoute
   '/.well-known/api-catalog': typeof DotwellKnownApiCatalogRoute
   '/.well-known/oauth-authorization-server': typeof DotwellKnownOauthAuthorizationServerRoute
   '/.well-known/oauth-protected-resource': typeof DotwellKnownOauthProtectedResourceRoute
@@ -280,11 +305,13 @@ export interface FileRoutesById {
   '/tags/': typeof TagsIndexRoute
   '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/projects/$slug': typeof LocaleProjectsSlugRoute
+  '/$locale/tags/$tag': typeof LocaleTagsTagRoute
   '/.well-known/agent-skills/index.json': typeof DotwellKnownAgentSkillsIndexDotjsonRoute
   '/.well-known/agent-skills/site.md': typeof DotwellKnownAgentSkillsSiteDotmdRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
   '/$locale/projects/': typeof LocaleProjectsIndexRoute
+  '/$locale/tags/': typeof LocaleTagsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -299,6 +326,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/rss.xml'
     | '/sitemap.xml'
+    | '/$locale/archive'
     | '/.well-known/api-catalog'
     | '/.well-known/oauth-authorization-server'
     | '/.well-known/oauth-protected-resource'
@@ -313,11 +341,13 @@ export interface FileRouteTypes {
     | '/tags/'
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
+    | '/$locale/tags/$tag'
     | '/.well-known/agent-skills/index.json'
     | '/.well-known/agent-skills/site.md'
     | '/.well-known/mcp/server-card.json'
     | '/$locale/blog/'
     | '/$locale/projects/'
+    | '/$locale/tags/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -330,6 +360,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/rss.xml'
     | '/sitemap.xml'
+    | '/$locale/archive'
     | '/.well-known/api-catalog'
     | '/.well-known/oauth-authorization-server'
     | '/.well-known/oauth-protected-resource'
@@ -344,11 +375,13 @@ export interface FileRouteTypes {
     | '/tags'
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
+    | '/$locale/tags/$tag'
     | '/.well-known/agent-skills/index.json'
     | '/.well-known/agent-skills/site.md'
     | '/.well-known/mcp/server-card.json'
     | '/$locale/blog'
     | '/$locale/projects'
+    | '/$locale/tags'
   id:
     | '__root__'
     | '/'
@@ -361,6 +394,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/rss.xml'
     | '/sitemap.xml'
+    | '/$locale/archive'
     | '/.well-known/api-catalog'
     | '/.well-known/oauth-authorization-server'
     | '/.well-known/oauth-protected-resource'
@@ -375,11 +409,13 @@ export interface FileRouteTypes {
     | '/tags/'
     | '/$locale/blog/$slug'
     | '/$locale/projects/$slug'
+    | '/$locale/tags/$tag'
     | '/.well-known/agent-skills/index.json'
     | '/.well-known/agent-skills/site.md'
     | '/.well-known/mcp/server-card.json'
     | '/$locale/blog/'
     | '/$locale/projects/'
+    | '/$locale/tags/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -393,6 +429,7 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   RssDotxmlRoute: typeof RssDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  LocaleArchiveRoute: typeof LocaleArchiveRoute
   DotwellKnownApiCatalogRoute: typeof DotwellKnownApiCatalogRoute
   DotwellKnownOauthAuthorizationServerRoute: typeof DotwellKnownOauthAuthorizationServerRoute
   DotwellKnownOauthProtectedResourceRoute: typeof DotwellKnownOauthProtectedResourceRoute
@@ -407,11 +444,13 @@ export interface RootRouteChildren {
   TagsIndexRoute: typeof TagsIndexRoute
   LocaleBlogSlugRoute: typeof LocaleBlogSlugRoute
   LocaleProjectsSlugRoute: typeof LocaleProjectsSlugRoute
+  LocaleTagsTagRoute: typeof LocaleTagsTagRoute
   DotwellKnownAgentSkillsIndexDotjsonRoute: typeof DotwellKnownAgentSkillsIndexDotjsonRoute
   DotwellKnownAgentSkillsSiteDotmdRoute: typeof DotwellKnownAgentSkillsSiteDotmdRoute
   DotwellKnownMcpServerCardDotjsonRoute: typeof DotwellKnownMcpServerCardDotjsonRoute
   LocaleBlogIndexRoute: typeof LocaleBlogIndexRoute
   LocaleProjectsIndexRoute: typeof LocaleProjectsIndexRoute
+  LocaleTagsIndexRoute: typeof LocaleTagsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -491,6 +530,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale'
       fullPath: '/$locale/'
       preLoaderRoute: typeof LocaleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/archive': {
+      id: '/$locale/archive'
+      path: '/$locale/archive'
+      fullPath: '/$locale/archive'
+      preLoaderRoute: typeof LocaleArchiveRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.well-known/api-catalog': {
@@ -598,6 +644,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleProjectsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/tags/': {
+      id: '/$locale/tags/'
+      path: '/$locale/tags'
+      fullPath: '/$locale/tags/'
+      preLoaderRoute: typeof LocaleTagsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/tags/$tag': {
+      id: '/$locale/tags/$tag'
+      path: '/$locale/tags/$tag'
+      fullPath: '/$locale/tags/$tag'
+      preLoaderRoute: typeof LocaleTagsTagRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.well-known/agent-skills/index.json': {
       id: '/.well-known/agent-skills/index.json'
       path: '/.well-known/agent-skills/index.json'
@@ -633,6 +693,7 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   RssDotxmlRoute: RssDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  LocaleArchiveRoute: LocaleArchiveRoute,
   DotwellKnownApiCatalogRoute: DotwellKnownApiCatalogRoute,
   DotwellKnownOauthAuthorizationServerRoute:
     DotwellKnownOauthAuthorizationServerRoute,
@@ -649,12 +710,14 @@ const rootRouteChildren: RootRouteChildren = {
   TagsIndexRoute: TagsIndexRoute,
   LocaleBlogSlugRoute: LocaleBlogSlugRoute,
   LocaleProjectsSlugRoute: LocaleProjectsSlugRoute,
+  LocaleTagsTagRoute: LocaleTagsTagRoute,
   DotwellKnownAgentSkillsIndexDotjsonRoute:
     DotwellKnownAgentSkillsIndexDotjsonRoute,
   DotwellKnownAgentSkillsSiteDotmdRoute: DotwellKnownAgentSkillsSiteDotmdRoute,
   DotwellKnownMcpServerCardDotjsonRoute: DotwellKnownMcpServerCardDotjsonRoute,
   LocaleBlogIndexRoute: LocaleBlogIndexRoute,
   LocaleProjectsIndexRoute: LocaleProjectsIndexRoute,
+  LocaleTagsIndexRoute: LocaleTagsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

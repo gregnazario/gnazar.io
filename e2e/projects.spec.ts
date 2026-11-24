@@ -4,9 +4,9 @@ test.describe("Projects Page", () => {
 	test("should display projects listing", async ({ page }) => {
 		await page.goto("/projects");
 
-		// SectionHeading titles render as h2 on standalone pages
+		// SectionHeading titles render as h1 on standalone pages
 		await expect(
-			page.getByRole("heading", { name: /projects/i, level: 2 }),
+			page.getByRole("heading", { name: /projects/i, level: 1 }),
 		).toBeVisible();
 	});
 

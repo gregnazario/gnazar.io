@@ -24,6 +24,9 @@ export default function HeadingAnchors() {
 			const anchor = document.createElement("a");
 			anchor.href = `#${id}`;
 			anchor.className = "heading-anchor";
+			// A pointer-only shortcut: the heading text is already a focusable link
+			anchor.tabIndex = -1;
+			anchor.setAttribute("aria-hidden", "true");
 			anchor.setAttribute("aria-label", `Link to ${heading.textContent}`);
 			anchor.innerHTML = `
 				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">

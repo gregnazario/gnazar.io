@@ -46,8 +46,9 @@ function ProjectsPage() {
 		<section className="section">
 			<div className="container">
 				<SectionHeading
+					as="h1"
 					title={t(locale, "projects")}
-					subtitle="Selected work across systems, products, and research."
+					subtitle={t(locale, "projectsIntro")}
 				/>
 				<div className="grid two">
 					{projects.map((project) => (

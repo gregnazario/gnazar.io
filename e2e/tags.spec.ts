@@ -4,9 +4,9 @@ test.describe("Tags Pages", () => {
 	test("should display the tags index", async ({ page }) => {
 		await page.goto("/tags");
 
-		// SectionHeading titles render as h2 on standalone pages
+		// SectionHeading titles render as h1 on standalone pages
 		await expect(
-			page.getByRole("heading", { name: "Tags", level: 2 }),
+			page.getByRole("heading", { name: "Tags", level: 1 }),
 		).toBeVisible();
 
 		// Tag links render in the cloud

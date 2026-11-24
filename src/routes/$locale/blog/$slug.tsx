@@ -191,14 +191,15 @@ function BlogPostPage() {
 								{post.draft && <span className="draft-indicator">Draft</span>}
 							</h1>
 							<div className="card-meta">
-								<span>{formatDate(post.date)}</span>
+								<span>{formatDate(post.date, locale)}</span>
 								{post.lastUpdated && (
 									<span className="last-updated">
-										Updated {formatDate(post.lastUpdated)}
+										{t(locale, "updated")}{" "}
+										{formatDate(post.lastUpdated, locale)}
 									</span>
 								)}
 								<span className="reading-time">
-									{formatReadingTime(readingTime)}
+									{formatReadingTime(readingTime, locale)}
 								</span>
 								{post.tags.map((tag) => (
 									<Badge key={tag}>{tag}</Badge>
@@ -208,8 +209,11 @@ function BlogPostPage() {
 							<FontSizeControls />
 							<TableOfContents html={html} />
 
-							{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
-							<div dangerouslySetInnerHTML={{ __html: html }} />
+							<div
+								className="prose-content"
+								// biome-ignore lint/security/noDangerouslySetInnerHtml: content is local
+								dangerouslySetInnerHTML={{ __html: html }}
+							/>
 
 							<CopyCodeButton />
 							<CodeBlockLabels />

@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { type Locale, t } from "@/lib/i18n";
+import { useLocale } from "@/lib/locale-context";
 
 type ThemeMode = "light" | "dark";
 
@@ -63,8 +65,19 @@ function MoonIcon() {
 	);
 }
 
+function toggleLabel(locale: Locale, theme: ThemeMode | null): string {
+	if (theme === null) {
+		return t(locale, "toggleTheme");
+	}
+	const mode = t(locale, theme === "dark" ? "light" : "dark");
+	return t(locale, "switchToMode").replace("{mode}", mode);
+}
+
 export default function ThemeToggle() {
-	const [theme, setTheme] = useState<ThemeMode>("light");
+	const locale = useLocale();
+	// null until the saved theme is read: server-rendered markup reaches light
+	// and dark visitors alike, so it can't say which way it would switch
+	const [theme, setTheme] = useState<ThemeMode | null>(null);
 
 	useEffect(() => {
 		const preferred = getPreferredTheme();
@@ -74,20 +87,22 @@ export default function ThemeToggle() {
 	}, []);
 
 	const toggleTheme = () => {
-		const next = theme === "dark" ? "light" : "dark";
+		const next: ThemeMode = theme === "dark" ? "light" : "dark";
 		setTheme(next);
 		document.documentElement.dataset.theme = next;
 		window.localStorage.setItem(storageKey, next);
 		syncThemeColor(next);
 	};
 
+	const label = toggleLabel(locale, theme);
+
 	return (
 		<button
 			className="theme-toggle"
 			type="button"
 			onClick={toggleTheme}
-			aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-			title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+			aria-label={label}
+			title={label}
 		>
 			<span className="theme-toggle-icon" aria-hidden>
 				{theme === "dark" ? <SunIcon /> : <MoonIcon />}
