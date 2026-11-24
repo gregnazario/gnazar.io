@@ -3,7 +3,8 @@ import { memo } from "react";
 
 import Badge from "@/components/Badge";
 import type { Project } from "@/lib/content-i18n";
-import { defaultLocale, type Locale, t } from "@/lib/i18n";
+import { isDefaultProjectRole } from "@/lib/format";
+import { defaultLocale, type Locale, t, tf } from "@/lib/i18n";
 
 type ProjectCardProps = {
 	project: Project;
@@ -33,15 +34,18 @@ function CardBody({
 	return (
 		<article className="card project-card">
 			{project.image ? (
+				// A larger click target for pointer users; the title stays the link
+				// that keyboards and screen readers use
 				<Link
 					className="project-card-image"
 					to={to}
 					params={params}
 					tabIndex={-1}
+					aria-hidden="true"
 				>
 					<img
 						src={project.image}
-						alt={`${project.title} preview`}
+						alt=""
 						loading="lazy"
 						decoding="async"
 						width={1200}
@@ -51,8 +55,10 @@ function CardBody({
 			) : null}
 			<div className="card-meta">
 				{project.year ? <span>{project.year}</span> : null}
-				{showRole && project.role ? <span>{project.role}</span> : null}
-				{project.featured ? <Badge>Featured</Badge> : null}
+				{showRole && project.role && !isDefaultProjectRole(project.role) ? (
+					<span>{project.role}</span>
+				) : null}
+				{project.featured ? <Badge>{t(locale, "featured")}</Badge> : null}
 			</div>
 			<h3>
 				<Link to={to} params={params}>
@@ -69,7 +75,12 @@ function CardBody({
 			) : null}
 			{showAction ? (
 				<div className="hero-actions">
-					<Link className="button ghost" to={to} params={params}>
+					<Link
+						className="button ghost"
+						to={to}
+						params={params}
+						aria-label={tf(locale, "readMoreAbout", { title: project.title })}
+					>
 						{t(locale, "readMore")}
 					</Link>
 				</div>

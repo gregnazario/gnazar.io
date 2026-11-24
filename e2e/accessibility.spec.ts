@@ -58,7 +58,17 @@ test.describe("Accessibility", () => {
 			const img = images.nth(i);
 			const alt = await img.getAttribute("alt");
 			expect(alt).toBeDefined();
-			expect(alt?.length).toBeGreaterThan(0);
+			if (alt === "") {
+				// Empty alt is allowed only for an image marked decorative: hidden from
+				// assistive tech beside a link that already names it
+				expect(
+					await img.evaluate(
+						(el) => el.closest('a[aria-hidden="true"]') !== null,
+					),
+				).toBe(true);
+			} else {
+				expect(alt?.length).toBeGreaterThan(0);
+			}
 		}
 	});
 
@@ -70,7 +80,11 @@ test.describe("Accessibility", () => {
 		const themeToggle = page.getByRole("button", {
 			name: /switch to .* mode/i,
 		});
-		if (!(await themeToggle.isVisible())) {
+		// The toggle's label is neutral until hydration applies the theme
+		await page.waitForFunction(
+			() => document.documentElement.dataset.theme !== undefined,
+		);
+		if (await page.getByRole("button", { name: /open menu/i }).isVisible()) {
 			await page.getByRole("button", { name: /open menu/i }).click();
 		}
 		await themeToggle.focus();

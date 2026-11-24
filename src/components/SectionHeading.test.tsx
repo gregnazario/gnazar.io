@@ -31,6 +31,20 @@ describe("SectionHeading", () => {
 		expect(screen.getByText("Description text")).toBeInTheDocument();
 	});
 
+	it("renders the title as an h2 by default", () => {
+		render(<SectionHeading title="Focus areas" />);
+		expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
+			"Focus areas",
+		);
+	});
+
+	it("renders the title as an h1 when it is the page heading", () => {
+		render(<SectionHeading as="h1" title="Projects" />);
+		expect(
+			screen.getByRole("heading", { level: 1, name: "Projects" }),
+		).toBeInTheDocument();
+	});
+
 	it("renders subtitle as ReactNode", () => {
 		render(
 			<SectionHeading

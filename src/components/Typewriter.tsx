@@ -21,6 +21,12 @@ type TypewriterProps = {
 	startOnView?: boolean;
 };
 
+/**
+ * Types `text` in once. The full text always sits in `.typewriter-base` for
+ * no-script visitors and search engines; styles.css keeps it hidden until this
+ * component mounts (`data-armed`) and shows it again once typing finishes, so
+ * text is never displayed and then erased.
+ */
 export default function Typewriter({
 	text,
 	as = "p",
@@ -33,10 +39,16 @@ export default function Typewriter({
 	const Tag = as;
 	const ref = useRef<HTMLElement>(null);
 	const [shouldType, setShouldType] = useState(!startOnView);
-	const [displayText, setDisplayText] = useState(text);
+	const [displayText, setDisplayText] = useState("");
 	const [isTyping, setIsTyping] = useState(false);
 	const [done, setDone] = useState(false);
 	const [reduceMotion, setReduceMotion] = useState(false);
+	const [armed, setArmed] = useState(false);
+
+	// Taking ownership lets the stylesheet stop waiting for scripts to arrive
+	useEffect(() => {
+		setArmed(true);
+	}, []);
 
 	useEffect(() => {
 		if (typeof window === "undefined") {
@@ -122,16 +134,13 @@ export default function Typewriter({
 			className={["typewriter", className].filter(Boolean).join(" ")}
 			data-typing={isTyping ? "true" : "false"}
 			data-done={done ? "true" : "false"}
+			data-armed={armed ? "true" : undefined}
 		>
 			<span className="typewriter-base">{text}</span>
 			<span className="typewriter-overlay" aria-hidden>
 				{displayText}
+				{cursor ? <span className="typewriter-cursor">█</span> : null}
 			</span>
-			{cursor ? (
-				<span className="typewriter-cursor" aria-hidden>
-					█
-				</span>
-			) : null}
 		</Tag>
 	);
 }

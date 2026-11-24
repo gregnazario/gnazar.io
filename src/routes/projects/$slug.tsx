@@ -1,23 +1,35 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import ProjectHeader from "@/components/ProjectHeader";
+import ProjectNavigation, {
+	type ProjectRef,
+	projectNeighbours,
+} from "@/components/ProjectNavigation";
 import { defaultLocale } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site";
-import { fetchProject } from "@/server/content";
+import { fetchProject, fetchProjects } from "@/server/content";
 
-type ProjectLoaderData = NonNullable<Awaited<ReturnType<typeof fetchProject>>>;
+type ProjectLoaderData = NonNullable<
+	Awaited<ReturnType<typeof fetchProject>>
+> & {
+	previous?: ProjectRef;
+	next?: ProjectRef;
+};
 
 export const Route = createFileRoute("/projects/$slug")({
 	loader: async ({ params }): Promise<ProjectLoaderData> => {
-		const data = await fetchProject({
-			data: { slug: params.slug, locale: defaultLocale },
-		});
+		const [data, projects] = await Promise.all([
+			fetchProject({
+				data: { slug: params.slug, locale: defaultLocale },
+			}),
+			fetchProjects({ data: { locale: defaultLocale } }),
+		]);
 
 		if (!data) {
 			throw notFound();
 		}
 
-		return data;
+		return { ...data, ...projectNeighbours(projects, data.project.slug) };
 	},
 	component: ProjectPage,
 	head: ({ loaderData }) => {
@@ -66,8 +78,11 @@ function ProjectPage() {
 					<article className="prose">
 						<h1>{data.project.title}</h1>
 						<ProjectHeader project={data.project} />
-						{/* biome-ignore lint/security/noDangerouslySetInnerHtml: content is local */}
-						<div dangerouslySetInnerHTML={{ __html: data.html }} />
+						<div
+							className="prose-content"
+							// biome-ignore lint/security/noDangerouslySetInnerHtml: content is local
+							dangerouslySetInnerHTML={{ __html: data.html }}
+						/>
 						{data.project.links.length > 0 ? (
 							<div className="hero-actions">
 								{data.project.links.map((link) => (
@@ -84,6 +99,7 @@ function ProjectPage() {
 							</div>
 						) : null}
 					</article>
+					<ProjectNavigation previous={data.previous} next={data.next} />
 				</div>
 			</div>
 		</section>

@@ -4,9 +4,9 @@ test.describe("Blog Page", () => {
 	test("should display blog listing", async ({ page }) => {
 		await page.goto("/blog");
 
-		// SectionHeading titles render as h2 on standalone pages
+		// SectionHeading titles render as h1 on standalone pages
 		await expect(
-			page.getByRole("heading", { name: /blog/i, level: 2 }),
+			page.getByRole("heading", { name: /blog/i, level: 1 }),
 		).toBeVisible();
 	});
 

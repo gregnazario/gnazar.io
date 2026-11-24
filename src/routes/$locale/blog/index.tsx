@@ -46,8 +46,9 @@ function BlogPage() {
 		<section className="section">
 			<div className="container">
 				<SectionHeading
+					as="h1"
 					title={t(locale, "blog")}
-					subtitle="Notes on systems, engineering, and building products."
+					subtitle={t(locale, "blogIntro")}
 				/>
 				<div className="stack">
 					{posts.map((post) => (

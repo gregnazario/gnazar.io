@@ -6,6 +6,7 @@ import {
 	localeNativeNames,
 	locales,
 	removeLocaleFromPath,
+	t,
 } from "@/lib/i18n";
 
 type LanguageSwitcherProps = {
@@ -32,7 +33,7 @@ export default function LanguageSwitcher({
 							: addLocaleToPath(basePath || "/", newLocale);
 					navigate({ to: newPath as string });
 				}}
-				aria-label="Select language"
+				aria-label={t(currentLocale, "selectLanguage")}
 				className="language-select"
 			>
 				{locales.map((locale) => (

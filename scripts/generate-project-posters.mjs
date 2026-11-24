@@ -25,11 +25,7 @@ const force = process.argv.includes("--force");
 
 // Projects that have a real live-site screenshot instead of a poster
 // (captured from their deployed demos; see scripts/README notes).
-const HAS_SCREENSHOT = new Set([
-	"aptos-example-games",
-	"aptos-multisig-ui",
-	"sed-fyi",
-]);
+const HAS_SCREENSHOT = new Set(["aptos-multisig-ui", "sed-fyi"]);
 
 const darkBg = "#0f1712";
 const accentColor = "#6bcf73";

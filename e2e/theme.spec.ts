@@ -6,9 +6,15 @@ async function revealThemeToggle(page: import("@playwright/test").Page) {
 	const themeToggle = page.getByRole("button", {
 		name: /switch to .* mode/i,
 	});
-	if (!(await themeToggle.isVisible())) {
+	// The server-rendered label is neutral until hydration applies the theme
+	await page.waitForFunction(
+		() => document.documentElement.dataset.theme !== undefined,
+	);
+	// On small viewports the toggle sits in the closed menu, hidden from role queries
+	if (await page.getByRole("button", { name: /open menu/i }).isVisible()) {
 		await page.getByRole("button", { name: /open menu/i }).click();
 	}
+	await expect(themeToggle).toBeVisible();
 	return themeToggle;
 }
 

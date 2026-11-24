@@ -26,6 +26,7 @@ function ProjectsPage() {
 		<section className="section">
 			<div className="container">
 				<SectionHeading
+					as="h1"
 					title="Projects"
 					subtitle="Selected work across systems, products, and research."
 				/>

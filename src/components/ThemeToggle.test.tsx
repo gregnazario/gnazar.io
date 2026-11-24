@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import { renderToString } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import ThemeToggle from "./ThemeToggle";
 
@@ -59,5 +60,13 @@ describe("ThemeToggle", () => {
 		render(<ThemeToggle />);
 		const button = screen.getByRole("button");
 		expect(button).toHaveClass("theme-toggle");
+	});
+
+	it("does not claim a direction before the saved theme is known", () => {
+		// Server-rendered markup is shown to light and dark visitors alike, so
+		// it must not say "Switch to dark mode" to someone already in dark mode.
+		const html = renderToString(<ThemeToggle />);
+		expect(html).not.toContain("Switch to dark mode");
+		expect(html).toContain("Toggle color theme");
 	});
 });
