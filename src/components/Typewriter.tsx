@@ -27,7 +27,7 @@ type TypewriterProps = {
  * component mounts (`data-armed`) and shows it again once typing finishes, so
  * text is never displayed and then erased.
  */
-export default function Typewriter({
+function TypewriterInstance({
 	text,
 	as = "p",
 	className,
@@ -143,4 +143,14 @@ export default function Typewriter({
 			</span>
 		</Tag>
 	);
+}
+
+/**
+ * The typed copy belongs to one sentence, so a new text starts over. Without
+ * this the component keeps the previously typed sentence when its text
+ * changes (the reader switches language on the same route) and the two are
+ * drawn on top of each other.
+ */
+export default function Typewriter(props: TypewriterProps) {
+	return <TypewriterInstance key={props.text} {...props} />;
 }

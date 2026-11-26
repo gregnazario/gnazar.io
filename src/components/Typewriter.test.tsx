@@ -56,6 +56,25 @@ describe("Typewriter", () => {
 		expect(overlay?.textContent).toMatch(/^[A-Za-z ]{1,8}█$/);
 	});
 
+	it("starts over when its text changes", () => {
+		const { container, rerender } = render(
+			<Typewriter text="Old sentence" speed={10} />,
+		);
+		act(() => {
+			vi.advanceTimersByTime(500);
+		});
+		expect(typed(container)).toContain("Old sentence");
+
+		rerender(<Typewriter text="New sentence" speed={10} />);
+		// The old sentence must not linger on top of the new one
+		expect(typed(container)).toBe("");
+
+		act(() => {
+			vi.advanceTimersByTime(500);
+		});
+		expect(typed(container)).toContain("New sentence");
+	});
+
 	it("shows the whole text at once when motion is reduced", () => {
 		vi.mocked(window.matchMedia).mockImplementation(
 			(query: string) =>
